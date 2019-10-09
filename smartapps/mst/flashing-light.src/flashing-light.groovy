@@ -29,10 +29,10 @@ preferences {
 		input "myPresence", "capability.presenceSensor", title: "Presence Sensor?", required: false
 	}
 	section("Then flash..."){
-		input "switches", "capability.switch", title: "These lights", multiple: true
+		input "switches", "capability.switch", title: "These lights:", multiple: true
 		input "numFlashes", "number", title: "This number of times (default 3)", required: false
 	}
-	section("Time settings in milliseconds (optional)..."){
+	section("Time settings in milliseconds..."){
 		input "onFor", "number", title: "On for (default 1000)", required: false
 		input "offFor", "number", title: "Off for (default 1000)", required: false
 	}
