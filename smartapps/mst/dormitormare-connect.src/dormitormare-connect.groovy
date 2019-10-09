@@ -19,9 +19,9 @@ definition(
     author: "Mihail Stanculescu",
     description: "Connect your Warmup devices to SmartThings.",
     category: "My Apps",
-    iconUrl: "https://raw.githubusercontent.com/alyc100/SmartThingsPublic/master/smartapps/alyc100/warmup-icon.png",
-    iconX2Url: "https://raw.githubusercontent.com/alyc100/SmartThingsPublic/master/smartapps/alyc100/warmup-icon.png",
-    iconX3Url: "https://raw.githubusercontent.com/alyc100/SmartThingsPublic/master/smartapps/alyc100/warmup-icon.png")
+    iconUrl: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/warmup-icon.png",
+    iconX2Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/warmup-icon.png",
+    iconX3Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/warmup-icon.png")
     singleInstance: true
 
 
@@ -103,12 +103,12 @@ def selectDevicePAGE() {
   	section { headerSECTION() }
     if (devicesSelected() == null) {
     	section("Select your Location:") {
-			input "selectedLocation", "enum", image: "https://raw.githubusercontent.com/alyc100/SmartThingsPublic/master/smartapps/alyc100/warmup-location.png", required:false, title:"Select a Location \n(${state.warmupLocations.size() ?: 0} found)", multiple:false, options:state.warmupLocations, submitOnChange: true
+			input "selectedLocation", "enum", image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/warmup-location.png", required:false, title:"Select a Location \n(${state.warmupLocations.size() ?: 0} found)", multiple:false, options:state.warmupLocations, submitOnChange: true
 		}
     }
     else {
     	section("Your location:") {
-        	paragraph (image: "https://raw.githubusercontent.com/alyc100/SmartThingsPublic/master/smartapps/alyc100/warmup-location.png",
+        	paragraph (image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/warmup-location.png",
                   "Location: ${state.warmupLocations[selectedLocation]}\n(Remove all devices to change)")
         }
     }
@@ -116,14 +116,14 @@ def selectDevicePAGE() {
     	updateDevices()
         
     	section("Select your devices:") {
-			input "selectedWarmup4IEs", "enum", image: "https://raw.githubusercontent.com/alyc100/SmartThingsPublic/master/smartapps/alyc100/warmup-4ie.png", required:false, title:"Select Warmup 4IE Devices \n(${state.warmup4IEDevices.size() ?: 0} found)", multiple:true, options:state.warmup4IEDevices
+			input "selectedWarmup4IEs", "enum", image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/warmup-4ie.png", required:false, title:"Select Warmup 4IE Devices \n(${state.warmup4IEDevices.size() ?: 0} found)", multiple:true, options:state.warmup4IEDevices
 		}
     }
   }
 }
 
 def headerSECTION() {
-	return paragraph (image: "https://raw.githubusercontent.com/alyc100/SmartThingsPublic/master/smartapps/alyc100/warmup-icon.png",
+	return paragraph (image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/warmup-icon.png",
                   "${textVersion()}")
 }
 
