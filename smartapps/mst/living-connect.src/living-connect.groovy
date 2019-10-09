@@ -19,9 +19,9 @@ definition(
     author: "Mihail Stanculescu",
     description: "Connect your Warmup devices to SmartThings.",
     category: "My Apps",
-    iconUrl: "https://raw.githubusercontent.com/alyc100/SmartThingsPublic/master/smartapps/alyc100/warmup-icon.png",
-    iconX2Url: "https://raw.githubusercontent.com/alyc100/SmartThingsPublic/master/smartapps/alyc100/warmup-icon.png",
-    iconX3Url: "https://raw.githubusercontent.com/alyc100/SmartThingsPublic/master/smartapps/alyc100/warmup-icon.png")
+    iconUrl: "https://github.com/stanculescum/aplicatii-smarthome/blob/master/pictures/warmup_logo.jpg",
+    iconX2Url: "https://github.com/stanculescum/aplicatii-smarthome/blob/master/pictures/warmup_logo.jpg",
+    iconX3Url: "https://github.com/stanculescum/aplicatii-smarthome/blob/master/pictures/warmup_logo.jpg")
     singleInstance: true
 
 
