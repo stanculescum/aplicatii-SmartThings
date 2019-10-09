@@ -19,9 +19,9 @@ definition(
     author: "Mihail Stanculescu",
     description: "SmartApp enabling weather alerts and weather triggered actions based on The Weather Company web API (no hardware is required)",
     category: "My Apps",
-    iconUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/The_Weather_Company_IBM_Byline.svg/1200px-The_Weather_Company_IBM_Byline.svg.png",
-    iconX2Url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/The_Weather_Company_IBM_Byline.svg/1200px-The_Weather_Company_IBM_Byline.svg.png",
-    iconX3Url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/The_Weather_Company_IBM_Byline.svg/1200px-The_Weather_Company_IBM_Byline.svg.png")
+    iconUrl: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/twc-icon.png",
+    iconX2Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/twc-icon.png",
+    iconX3Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/twc-icon.png")
 
 
 preferences {
