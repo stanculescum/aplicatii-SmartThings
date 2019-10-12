@@ -50,7 +50,7 @@ def firstPage() {
                 href("loginPAGE", title: null, description: authenticated() ? "Authenticated as " +username : "Tap to enter Warmup account credentials", state: authenticated())
             }
             if (stateTokenPresent()) {           	
-                section ("Choose your Warmup devices:") {
+                section ("Choose your Birou Warmup devices:") {
 					href("selectDevicePAGE", title: null, description: devicesSelected() ? getDevicesSelectedString() : "Tap to select Warmup devices", state: devicesSelected())
         		}
             } else {
