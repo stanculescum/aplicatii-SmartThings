@@ -41,10 +41,10 @@ preferences {
 	section("Then flashing..."){
 		input "switches", "capability.switch", title: "These lights:", required: true, multiple: true	
 	}
-	section("Number of times & Time settings in milliseconds..."){
-		input "numFlashes", "number", title: "This number of times (default 3)", required: false
-        input "onFor", "number", title: "On for (default 1000ms)", required: false
-		input "offFor", "number", title: "Off for (default 1000ms)", required: false
+	section("Start Flash - Number of times & Time settings in milliseconds..."){
+		input "numStartFlashes", "number", title: "This number of times (default 3)", required: false
+        input "onStart", "number", title: "On for (default 1000ms)", required: false
+		input "offStart", "number", title: "Off for (default 1000ms)", required: false
 	}
 }
 
@@ -155,25 +155,25 @@ def lockHandler(evt) {
 
 private flashLights() {
 	def doFlash = true
-	def onFor = onFor ?: 1000
-	def offFor = offFor ?: 1000
-	def numFlashes = numFlashes ?: 3
+	def onStart = onStart ?: 1000
+	def offStart = offStart ?: 1000
+	def numStartFlashes = numStartFlashes ?: 3
 
 	log.debug "LAST ACTIVATED IS: ${state.lastActivated}"
 	if (state.lastActivated) {
 		def elapsed = now() - state.lastActivated
-		def sequenceTime = (numFlashes + 1) * (onFor + offFor)
+		def sequenceTime = (numStartFlashes + 1) * (onStart + offStart)
 		doFlash = elapsed > sequenceTime
 		log.debug "DO FLASH: $doFlash, ELAPSED: $elapsed, LAST ACTIVATED: ${state.lastActivated}"
 	}
 
 	if (doFlash) {
-		log.debug "FLASHING $numFlashes times"
+		log.debug "FLASHING $numStartFlashes times"
 		state.lastActivated = now()
 		log.debug "LAST ACTIVATED SET TO: ${state.lastActivated}"
 		def initialActionOn = switches.collect{it.currentSwitch != "on"}
 		def delay = 0L
-		numFlashes.times {
+		numStartFlashes.times {
 			log.trace "Switch on after  $delay msec"
 			switches.eachWithIndex {s, i ->
 				if (initialActionOn[i]) {
@@ -183,7 +183,7 @@ private flashLights() {
 					s.off(delay:delay)
 				}
 			}
-			delay += onFor
+			delay += onStart
 			log.trace "Switch off after $delay msec"
 			switches.eachWithIndex {s, i ->
 				if (initialActionOn[i]) {
@@ -193,7 +193,7 @@ private flashLights() {
 					s.on(delay:delay)
 				}
 			}
-			delay += offFor
+			delay += offStart
 		}
 	}
 }
