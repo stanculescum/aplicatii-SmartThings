@@ -192,7 +192,7 @@ def installed() {
 	log.debug "Executing 'installed'"
     state.desiredHeatSetpoint = 7
 	// execute handlerMethod every 1 minutes.
-    runEvery1Minutes(poll)
+    runEvery1Minute(poll)
     sendEvent(name: "checkInterval", value: 20 * 60 + 2 * 60, data: [protocol: "cloud"], displayed: false)
 }
 
@@ -200,7 +200,7 @@ def updated() {
 	log.debug "Executing 'updated'"
 	// execute handlerMethod every 1 minutes.
     unschedule()
-    runEvery1Minutes(poll)
+    runEvery1Minute(poll)
     sendEvent(name: "checkInterval", value: 20 * 60 + 2 * 60, data: [protocol: "cloud"], displayed: false)
 }
 
