@@ -14,7 +14,7 @@ definition(
     name: "Flashing light",
     namespace: "mST",
     author: "Mihail Stanculescu",
-    description: "Flashing light in response to motion, an open/close event, or a switch.",
+    description: "Flashing light in response to motion, an open/close event, or a on/off switch.",
     category: "My Apps",
     iconUrl: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/flashing-light-bulb.png",
     iconX2Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/flashing-light-bulb.png",
@@ -41,10 +41,15 @@ preferences {
 	section("Then flashing..."){
 		input "switches", "capability.switch", title: "These lights:", required: true, multiple: true	
 	}
-	section("Start Flash - Number of times & Time settings in milliseconds..."){
-		input "numStartFlashes", "number", title: "This number of times (default 3)", required: false
+	section("Start - Number of times & Time settings in milliseconds..."){
+		input "numStartFlashes", "number", title: "This number of times (default 1)", required: false
         input "onStart", "number", title: "On for (default 1000ms)", required: false
 		input "offStart", "number", title: "Off for (default 1000ms)", required: false
+	}
+    section("Stop - Number of times & Time settings in milliseconds..."){
+		input "numStopFlashes", "number", title: "This number of times (default 3)", required: false
+        input "onStop", "number", title: "On for (default 1000ms)", required: false
+		input "offStop", "number", title: "Off for (default 1000ms)", required: false
 	}
 }
 
@@ -91,73 +96,73 @@ def subscribe() {
 def presenceHandler(evt) {
 	log.debug "presence $evt.value"
 	if (evt.value == "present") {
-		flashLights()
+		startflashLights()
 	} else if (evt.value == "not present") {
-		flashLights()
+		stopflashLights()
 	}
 }
 
 def motionActiveHandler(evt) {
 	log.debug "motion.active $evt.value"
-	flashLights()
+	startflashLights()
 }
 
 def contactHandler(evt) {
 	log.debug "contact $evt.value"
     if (evt.value == "open") {
-		flashLights()
+		startflashLights()
 	} else if (evt.value == "closed") {
-	flashLights()
+	stopflashLights()
     }
 }
 
 def switchHandler(evt) {
 	log.debug "switch $evt.value"
 	if (evt.value == "on") {
-		flashLights()
+		startflashLights()
 	} else if (evt.value == "off") {
-		flashLights()
+		stopflashLights()
 	}
 }
 
 def valveHandler(evt) {
 	log.debug "valve $evt.value"
 	if (evt.value == "open") {
-		flashLights()
+		startflashLights()
 	} else if (evt.value == "closed") {
-		flashLights()
+		stopflashLights()
 	}
 }
 
 def smokeDetectedHandler(evt) {
 	log.debug "smoke.detected $evt.value"
-	flashLights()
+	statflashLights()
 }
 
 def waterHandler(evt) {
 	log.debug "water $evt.value"
 	if (evt.value == "wet") {
-		flashLights()
+		startflashLights()
 	} else if (evt.value == "dry") {
-		flashLights()
+		stopflashLights()
 	}
 }
 
 def lockHandler(evt) {
 	log.debug "lock $evt.value"
 	if (evt.value == "locked") {
-		flashLights()
+		startflashLights()
 	} else if (evt.value == "unlocked") {
-		flashLights()
+		stopflashLights()
 	}
 }
 
 
-private flashLights() {
+private startflashLights() {
 	def doFlash = true
 	def onStart = onStart ?: 1000
 	def offStart = offStart ?: 1000
-	def numStartFlashes = numStartFlashes ?: 3
+	def numStartFlashes = numStartFlashes ?: 1
 
 	log.debug "LAST ACTIVATED IS: ${state.lastActivated}"
 	if (state.lastActivated) {
@@ -194,6 +199,51 @@ private flashLights() {
 				}
 			}
 			delay += offStart
+		}
+	}
+}
+
+private stopflashLights() {
+	def doFlash = true
+	def onStop = onStop ?: 1000
+	def offStop = offStop ?: 1000
+	def numStopFlashes = numStopFlashes ?: 3
+
+	log.debug "LAST ACTIVATED IS: ${state.lastActivated}"
+	if (state.lastActivated) {
+		def elapsed = now() - state.lastActivated
+		def sequenceTime = (numStopFlashes + 1) * (onStop + offStop)
+		doFlash = elapsed > sequenceTime
+		log.debug "DO FLASH: $doFlash, ELAPSED: $elapsed, LAST ACTIVATED: ${state.lastActivated}"
+	}
+
+	if (doFlash) {
+		log.debug "FLASHING $numStopFlashes times"
+		state.lastActivated = now()
+		log.debug "LAST ACTIVATED SET TO: ${state.lastActivated}"
+		def initialActionOn = switches.collect{it.currentSwitch != "on"}
+		def delay = 0L
+		numStopFlashes.times {
+			log.trace "Switch on after  $delay msec"
+			switches.eachWithIndex {s, i ->
+				if (initialActionOn[i]) {
+					s.on(delay: delay)
+				}
+				else {
+					s.off(delay:delay)
+				}
+			}
+			delay += onStop
+			log.trace "Switch off after $delay msec"
+			switches.eachWithIndex {s, i ->
+				if (initialActionOn[i]) {
+					s.off(delay: delay)
+				}
+				else {
+					s.on(delay:delay)
+				}
+			}
+			delay += offStop
 		}
 	}
 }
