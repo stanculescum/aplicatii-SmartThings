@@ -167,7 +167,8 @@ def updated() {
 	log.debug "updated"
 	initialize()
     unschedule('refreshDevices')
-    schedule("0 0/10 * * * ?", refreshDevices)
+    // execute refresh method every minute
+    schedule("0 0/1 * * * ?", refreshDevices)
 }
 
 def uninstalled() {

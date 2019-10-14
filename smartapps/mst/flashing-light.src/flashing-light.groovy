@@ -55,13 +55,11 @@ preferences {
 
 def installed() {
 	log.debug "Installed with settings: ${settings}"
-
 	subscribe()
 }
 
 def updated() {
 	log.debug "Updated with settings: ${settings}"
-
 	unsubscribe()
 	subscribe()
 }
