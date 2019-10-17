@@ -14,7 +14,7 @@ definition(
     name: "Flashing light",
     namespace: "mST",
     author: "Mihail Stanculescu",
-    description: "Flashing light in response to motion, an open/close event, or a on/off switch.",
+    description: "Flashing light in response to motion, an open/close event, an on/off switch, or lock/unlock",
     category: "My Apps",
     iconUrl: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/flashing-light-bulb.png",
     iconX2Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/flashing-light-bulb.png",
