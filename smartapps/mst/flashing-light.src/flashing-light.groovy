@@ -14,7 +14,7 @@ definition(
     name: "Flashing light",
     namespace: "mST",
     author: "Mihail Stanculescu",
-    description: "Flashing light in response to motion, an open/close event, an on/off switch, or lock/unlock",
+    description: "Flashing light in response to motion, an open/close event, an on/off switch, or lock/unlock door",
     category: "My Apps",
     iconUrl: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/flashing-light-bulb.png",
     iconX2Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/flashing-light-bulb.png",
@@ -155,9 +155,8 @@ def lockHandler(evt) {
 	}
 }
 
-
 private startflashLights() {
-	def doFlash = true
+	def doStartFlash = true
 	def onStart = onStart ?: 1000
 	def offStart = offStart ?: 1000
 	def numStartFlashes = numStartFlashes ?: 1
@@ -166,11 +165,11 @@ private startflashLights() {
 	if (state.lastActivated) {
 		def elapsed = now() - state.lastActivated
 		def sequenceTime = (numStartFlashes + 1) * (onStart + offStart)
-		doFlash = elapsed > sequenceTime
-		log.debug "DO FLASH: $doFlash, ELAPSED: $elapsed, LAST ACTIVATED: ${state.lastActivated}"
+		doStartFlash = elapsed > sequenceTime
+		log.debug "DO FLASH: $doStartFlash, ELAPSED: $elapsed, LAST ACTIVATED: ${state.lastActivated}"
 	}
 
-	if (doFlash) {
+	if (doStartFlash) {
 		log.debug "FLASHING $numStartFlashes times"
 		state.lastActivated = now()
 		log.debug "LAST ACTIVATED SET TO: ${state.lastActivated}"
@@ -202,7 +201,7 @@ private startflashLights() {
 }
 
 private stopflashLights() {
-	def doFlash = true
+	def doStopFlash = true
 	def onStop = onStop ?: 1000
 	def offStop = offStop ?: 1000
 	def numStopFlashes = numStopFlashes ?: 3
@@ -211,11 +210,11 @@ private stopflashLights() {
 	if (state.lastActivated) {
 		def elapsed = now() - state.lastActivated
 		def sequenceTime = (numStopFlashes + 1) * (onStop + offStop)
-		doFlash = elapsed > sequenceTime
-		log.debug "DO FLASH: $doFlash, ELAPSED: $elapsed, LAST ACTIVATED: ${state.lastActivated}"
+		doStopFlash = elapsed > sequenceTime
+		log.debug "DO FLASH: $doStopFlash, ELAPSED: $elapsed, LAST ACTIVATED: ${state.lastActivated}"
 	}
 
-	if (doFlash) {
+	if (doStopFlash) {
 		log.debug "FLASHING $numStopFlashes times"
 		state.lastActivated = now()
 		log.debug "LAST ACTIVATED SET TO: ${state.lastActivated}"
