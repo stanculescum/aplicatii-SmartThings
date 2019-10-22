@@ -6,7 +6,7 @@
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  *  in compliance with the License. You may obtain a copy of the License at:
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *  http://www.apache.org/licenses/LICENSE-2.0
  *
  *  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
@@ -26,15 +26,14 @@ definition(
 
 preferences {
 
-
         section("Alert Settings") {
-            input "twcsnowalert", "bool", title: "Snow Alert"
-            input "twcstormalert", "bool", title: "Storm Alert" 
-        	input "twctwcinalert", "bool", title: "Rain Alert"
-			input "twctwcwtempalert", "number", title: "Low temperature Alert (C or F)", required: false
- 			input "twctwcghtempalert", "number", title: "High temperature Alert (C or F)", required: false
-			input "twclowhumidityalert", "decimal", title: "Low humidity Alert (0-100)", required: false
-            input "twchighhumidityalert", "decimal", title: "High humidity Alert (0-100)", required: false            
+		input "twcsnowalert", "bool", title: "Snow Alert"
+		input "twcstormalert", "bool", title: "Storm Alert" 
+		input "twctwcinalert", "bool", title: "Rain Alert"
+		input "twctwcwtempalert", "number", title: "Low temperature Alert (C or F)", required: false
+ 		input "twctwcghtempalert", "number", title: "High temperature Alert (C or F)", required: false
+		input "twclowhumidityalert", "decimal", title: "Low humidity Alert (0-100)", required: false
+		input "twchighhumidityalert", "decimal", title: "High humidity Alert (0-100)", required: false            
         }
         
         section("Switch On these on Snow Alert:")
@@ -112,9 +111,9 @@ preferences {
 def installed() {
 	log.debug "Installed with settings: ${settings}"
 	state.deviceId="12345678AF"
-    state.deviceName=""
-    state.deviceRef= getAllChildDevices()?.find {
-    it.device.deviceNetworkId == state.deviceId}
+	state.deviceName=""
+	state.deviceRef= getAllChildDevices()?.find {
+	it.device.deviceNetworkId == state.deviceId}
 	log.debug "state.deviceRef installed with ${state.deviceRef}"
 }
 
@@ -122,7 +121,7 @@ def updated() {
 	log.debug "Updated with settings: ${settings}"
 
 	unsubscribe() 
-    addDevices()
+	addDevices()
     //initialize()
 
 }
@@ -133,9 +132,9 @@ def initialize() {
 }
 
 private removeChildDevices(delete) {
-    delete.each {
-        deleteChildDevice(it.deviceNetworkId)
-    }
+	delete.each {
+	deleteChildDevice(it.deviceNetworkId)
+	}
 }
 
 def uninstalled() {
