@@ -23,40 +23,40 @@ definition(
 
 preferences {
 	page(name: "pageOne", title: "1", nextPage: "pageTwo", uninstall: true){
-    	section() {
-        	paragraph image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/flashing-light-bulb.png",
-                  title: "Flashing light",
-                  required: true,
-                  "Flashing light in response to motion, an open/close event, an on/off switch, or lock/unlock door."
-    	}
-    	section("These devices flashing..."){
+    		section() {
+        		paragraph image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/flashing-light-bulb.png",
+                  	title: "Flashing light",
+                  	required: true,
+                  	"Flashing light in response to motion, an open/close event, an on/off switch, or lock/unlock door."
+    		}
+    		section("These devices flashing..."){
 			input "switches", "capability.switch", required: true, multiple: true	
-	}
+		}
     	}
-    	page(name: "pageTwo", title: "2", nextPage: "pageThree") {
-    	section(hideWhenEmpty: true, "When any of the following devices trigger..."){
+	page(name: "pageTwo", title: "2", nextPage: "pageThree") {
+		section(hideWhenEmpty: true, "When any of the following devices trigger..."){
 			input "presence", "capability.presenceSensor", title: "Select Presence Sensors", required: false, multiple: true
-        	input "motion", "capability.motionSensor", title: "Select Motion Sensors", required: false, multiple: true
+			input "motion", "capability.motionSensor", title: "Select Motion Sensors", required: false, multiple: true
 			input "contact", "capability.contactSensor", title: "Select Contact Sensors", required: false, multiple: true
-        	input "myswitch", "capability.switch", title: "SelectSwitchs", required: false, multiple: true
-        	input "valves", "capability.valve", title: "Select Valves", required: false, multiple: true
-        	input "smokeDetector", "capability.smokeDetector", title: "Select Smoke Detector", required: false, multiple: true
-        	input "waterSensor", "capability.waterSensor", title: "Select Water Sensor", required: false, multiple: true
-        	input "lock", "capability.lock", title: "Select Lock", required: false, multiple: true
+			input "myswitch", "capability.switch", title: "SelectSwitchs", required: false, multiple: true
+			input "valves", "capability.valve", title: "Select Valves", required: false, multiple: true
+			input "smokeDetector", "capability.smokeDetector", title: "Select Smoke Detector", required: false, multiple: true
+			input "waterSensor", "capability.waterSensor", title: "Select Water Sensor", required: false, multiple: true
+			input "lock", "capability.lock", title: "Select Lock", required: false, multiple: true
+		}
 	}
-    	}
 	page(name: "pageThree", title: "3", install: true, uninstall: true) {
-    	section("Start - Number of times & Time settings..."){
-		input "numStartFlashes", "number", title: "This number of times (default 1)", required: false
-        	input "onStart", "number", title: "On for (default 1000ms)", required: false
-		input "offStart", "number", title: "Off for (default 1000ms)", required: false
+		section("Start - Number of times & Time settings..."){
+			input "numStartFlashes", "number", title: "This number of times (default 1)", required: false
+			input "onStart", "number", title: "On for (default 1000ms)", required: false
+			input "offStart", "number", title: "Off for (default 1000ms)", required: false
+		}
+		section("Stop - Number of times & Time settings..."){
+			input "numStopFlashes", "number", title: "This number of times (default 3)", required: false
+			input "onStop", "number", title: "On for (default 1000ms)", required: false
+			input "offStop", "number", title: "Off for (default 1000ms)", required: false
+		}
 	}
-    	section("Stop - Number of times & Time settings..."){
-		input "numStopFlashes", "number", title: "This number of times (default 3)", required: false
-        	input "onStop", "number", title: "On for (default 1000ms)", required: false
-		input "offStop", "number", title: "Off for (default 1000ms)", required: false
-	}
-   	}
 }
 
 def installed() {
