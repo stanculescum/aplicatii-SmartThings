@@ -74,25 +74,25 @@ def subscribe() {
 	if (presence) {
 		subscribe(presence, "presence", presenceHandler)
 	}
-    if (motion) {
+	if (motion) {
 		subscribe(motion, "motion.active", motionActiveHandler)
 	}
-    if (contact) {
+	if (contact) {
 		subscribe(contact, "contact", contactHandler)
 	}
-    if (myswitch) {
+	if (myswitch) {
 		subscribe(myswitch, "switch", switchHandler)
 	}
 	if (valves) {
 		subscribe(valves, "valve", valveHandler)
 	}
-    if (smokeDetector) {
+	if (smokeDetector) {
 		subscribe(smokeDetector, "smoke.detected", smokeDetectedHandler)
 	}
-    if (waterSensor) {
+	if (waterSensor) {
 		subscribe(waterSensor, "water", waterHandler)
 	}
-    if (lock) {
+	if (lock) {
 		subscribe(lock, "lock", lockHandler)
 	}
 }
@@ -113,7 +113,7 @@ def motionActiveHandler(evt) {
 
 def contactHandler(evt) {
 	log.debug "contact $evt.value"
-    if (evt.value == "open") {
+	if (evt.value == "open") {
 		startflashLights()
 	} else if (evt.value == "closed") {
 	stopflashLights()
