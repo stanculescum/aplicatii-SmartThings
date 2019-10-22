@@ -29,10 +29,10 @@ preferences {
                   	required: true,
                   	"Flashing light in response to motion, an open/close event, an on/off switch, or lock/unlock door."
     		}
-    		section("These devices flashing..."){
+		section("These devices flashing..."){
 			input "switches", "capability.switch", required: true, multiple: true	
 		}
-    	}
+	}
 	page(name: "pageTwo", title: "2", nextPage: "pageThree") {
 		section(hideWhenEmpty: true, "When any of the following devices trigger..."){
 			input "presence", "capability.presenceSensor", title: "Select Presence Sensors", required: false, multiple: true
