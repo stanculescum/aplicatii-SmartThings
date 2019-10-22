@@ -23,12 +23,12 @@ definition(
 
 preferences {
 	page(name: "pageOne", title: "1", nextPage: "pageTwo", uninstall: true){
-    		section() {
+		section() {
         		paragraph image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/flashing-light-bulb.png",
                   	title: "Flashing light",
                   	required: true,
                   	"Flashing light in response to motion, an open/close event, an on/off switch, or lock/unlock door."
-    		}
+		}
 		section("These devices flashing..."){
 			input "switches", "capability.switch", required: true, multiple: true	
 		}
