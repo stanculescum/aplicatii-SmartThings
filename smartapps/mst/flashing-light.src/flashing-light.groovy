@@ -10,6 +10,7 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  */
+
 definition(
     name: "Flashing light",
     namespace: "mST",
@@ -24,13 +25,12 @@ definition(
 preferences {
 	page(name: "pageOne", title: "#1", nextPage: "pageTwo", uninstall: true){
 		section() {
-        		paragraph image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/flashing-light-bulb.png",
-                  	title: "Flashing light",
-                  	required: true,
-                  	"Flashing light in response to motion, an open/close event, an on/off switch, or lock/unlock door."
+			paragraph image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/flashing-light-bulb.png",
+			title: "Flashing light", required: true,
+			"Flashing light in response to motion, an open/close event, an on/off switch, or lock/unlock door."
 		}
 		section("These devices flashing..."){
-			input "switches", "capability.switch", required: true, multiple: true	
+			input "switches", "capability.switch", required: true, multiple: true
 		}
 	}
 	page(name: "pageTwo", title: "#2", nextPage: "pageThree") {
