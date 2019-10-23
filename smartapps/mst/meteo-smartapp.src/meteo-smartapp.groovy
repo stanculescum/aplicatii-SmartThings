@@ -22,7 +22,8 @@ definition(
     category: "My Apps",
     iconUrl: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/twc-icon.png",
     iconX2Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/twc-icon.png",
-    iconX3Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/twc-icon.png")
+    iconX3Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/twc-icon.png"
+)
 
 preferences {
 	section("Alert Settings") {
@@ -32,7 +33,7 @@ preferences {
 		input "twctwcwtempalert", "number", title: "Low temperature Alert (C or F)", required: false
 		input "twctwcghtempalert", "number", title: "High temperature Alert (C or F)", required: false
 		input "twclowhumidityalert", "decimal", title: "Low humidity Alert (0-100)", required: false
-		input "twchighhumidityalert", "decimal", title: "High humidity Alert (0-100)", required: false            
+		input "twchighhumidityalert", "decimal", title: "High humidity Alert (0-100)", required: false
         }
         section("Switch On these on Snow Alert:")
         {
@@ -122,7 +123,7 @@ def uninstalled() {
 	removeChildDevices(getChildDevices())
 }
 
-def addDevices() {	    
+def addDevices() {
 	if (childDevices) {
 		def Ref= getAllChildDevices()?.find {
 		it.device.deviceNetworkId == state.deviceId}
