@@ -413,7 +413,7 @@ def setLocationToFrost() {
 			method: "setModes", values: [holEnd:"-", fixedTemp: "",holStart:"-",geoMode:"0",holTemp:"-",locId:"${selectedLocation}",locMode:"frost"]
 		]
 	]
-    return apiPOST(body)
+	return apiPOST(body)
 }
 
 Map apiRequestHeaders() {
