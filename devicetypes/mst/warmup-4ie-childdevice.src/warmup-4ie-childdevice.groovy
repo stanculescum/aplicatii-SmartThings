@@ -144,10 +144,9 @@ metadata {
 		state("emergency heat", label: "OVERRIDE", icon:"st.Health & Wellness.health7")
 		state("off", icon:"st.thermostat.heating-cooling-off")
 	}
-        
         standardTile("mode_auto", "device.mode_auto", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
-        	state "default", action:"auto", label:'Schedule', icon:"st.Office.office7"
-    	}
+		state "default", action:"auto", label:'Schedule', icon:"st.Office.office7"
+	}
 	standardTile("mode_manual", "device.mode_manual", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
 		state "default", action:"heat", label:'Manual', icon:"st.Weather.weather2"
 	}
