@@ -273,7 +273,6 @@ def refresh() {
 			state.lowhumidityalert=false
 		}
 	}
-	}
 	if (getDataValue("TWChighhumidityalert")!="null") {
 		if (getDataValue("TWChighhumidityalert").toFloat() <= mymap['relativeHumidity'].toFloat()) {
 			// if ( state.highhumidityalert == false) {
