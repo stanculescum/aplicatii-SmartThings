@@ -34,7 +34,7 @@ metadata {
 		capability "Thermostat Mode"
 		capability "Thermostat Heating Setpoint"
 		capability "Switch"
-		capability "Health Check  
+		capability "Health Check"  
 		command "heatingSetpointUp"
 		command "heatingSetpointDown"
 		command "setThermostatMode"
