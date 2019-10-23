@@ -41,7 +41,7 @@ def firstPage() {
 	if (username == null || username == '' || password == null || password == '') {
 		return dynamicPage(name: "firstPage", title: "", install: true, uninstall: true) {
 			section {
-    			headerSECTION()
+			headerSECTION()
 			href("loginPAGE", title: null, description: authenticated() ? "Authenticated as " +username : "Tap to enter Warmup account credentials", state: authenticated())
 			}
 		}
@@ -152,12 +152,12 @@ def devicesSelected() {
 def getDevicesSelectedString() {
 	if (state.warmup4IEDevices == null) {
 		updateDevices()
-  	}
+	}
 	def listString = ""
 	selectedWarmup4IEs.each { childDevice ->
 		if (state.warmup4IEDevices[childDevice] != null) listString += state.warmup4IEDevices[childDevice] + "\n"
-  	}
-  	return listString
+	}
+	return listString
 }
 
 // App lifecycle hooks
@@ -209,7 +209,7 @@ def updateDevices() {
 		state.devices = [:]
 	}
 	def devices = devicesList()
-  	state.warmup4IEDevices = [:]
+	state.warmup4IEDevices = [:]
 	def selectors = []
 	devices.each { device ->
 		log.debug "Identified: device ${device.roomId}: ${device.roomName}: ${device.targetTemp}: ${device.currentTemp}: ${device.energy}"
@@ -227,20 +227,20 @@ def updateDevices() {
 			}
 		}
 	}
-   	log.debug selectors
+	log.debug selectors
 	//Remove devices if does not exist on the Warmup platform
 	getChildDevices().findAll { !selectors.contains("${it.deviceNetworkId}") }.each {
 		log.info("Deleting ${it.deviceNetworkId}")
-        	try {
+		try {
 			deleteChildDevice(it.deviceNetworkId)
 		}
 		catch (physicalgraph.exception.NotFoundException e) {
 			log.info("Could not find ${it.deviceNetworkId}. Assuming manually deleted.")
-        	}
+		}
 		catch (physicalgraph.exception.ConflictException ce) {
 			log.info("Device ${it.deviceNetworkId} in use. Please manually delete.")
-        	}
-	} 
+		}
+	}
 }
 
 def updateLocations() {
@@ -260,8 +260,8 @@ def updateLocations() {
 def addWarmup4IE() {
 	updateDevices()
 	selectedWarmup4IEs.each { device ->
-        	def childDevice = getChildDevice("${device}")
-        	if (!childDevice && state.warmup4IEDevices[device] != null) {
+		def childDevice = getChildDevice("${device}")
+		if (!childDevice && state.warmup4IEDevices[device] != null) {
 			log.info("Adding device ${device}: ${state.warmup4IEDevices[device]}")
 			def data = [
 				name: state.warmup4IEDevices[device],
@@ -294,7 +294,7 @@ def devicesList() {
 		request: [
 			"method" : "getRooms",
 			"locId" : "${selectedLocation}"
-        	]
+		]
         ]
 		def resp = apiPOST(body)
 		if (resp.status == 200 && resp.data.status.result == "success") {
