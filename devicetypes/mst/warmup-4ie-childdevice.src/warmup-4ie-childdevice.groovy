@@ -306,7 +306,7 @@ def setThermostatMode(mode) {
 			]	
 		parent.apiPOSTByChild(args)
 		}
-	else if (mode == 'emergency heat') {  
+		else if (mode == 'emergency heat') {
 		if (state.boostLength == null || state.boostLength == '') {
 			state.boostLength = 60
 			sendEvent("name":"boostLength", "value": 60, displayed: true)
@@ -315,14 +315,14 @@ def setThermostatMode(mode) {
 			method: "setOverride", rooms: ["$device.deviceNetworkId"], type: 3, temp: getBoostTempValue(), until: getBoostEndTime()
 		]
 		parent.apiPOSTByChild(args)
-	}
-	else {
-		args = [
-			method: "setProgramme", roomId: device.deviceNetworkId, roomMode: "prog"
-		]
-		parent.apiPOSTByChild(args)
-	}
-	mode = mode == 'range' ? 'auto' : mode    	
+		}
+		else {
+			args = [
+				method: "setProgramme", roomId: device.deviceNetworkId, roomMode: "prog"
+			]
+			parent.apiPOSTByChild(args)
+		}
+		mode = mode == 'range' ? 'auto' : mode
 	}
 	runIn(3, refresh)
 }
