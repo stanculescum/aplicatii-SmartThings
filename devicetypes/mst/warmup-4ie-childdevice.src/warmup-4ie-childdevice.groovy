@@ -306,14 +306,14 @@ def setThermostatMode(mode) {
 		parent.apiPOSTByChild(args)
 		}
 		else if (mode == 'emergency heat') {
-		if (state.boostLength == null || state.boostLength == '') {
-			state.boostLength = 60
-			sendEvent("name":"boostLength", "value": 60, displayed: true)
-		}
-		args = [
-			method: "setOverride", rooms: ["$device.deviceNetworkId"], type: 3, temp: getBoostTempValue(), until: getBoostEndTime()
-		]
-		parent.apiPOSTByChild(args)
+			if (state.boostLength == null || state.boostLength == '') {
+				state.boostLength = 60
+				sendEvent("name":"boostLength", "value": 60, displayed: true)
+			}
+			args = [
+				method: "setOverride", rooms: ["$device.deviceNetworkId"], type: 3, temp: getBoostTempValue(), until: getBoostEndTime()
+			]
+			parent.apiPOSTByChild(args)
 		}
 		else {
 			args = [
