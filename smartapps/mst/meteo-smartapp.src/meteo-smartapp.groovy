@@ -88,15 +88,15 @@ def installed() {
 	log.debug "state.deviceRef installed with ${state.deviceRef}"
 }
 
+def initialize() {
+	log.debug "initialize"  
+}
+
 def updated() {
 	log.debug "Updated with settings: ${settings}"
 	unsubscribe() 
 	addDevices()
-	//initialize()
-}
-
-def initialize() {
-	log.debug "initialize"  
+	initialize()
 }
 
 private removeChildDevices(delete) {
