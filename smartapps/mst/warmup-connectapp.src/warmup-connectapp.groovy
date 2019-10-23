@@ -96,7 +96,7 @@ def loginPAGE() {
 			}
 			if (stateTokenPresent()) {
 				section {
-					paragraph "You have successfully connected to Warmup. Click 'Done' to select your Warmup devices."
+					paragraph "You have successfully connected to Warmup. Click 'Next' to select your Warmup devices."
 				}
 			}
 			else {
