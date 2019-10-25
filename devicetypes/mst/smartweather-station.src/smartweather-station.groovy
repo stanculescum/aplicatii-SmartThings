@@ -242,7 +242,7 @@ def pollUsingZipCode(String zipCode) {
         log.trace "Getting location info"
         def loc = getTwcLocation(zipCode).location
         //def cityValue = "${loc.city}, ${loc.adminDistrictCode} ${loc.countryCode}"
-        def cityValue = "${loc.city}, ${loc.countryCode} ${loc.country}"
+        def cityValue = "${loc.city}, ${loc.country} (${loc.countryCode})"
         if (cityValue != device.currentValue("city")) {
             send(name: "city", value: cityValue, isStateChange: true)
         }
