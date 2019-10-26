@@ -22,7 +22,7 @@ definition(
     name: "Dashboard - Temperatures",
     namespace: "mST",
     author: "Mihail Stanculescu",
-    description: "SmartApp to report temperature readings in a single view.",
+    description: "SmartApp to report temperature readings in a single view",
     category: "My Apps",
     iconUrl: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/hometemp-icon.png",
     iconX2Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/hometemp-icon@2x.png")

@@ -16,7 +16,7 @@ definition(
     name: "Dashboard - Battery Monitor",
     namespace: "mST",
     author: "Mihail Stanculescu",
-    description: "SmartApp to monitor battery levels.",
+    description: "SmartApp to monitor and report battery levels in a single view",
     category: "My Apps",
     iconUrl: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/battery-icon.png",
     iconX2Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/battery-icon@2x.png")
