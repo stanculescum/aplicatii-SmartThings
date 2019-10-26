@@ -25,7 +25,7 @@ definition(
     description: "SmartApp to report temperature readings in a single view.",
     category: "My Apps",
     iconUrl: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/hometemp-icon.png",
-    iconX2Url: "https://s3.amazonaws.com/smartapp-icons/Convenience/hometemp-icon@2x.png")
+    iconX2Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/hometemp-icon@2x.png")
 
 
 preferences {
