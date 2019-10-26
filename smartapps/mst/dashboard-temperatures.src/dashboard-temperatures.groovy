@@ -71,7 +71,7 @@ def pageStatus() {
 			def lastTemp = it.currentValue('temperature')
 			try {
 				if (lastTemp) {
-					goodlist += "$lastTemp C° : $it.displayName\n"
+					goodlist += "$lastTemp °C : $it.displayName\n"
 				} else {
 					badlist += "$it.displayName\n"	
 				}
@@ -84,7 +84,7 @@ def pageStatus() {
 		}
 
 		if (goodlist) {
-			section("Devices and Current Temps") {
+			section("Current Temps and Devices") {
 				paragraph goodlist.trim()
 			}
 		}
