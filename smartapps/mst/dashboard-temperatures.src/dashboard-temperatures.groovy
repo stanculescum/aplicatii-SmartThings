@@ -102,7 +102,7 @@ def pageStatus() {
 		}
 
 		section("Menu") {
-			href "pageStatus", title:"Refresh", description:"Tap to refresh the status of devices"
+			//href "pageStatus", title:"Refresh", description:"Tap to refresh the status of devices"
 			href "pageConfigure", title:"Configure", description:"Tap to manage your list of devices"
 		}
 	}
