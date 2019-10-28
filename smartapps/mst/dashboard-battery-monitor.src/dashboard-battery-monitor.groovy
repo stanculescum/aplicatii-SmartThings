@@ -162,8 +162,8 @@ def pageConfigure() {
 
         section("Notification") {
         	input("recipients", "contact", title: "Send notifications to") {
-            	input("sms", type: "phone", title: "Send A Text To", description: null, required: false)
-            	input("pushNotification", type: "bool", title: "Send a push notification", description: null, defaultValue: false)
+            	input(name: "sms", type: "phone", title: "Send A Text To", description: null, required: false)
+            	input(name: "pushNotification", type: "bool", title: "Send a push notification", description: null, defaultValue: false)
         	}
     	}
 
