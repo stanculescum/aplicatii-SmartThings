@@ -47,7 +47,7 @@ def pageStatus() {
     def listLevel4 = ""
 
 	if (settings.level1 == null) { settings.level1 = 15 }
-	if (settings.level3 == null) { settings.level3 = 60 }
+	if (settings.level3 == null) { settings.level3 = 30 }
 	if (settings.pushMessage) { settings.pushMessage = true }
     
 	return dynamicPage(pageProperties) {
@@ -135,7 +135,7 @@ def pageConfigure() {
         name:           "level3",
         type:           "number",
         title:          "Medium battery threshold?",
-        defaultValue:   "60",
+        defaultValue:   "30",
         required:       true
     ]
 
