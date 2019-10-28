@@ -99,7 +99,8 @@ def pageStatus() {
 
         if (listLevel4) {
             section("Batteries with full charge") {
-                paragraph listLevel4.trim()
+                paragraf image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/battery-icon.png"
+		paragraph listLevel4.trim()
             }
         }
 
