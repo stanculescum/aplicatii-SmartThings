@@ -104,8 +104,8 @@ def pageStatus() {
         }
 
         section("Menu") {
-            href ("pageStatus", title:"Refresh", description:"Tap to refresh", required: false, image: "https://s3.amazonaws.com/smartapp-icons/Convenience/Cat-Convenience.png")
-            href ("pageConfigure", title:"Configure", description:"Tap to open")
+            //href ("pageStatus", title:"Refresh", description:"Tap to refresh", required: false, image: "https://s3.amazonaws.com/smartapp-icons/Convenience/Cat-Convenience.png")
+            href ("pageConfigure", title:"Configure", description:"Tap to open", required: false, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/configuration.png)"
         }
     }
 }
