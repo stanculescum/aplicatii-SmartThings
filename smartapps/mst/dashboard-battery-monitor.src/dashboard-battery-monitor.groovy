@@ -1,5 +1,5 @@
 /**
- *  Dashboard - Battery Monitor Child SmartApp for SmartThings
+ *  Dashboard - Battery Monitor SmartApp for SmartThings
  *
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  *  in compliance with the License. You may obtain a copy of the License at:
@@ -16,7 +16,7 @@ definition(
     name: "Dashboard - Battery Monitor",
     namespace: "mST",
     author: "Mihail Stanculescu",
-    description: "SmartApp to monitor and report battery levels readings in a single view",
+    description: "SmartApp to monitor, report and notification battery levels; readings in a single view",
     category: "My Apps",
     iconUrl: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/battery-icon.png",
     iconX2Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/battery-icon@2x.png")
@@ -30,7 +30,7 @@ preferences {
 def pageStatus() {
     def pageProperties = [
         name:       "pageStatus",
-        title:      "BatteryMonitor Status",
+        title:      "Battery Monitor Status",
         nextPage:   null,
         install:    true,
         uninstall:  true
@@ -40,14 +40,14 @@ def pageStatus() {
         return pageConfigure()
     }
     
-	def listLevel0 = ""
+    def listLevel0 = ""
     def listLevel1 = ""
     def listLevel2 = ""
     def listLevel3 = ""
     def listLevel4 = ""
 
-	if (settings.level1 == null) { settings.level1 = 33 }
-	if (settings.level3 == null) { settings.level3 = 67 }
+	if (settings.level1 == null) { settings.level1 = 15 }
+	if (settings.level3 == null) { settings.level3 = 60 }
 	if (settings.pushMessage) { settings.pushMessage = true }
     
 	return dynamicPage(pageProperties) {
@@ -80,7 +80,7 @@ def pageStatus() {
 		}
         
         if (listLevel1) {
-        	section("Batteries needing attention right now (less than $settings.level1)") {
+        	section("Batteries needing attention right now for replace (less than $settings.level1)") {
             	paragraph listLevel1.trim()
             }
         }
@@ -113,7 +113,7 @@ def pageStatus() {
 // Show Configure Page
 def pageConfigure() {
     def helpPage =
-        "Select devices with batteries that you wish to monitor."
+        "Select devices with batteries that you wish to monitor:"
 
     def inputBattery = [
         name:           "devices",
@@ -127,7 +127,7 @@ def pageConfigure() {
         name:           "level1",
         type:           "number",
         title:          "Low battery threshold?",
-        defaultValue:   "33",
+        defaultValue:   "15",
         required:       true
     ]
 
@@ -135,7 +135,7 @@ def pageConfigure() {
         name:           "level3",
         type:           "number",
         title:          "Medium battery threshold?",
-        defaultValue:   "67",
+        defaultValue:   "60",
         required:       true
     ]
 
