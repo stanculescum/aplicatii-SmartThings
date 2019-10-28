@@ -80,7 +80,7 @@ def pageStatus() {
 		}
         
         if (listLevel1) {
-        	section("Batteries needing attention right now for replace (less than $settings.level1)") {
+        	section("Batteries for replace !!! (less than $settings.level1)") {
             	paragraph listLevel1.trim()
             }
         }
@@ -92,7 +92,7 @@ def pageStatus() {
         }
 
         if (listLevel3) {
-            section("Batteries with acceptable charge (more than $settings.level3)") {
+            section("Charged batteries (more than $settings.level3)") {
                 paragraph listLevel3.trim()
             }
         }
