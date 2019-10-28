@@ -104,8 +104,8 @@ def pageStatus() {
         }
 
         section("Menu") {
-            //href "pageStatus", title:"Refresh", description:"Tap to refresh"
-            href "pageConfigure", title:"Configure", description:"Tap to open"
+            href ("pageStatus", title:"Refresh", description:"Tap to refresh", required: false, image: "https://s3.amazonaws.com/smartapp-icons/Convenience/Cat-Convenience.png")
+            href ("pageConfigure", title:"Configure", description:"Tap to open")
         }
     }
 }
@@ -141,7 +141,7 @@ def pageConfigure() {
 
     def pageProperties = [
         name:           "pageConfigure",
-        title:          "BatteryMonitor Configuration",
+        title:          "Battery Monitor Configuration",
         nextPage:       "pageStatus",
         uninstall:      true
     ]
