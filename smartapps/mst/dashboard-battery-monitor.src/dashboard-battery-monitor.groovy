@@ -151,28 +151,21 @@ def pageConfigure() {
             paragraph helpPage
         }
 
-	section("Devices") {
+		section("Devices") {
             input inputBattery
         }
         
-        section("Settings") {
+    	section("Settings") {
             input inputLevel1
             input inputLevel3
         }
 
-        section("Notification") {
-        	input("recipients", "contact", title: "Send notifications to") {
-            	input(name: "sms", type: "phone", title: "Send A Text To", description: null, required: false)
-            	input(name: "pushNotification", type: "bool", title: "Send a push notification", description: null, defaultValue: false)
-        	}
-    	}
-
-	section("Minimum time between messages (optional)") {
-		input "frequency", "decimal", title: "Minutes", required: false
-	}
-
-        section([title:"Options", mobileOnly:true]) {
-            	label title:"Assign a name", required:false
+		section("Send Push Notification?") {
+        	input "sendPush", "bool", required: false, title: "Send Push Notification"
+		}
+        
+    	section([title:"Options", mobileOnly:true]) {
+            label title:"Assign a name", required:false
         }
     }
 }
@@ -190,41 +183,7 @@ def updated() {
 def initialize() {
     subscribe(devices, "battery", batteryHandler)
 	state.lowBattNoticeSent = [:]
-
-	runIn(60, updateBatteryStatus)
-}
-
-def send(msg) {
-	if (frequency) {
-		def lastTime = state[frequencyKey(evt)]
-//		def lastTime = state[evt.deviceId]
-		if (lastTime == null || now() - lastTime >= frequency * 60000) {
-		    if (location.contactBookEnabled) {
-		        sendNotificationToContacts(msg, recipients)
-		    }
-		    else {
-		        if (sms) {
-		            sendSms(sms, msg)
-		        }
-		        if (pushNotification) {
-		            sendPush(msg)
-		        }
-	    	}
-		}
-	}
-	else {
-	    if (location.contactBookEnabled) {
-	        sendNotificationToContacts(msg, recipients)
-	    }
-	    else {
-	        if (sms) {
-	            sendSms(sms, msg)
-	        }
-	        if (pushNotification) {
-	            sendPush(msg)
-	        }
-	    }
-    }
+	runIn(10, updateBatteryStatus)
 }
 
 def updateBatteryStatus() {
@@ -232,17 +191,17 @@ def updateBatteryStatus() {
         try {
             if (it.currentBattery == null) {
                 if (!state.lowBattNoticeSent.containsKey(it.id)) {
-                    send("${it.displayName} battery is not reporting.")
+                    sendPush("${it.displayName} battery is not reporting.")
                     state.lowBattNoticeSent[(it.id)] = true
                 }
             } else if (it.currentBattery > 100) {
                 if (!state.lowBattNoticeSent.containsKey(it.id)) {
-                    send("${it.displayName} battery is ${it.currentBattery}, which is over 100.")
+                    sendPush("${it.displayName} battery is ${it.currentBattery}, which is over 100.")
                     state.lowBattNoticeSent[(it.id)] = true
                 }
             } else if (it.currentBattery < settings.level1) {
                 if (!state.lowBattNoticeSent.containsKey(it.id)) {
-                    send("${it.displayName} battery is ${it.currentBattery} (threshold ${settings.level1}.)")
+                    sendPush("${it.displayName} battery is ${it.currentBattery} (threshold ${settings.level1}.)")
                     state.lowBattNoticeSent[(it.id)] = true
                 }
             } else {
@@ -254,14 +213,13 @@ def updateBatteryStatus() {
             log.trace "Caught error checking battery status."
             log.trace e
             if (!state.lowBattNoticeSent.containsKey(it.id)) {
-                    send("${it.displayName} battery reported a non-integer level.")
+                    sendPush("${it.displayName} battery reported a non-integer level.")
                     state.lowBattNoticeSent[(it.id)] = true
             }
         }
     }
 }
 
-
 def batteryHandler(evt) {
-	updateBatteryStatus()
+		updateBatteryStatus()
 }
