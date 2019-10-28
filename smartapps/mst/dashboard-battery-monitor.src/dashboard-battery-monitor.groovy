@@ -183,7 +183,8 @@ def updated() {
 def initialize() {
     subscribe(devices, "battery", batteryHandler)
 	state.lowBattNoticeSent = [:]
-	runIn(10, updateBatteryStatus)
+	//runIn(10, updateBatteryStatus)
+	schedule("0 1 * * * ?", updateBatteryStatus)
 }
 
 def updateBatteryStatus() {
