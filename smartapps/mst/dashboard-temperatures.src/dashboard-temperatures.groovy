@@ -103,7 +103,8 @@ def pageStatus() {
 
 		section("Menu") {
 			//href "pageStatus", title:"Refresh", description:"Tap to refresh the status of devices"
-			href "pageConfigure", title:"Configure", description:"Tap to manage your list of devices"
+			//href "pageConfigure", title:"Configure", description:"Tap to manage your list of devices"
+			href ("pageConfigure", title:"Configure", description:"Tap to manage your list of devices", required: false, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/configuration.png")
 		}
 	}
 }
