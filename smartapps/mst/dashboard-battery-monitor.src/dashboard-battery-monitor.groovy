@@ -104,8 +104,8 @@ def pageStatus() {
         }
 
         section("Menu") {
-            href (name: "pageStatus", title:"Refresh", description:"Tap to refresh", required: false, image: "https://s3.amazonaws.com/smartapp-icons/Convenience/Cat-Convenience.png")
-            href (name: "pageConfigure", title:"Configure", description:"Tap to open", required: false, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/configuration.png")
+            //href ("pageStatus", title:"Refresh", description:"Tap to refresh", required: false, image: "https://s3.amazonaws.com/smartapp-icons/Convenience/Cat-Convenience.png")
+            href ("pageConfigure", title:"Configure", description:"Tap to open", required: false, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/configuration.png")
         }
     }
 }
@@ -118,7 +118,7 @@ def pageConfigure() {
     def inputBattery = [
         name:           "devices",
         type:           "capability.battery",
-        title:          "Which devices with batteries?",
+        title:          "Which devices have batteries?",
         multiple:       true,
         required:       true
     ]
