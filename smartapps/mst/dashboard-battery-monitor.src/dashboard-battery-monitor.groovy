@@ -99,8 +99,7 @@ def pageStatus() {
 
         if (listLevel4) {
             section("Batteries with full charge") {
-                paragraf image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/battery-icon.png"
-		paragraph listLevel4.trim()
+                paragraph listLevel4.trim()
             }
         }
 
@@ -152,7 +151,7 @@ def pageConfigure() {
             paragraph helpPage
         }
 
-		section("Devices") {
+	section("Devices") {
             input inputBattery
         }
         
@@ -163,17 +162,17 @@ def pageConfigure() {
 
         section("Notification") {
         	input("recipients", "contact", title: "Send notifications to") {
-            	input(name: "sms", type: "phone", title: "Send A Text To", description: null, required: false)
-            	input(name: "pushNotification", type: "bool", title: "Send a push notification", description: null, defaultValue: false)
+            	input("sms", type: "phone", title: "Send A Text To", description: null, required: false)
+            	input("pushNotification", type: "bool", title: "Send a push notification", description: null, defaultValue: false)
         	}
     	}
 
-		section("Minimum time between messages (optional)") {
-			input "frequency", "decimal", title: "Minutes", required: false
-		}
+	section("Minimum time between messages (optional)") {
+		input "frequency", "decimal", title: "Minutes", required: false
+	}
 
         section([title:"Options", mobileOnly:true]) {
-            label title:"Assign a name", required:false
+            	label title:"Assign a name", required:false
         }
     }
 }
