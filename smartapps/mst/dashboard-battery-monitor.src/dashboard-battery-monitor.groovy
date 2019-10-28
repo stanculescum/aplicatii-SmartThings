@@ -195,7 +195,7 @@ def initialize() {
 }
 
 def send(msg) {
-/*	if (frequency) {
+	if (frequency) {
 		def lastTime = state[frequencyKey(evt)]
 //		def lastTime = state[evt.deviceId]
 		if (lastTime == null || now() - lastTime >= frequency * 60000) {
@@ -224,7 +224,7 @@ def send(msg) {
 	            sendPush(msg)
 	        }
 	    }
-    }*/
+    }
 }
 
 def updateBatteryStatus() {
