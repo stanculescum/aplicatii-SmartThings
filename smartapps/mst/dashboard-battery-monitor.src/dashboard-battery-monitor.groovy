@@ -31,6 +31,7 @@ def pageStatus() {
     def pageProperties = [
         name:       "pageStatus",
         title:      "Battery Monitor Status",
+	image:      "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/battery-icon.png",
         nextPage:   null,
         install:    true,
         uninstall:  true
