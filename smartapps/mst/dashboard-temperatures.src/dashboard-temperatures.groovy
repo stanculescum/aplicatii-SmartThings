@@ -33,18 +33,6 @@ preferences {
     page name:"pageConfigure"
 }
 
-def installed() {
-	initialize()
-}
-
-def updated() {
-	initialize()
-}
-
-def initialize() {
-	log.trace "Launching Temperatures Dashboard"
-}
-
 //***************************
 //Show Status page
 //***************************
@@ -103,7 +91,6 @@ def pageStatus() {
 
 		section("Menu") {
 			//href "pageStatus", title:"Refresh", description:"Tap to refresh the status of devices"
-			//href "pageConfigure", title:"Configure", description:"Tap to manage your list of devices"
 			href ("pageConfigure", title:"Configure", description:"Tap to manage your list of devices", required: false, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/configuration.png")
 		}
 	}
@@ -113,20 +100,20 @@ def pageStatus() {
 //Show Configure Page
 //***************************
 def pageConfigure() {
-	def helpPage = "Select devices that you wish to check when you open this SmartApp."
+	//def helpPage = "Select devices that you wish to check when you open this SmartApp."
 
-	def inputTempDevices = [name:"tempdevices",type:"capability.temperatureMeasurement",title:"Which temperature devices?",multiple:true,required:true]
+	def inputTempDevices = [name:"tempdevices",type:"capability.temperatureMeasurement",title:"What devices does the temperature show?",multiple:true,required:true]
 
 	def pageProperties = [name:"pageConfigure",
-		title:          "Dashboard Configurator",
+		title:          "Dashboard Temperatures Configurator",
 		nextPage:       "pageStatus",
 		uninstall:      true
 	]
 
 	return dynamicPage(pageProperties) {
-		section("About This App") {
+		/**section("About This App") {
 			paragraph helpPage
-		}
+		}*/
 
 		section("Devices To Check") {
 			input inputTempDevices
@@ -136,4 +123,16 @@ def pageConfigure() {
 			label title:"Assign a name for your app (optional)", required:false
 		}
 	}
+}
+
+def installed() {
+	initialize()
+}
+
+def updated() {
+	initialize()
+}
+
+def initialize() {
+	log.trace "Launching Temperatures Dashboard"
 }
