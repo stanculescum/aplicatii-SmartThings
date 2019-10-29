@@ -26,7 +26,7 @@ preferences {
     page name:"pageConfigure"
 }
 
-// Show Status page
+// Status page
 def pageStatus() {
     def pageProperties = [
         name:       "pageStatus",
@@ -48,7 +48,6 @@ def pageStatus() {
 
 	if (settings.level1 == null) { settings.level1 = 15 }
 	if (settings.level3 == null) { settings.level3 = 30 }
-	if (settings.pushMessage) { settings.pushMessage = true }
     
 	return dynamicPage(pageProperties) {
 		settings.devices.each() {
@@ -80,39 +79,39 @@ def pageStatus() {
 		}
         
         if (listLevel1) {
-        	section("Batteries for replace !!! (less than $settings.level1)") {
+        	section("Batteries for replace !!! (less than $settings.level1%)") {
             	paragraph listLevel1.trim()
             }
         }
 
         if (listLevel2) {
-            section("Batteries to monitor charge (between $settings.level1 and $settings.level3)") {
+            section("Batteries to monitor charge (between $settings.level1% and $settings.level3%)") {
                 paragraph listLevel2.trim()
             }
         }
 
         if (listLevel3) {
-            section("Charged batteries (more than $settings.level3)") {
+            section("Charged batteries (more than $settings.level3%)") {
                 paragraph listLevel3.trim()
             }
         }
 
         if (listLevel4) {
-            section("Batteries with full charge") {
+            section("Batteries with full charge (100%)") {
                 paragraph listLevel4.trim()
             }
         }
 
         section("Menu") {
-            //href ("pageStatus", title:"Refresh", description:"Tap to refresh", required: false, image: "https://s3.amazonaws.com/smartapp-icons/Convenience/Cat-Convenience.png")
             href ("pageConfigure", title:"Configure", description:"Tap to open", required: false, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/configuration.png")
+            //href ("pageStatus", title:"Refresh", description:"Tap to refresh", required: false, image: "https://s3.amazonaws.com/smartapp-icons/Convenience/Cat-Convenience.png")
         }
     }
 }
 
-// Show Configure Page
+// Configure Page
 def pageConfigure() {
-    def helpPage =
+    //def helpPage =
         "Select devices with batteries that you wish to monitor:"
 
     def inputBattery = [
@@ -147,9 +146,9 @@ def pageConfigure() {
     ]
 
 	return dynamicPage(pageProperties) {
-        section("About") {
+        /**section("About") {
             paragraph helpPage
-        }
+        }*/
 
 		section("Devices") {
             input inputBattery
@@ -160,7 +159,7 @@ def pageConfigure() {
             input inputLevel3
         }
 
-		section("Send Push Notification?") {
+		section("Notification for battery change") {
         	input "sendPush", "bool", required: false, title: "Send Push Notification"
 		}
         
@@ -183,8 +182,7 @@ def updated() {
 def initialize() {
     subscribe(devices, "battery", batteryHandler)
 	state.lowBattNoticeSent = [:]
-	//runIn(10, updateBatteryStatus)
-	schedule("0 1 * * * ?", updateBatteryStatus)
+	runIn(10, updateBatteryStatus)
 }
 
 def updateBatteryStatus() {
@@ -197,12 +195,12 @@ def updateBatteryStatus() {
                 }
             } else if (it.currentBattery > 100) {
                 if (!state.lowBattNoticeSent.containsKey(it.id)) {
-                    sendPush("${it.displayName} battery is ${it.currentBattery}, which is over 100.")
+                    sendPush("${it.displayName} battery ${it.currentBattery}% which is over 100%.")
                     state.lowBattNoticeSent[(it.id)] = true
                 }
             } else if (it.currentBattery < settings.level1) {
                 if (!state.lowBattNoticeSent.containsKey(it.id)) {
-                    sendPush("${it.displayName} battery is ${it.currentBattery} (threshold ${settings.level1}.)")
+                    sendPush("${it.displayName} battery ${it.currentBattery}% !!!")
                     state.lowBattNoticeSent[(it.id)] = true
                 }
             } else {
