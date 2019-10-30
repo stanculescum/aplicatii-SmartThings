@@ -349,7 +349,7 @@ def pageStatus(params) {
         }
 
         if (atomicState.goodlist) {
-            section("Latest device reports (hours ago)") {
+            section("Latest device reports (... hours ago)") {
                 paragraph atomicState.goodlist.trim()
             }
         }
