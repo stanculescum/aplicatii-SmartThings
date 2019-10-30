@@ -32,6 +32,9 @@ preferences {
 		section("These devices flashing..."){
 			input "switches", "capability.switch", required: true, multiple: true
 		}
+        section([title:"Available Options", mobileOnly:true]) {
+			label title:"Assign a name for your app (optional)", required:false
+		}
 	}
 	page(name: "pageTwo", title: "#2", nextPage: "pageThree") {
 		section(hideWhenEmpty: true, "When any of the following devices trigger..."){
@@ -46,12 +49,12 @@ preferences {
 		}
 	}
 	page(name: "pageThree", title: "#3", install: true, uninstall: true) {
-		section("Start - Number of times & Time settings..."){
+		section("ON"){
 			input "numStartFlashes", "number", title: "This number of times (default 1)", required: false
 			input "onStart", "number", title: "On for (default 1000ms)", required: false
 			input "offStart", "number", title: "Off for (default 1000ms)", required: false
 		}
-		section("Stop - Number of times & Time settings..."){
+		section("OFF"){
 			input "numStopFlashes", "number", title: "This number of times (default 3)", required: false
 			input "onStop", "number", title: "On for (default 1000ms)", required: false
 			input "offStop", "number", title: "Off for (default 1000ms)", required: false
