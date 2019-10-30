@@ -39,7 +39,7 @@ preferences {
 def pageStatus() {
 	def pageProperties = [
 		name:       "pageStatus",
-		title:      "Temperatures Dashboard",
+		title:      "",
 		nextPage:   null,
 		install:    true,
 		uninstall:  true
@@ -54,7 +54,12 @@ def pageStatus() {
 	def errorlist = ""
 	    
 	return dynamicPage(pageProperties) {
-    	def rightNow = new Date()
+    	
+        section() { 
+			headerSECTION()
+		}
+        
+        def rightNow = new Date()
 		settings.tempdevices.each() {
 			def lastTemp = it.currentValue('temperature')
 			try {
@@ -72,7 +77,7 @@ def pageStatus() {
 		}
 
 		if (goodlist) {
-			section("Current Temps and Devices") {
+			section("Current Temperatures and Devices") {
 				paragraph goodlist.trim()
 			}
 		}
@@ -135,4 +140,12 @@ def updated() {
 
 def initialize() {
 	log.trace "Launching Temperatures Dashboard"
+}
+
+def headerSECTION() {
+	return paragraph (image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/hometemp-icon.png", "${textVersion()}")
+}
+
+private def textVersion() {
+    def text = "Version: 1.0\nDate: 15/10/2019"
 }
