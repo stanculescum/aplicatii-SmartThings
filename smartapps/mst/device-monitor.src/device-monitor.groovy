@@ -862,5 +862,5 @@ private timeIntervalLabel() {
 }
 
 private def textVersion() {
-    def text = "This app checks the devices to determine if they are comunicating with the Hub.\n\nVersion: 3.0\nDate: 15/10/2019"
+    def text = "* This app checks the devices to determine if they are comunicating with the Hub.\n\nVersion: 3.0\nDate: 15/10/2019"
 }
