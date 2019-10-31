@@ -29,7 +29,7 @@ preferences {
 			input "switches", "capability.switch", required: true, multiple: true
 		}
         section([title:"Available Options", mobileOnly:true]) {
-			label title:"Assign a name for your app", required:false
+			label title:"Assign a name for your app", required:true
 		}
         section("About") {
 			paragraph image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/flashing-light-bulb.png",
@@ -50,12 +50,12 @@ preferences {
 		}
 	}
 	page(name: "pageThree", title: "", install: true, uninstall: true) {
-		section("ON"){
+		section("START event"){
 			input "numStartFlashes", "number", title: "This number of times (default 1)", required: false
 			input "onStart", "number", title: "On for (default 1000ms)", required: false
 			input "offStart", "number", title: "Off for (default 1000ms)", required: false
 		}
-		section("OFF"){
+		section("STOP event"){
 			input "numStopFlashes", "number", title: "This number of times (default 3)", required: false
 			input "onStop", "number", title: "On for (default 1000ms)", required: false
 			input "offStop", "number", title: "Off for (default 1000ms)", required: false
