@@ -108,7 +108,7 @@ def pageMain() {
             href "pageExclusions", title: "Exclusions Devices", description: "Tap to manage device exclusions", image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/exclusion-icon.png"
             href "pageStatus", title: "Reset", description: "Tap to reset the stored device info in this app. Useful if a \"ghost\" device is being tracked.", params: [refresh: true, reset: true], image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/reset-icon.png"
     	}
-        section() { 
+        section("About") { 
 			headerSECTION()
 		}
     }
