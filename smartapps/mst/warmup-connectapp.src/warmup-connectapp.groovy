@@ -454,7 +454,7 @@ def logErrors(options = [errorReturn: null, logObject: log], Closure c) {
 }
 
 private def textVersion() {
-    def text = "Warmup (ConnectApp)\nVersion: 1.0\nDate: 15/10/2019"
+    def text = "Warmup (ConnectApp)\nVersion: 1.1\nDate: 15/10/2019"
 }
 
 private def textCopyright() {
