@@ -96,20 +96,21 @@ def pageMain() {
     //def helpPage = "Select devices that you wish to check with this SmartApp. These devices will get checked at the desired intervals and notifications will be sent based on the settings specified"
     
     return dynamicPage(pageProperties) {
-    /**section("About This App") {
+    /**	section("About This App") {
             paragraph helpPage
             
         }*/
-    section() { 
-			headerSECTION()
-	}
-    section("Content") {
+
+    	section("Content") {
             href "pageStatus", title: "Dashboard", description: "Tap to see the status of devices", params: [refresh: true], image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/device-monitor-icon.png"
             href "pageConfigure", title: "Configure Devices", description: "Tap to manage your list of devices", image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/configuration.png"
             href "pageSettings", title: "Settings", description: "Tap to manage app settings", image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/settings-icon.png"
             href "pageExclusions", title: "Exclusions Devices", description: "Tap to manage device exclusions", image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/exclusion-icon.png"
             href "pageStatus", title: "Reset", description: "Tap to reset the stored device info in this app. Useful if a \"ghost\" device is being tracked.", params: [refresh: true, reset: true], image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/reset-icon.png"
-        }
+    	}
+        section() { 
+			headerSECTION()
+		}
     }
     
 }
@@ -178,7 +179,8 @@ def pageSettings() {
     ]
     return dynamicPage(pageProperties) {
         section("Inactivity Timeout") {
-            input "timer", "number", title: "How long (in hours) before a device is considered inactive?", required: false
+        	paragraph "How long (in hours) before a device is considered inactive?"
+            input "timer", "number", title: "enter the inactivity hours", required: false
         }
         section("Check at these times") {
             paragraph "Check your devices on a schedule and as events come in from the selected devices"
@@ -194,7 +196,8 @@ def pageSettings() {
 
             input "checkEvent", "boolean", title: "Run a check each time one of the selected devices sends an event?", required: false, submitOnChange: true, value: false
             if (settings.checkEvent != null && checkEvent.toBoolean() == true) {
-                input "minimumCheck", "number", title: "Minimum time (in minutes) between checks. Useful if you use the above option and subscribe to many devices.", required: false, value: 15
+                paragraph "Minimum time (in minutes) between checks. Useful if you use the above option and subscribe to many devices."
+                input "minimumCheck", "number", title: "enter minimum time (in minutes)", required: false, value: 15
             }
             def timeLabel = timeIntervalLabel()
             href "timeIntervalInput", title: "Only during a certain time", description: timeLabel ?: "Tap to set", state: timeLabel ? "complete" : null
@@ -859,5 +862,5 @@ private timeIntervalLabel() {
 }
 
 private def textVersion() {
-    def text = "Version: 3.0\nDate: 15/10/2019"
+    def text = "This app checks the devices to determine if they are comunicating with the Hub.\n\nVersion: 3.0\nDate: 15/10/2019"
 }
