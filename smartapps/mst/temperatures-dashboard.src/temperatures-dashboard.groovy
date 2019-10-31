@@ -55,10 +55,6 @@ def pageStatus() {
 	def errorlist = ""
 	    
 	return dynamicPage(pageProperties) {
-    	
-        section() { 
-			headerSECTION()
-		}
         
         def rightNow = new Date()
 		settings.tempdevices.each() {
@@ -96,8 +92,11 @@ def pageStatus() {
 		}
 
 		section("Menu") {
-			//href "pageStatus", title:"Refresh", description:"Tap to refresh the status of devices"
-			href ("pageConfigure", title:"Configure", description:"Tap to manage your list of devices", required: false, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/configuration.png")
+			href "pageConfigure", title:"Configure", description:"Tap to manage your list of devices", required: false, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/configuration.png"
+            //href "pageStatus", title:"Refresh", description:"Tap to refresh", required: false, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/reset-icon.png"
+		}
+        section("About") { 
+			headerSECTION()
 		}
 	}
 }
@@ -106,27 +105,21 @@ def pageStatus() {
 //Show Configure Page
 //***************************
 def pageConfigure() {
-	//def helpPage = "Select devices that you wish to check when you open this SmartApp."
-
-	def inputTempDevices = [name:"tempdevices",type:"capability.temperatureMeasurement",title:"What devices does the temperature show?",multiple:true,required:true]
-
 	def pageProperties = [name:"pageConfigure",
 		title:          "Dashboard Temperatures Configurator",
 		nextPage:       "pageStatus",
 		uninstall:      true
 	]
 
+	def inputTempDevices = [name:"tempdevices",type:"capability.temperatureMeasurement",title:"What devices does the temperature show?",multiple:true,required:true]
+    
 	return dynamicPage(pageProperties) {
-		/**section("About This App") {
-			paragraph helpPage
-		}*/
-
 		section("Devices To Check") {
 			input inputTempDevices
 		}
 
 		section([title:"Available Options", mobileOnly:true]) {
-			label title:"Assign a name for your app (optional)", required:false
+			label title:"Assign a name for your app", required:false
 		}
 	}
 }
@@ -136,11 +129,14 @@ def installed() {
 }
 
 def updated() {
-	initialize()
+    unsubscribe()
+    unschedule()
+    initialize()
 }
 
 def initialize() {
-	log.trace "Launching Temperatures Dashboard"
+	//log.trace "Launching Temperatures Dashboard"
+    log.trace "Initializing Temperatures Dashboard"
 }
 
 def headerSECTION() {
@@ -148,5 +144,5 @@ def headerSECTION() {
 }
 
 private def textVersion() {
-    def text = "Version: 1.0\nDate: 15/10/2019"
+    def text = "* This SmartApp helps you see all your temperatures in a single view for the devices you selected capable of reporting temperature readings\n\nVersion: 1.0\nDate: 15/10/2019"
 }
