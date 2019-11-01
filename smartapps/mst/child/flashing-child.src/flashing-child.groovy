@@ -25,11 +25,11 @@ definition(
 
 preferences {
 	page(name: "pageOne", title: "", nextPage: "pageTwo", uninstall: true){
-		section("These devices flashing..."){
-			input "switches", "capability.switch", required: true, multiple: true
+		section("These devices flashing"){
+			input "switches", "capability.switch", title: "The select switchs are", required: true, multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/light-switch.png"
 		}
-        section([title:"Available Options", mobileOnly:true]) {
-			label title:"Assign a name for your app", required:true
+        section([title:"Name of child app", mobileOnly:true]) {
+			label title:"Assign a name for child app", required:true
 		}
         section("About") {
 			paragraph image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/flashing-light-bulb.png",
@@ -39,14 +39,16 @@ preferences {
 	}
 	page(name: "pageTwo", title: "", nextPage: "pageThree") {
 		section(hideWhenEmpty: true, "When any of the following devices trigger..."){
-			input "presence", "capability.presenceSensor", title: "Select Presence Sensors", required: false, multiple: true
-			input "motion", "capability.motionSensor", title: "Select Motion Sensors", required: false, multiple: true
-			input "contact", "capability.contactSensor", title: "Select Contact Sensors", required: false, multiple: true
-			input "myswitch", "capability.switch", title: "SelectSwitchs", required: false, multiple: true
-			input "valves", "capability.valve", title: "Select Valves", required: false, multiple: true
-			input "smokeDetector", "capability.smokeDetector", title: "Select Smoke Detector", required: false, multiple: true
-			input "waterSensor", "capability.waterSensor", title: "Select Water Sensor", required: false, multiple: true
-			input "lock", "capability.lock", title: "Select Lock", required: false, multiple: true
+			input "presence", "capability.presenceSensor", title: "Select Presence Sensors", required: false, multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/presence-sensor.png"
+			input "motion", "capability.motionSensor", title: "Select Motion Sensors", required: false, multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/motion-sensor.png"
+			input "contact", "capability.contactSensor", title: "Select Contact Sensors", required: false, multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/contact-sensor.png"
+			input "myswitch", "capability.switch", title: "SelectSwitchs", required: false, multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/light-switch.png"
+			input "valves", "capability.valve", title: "Select Valves", required: false, multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/valve.png"
+			input "smokeDetector", "capability.smokeDetector", title: "Select Smoke Detector", required: false, multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/smoke-detector.png"
+            input "carbonMonoxideDetector", "capability.carbonMonoxideDetector", title: "Select Carbon Monoxide Detector", required: false, multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/carbon-monoxide-sensor.png"
+			input "waterSensor", "capability.waterSensor", title: "Select Water Sensor", required: false, multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/water-sensor.png"
+			input "lock", "capability.lock", title: "Select Lock", required: false, multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/door-lock.png"
+            input "button", "capability.button", title: "Select Button", required: false, multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/button.png"
 		}
 	}
 	page(name: "pageThree", title: "", install: true, uninstall: true) {
@@ -93,11 +95,17 @@ def subscribe() {
 	if (smokeDetector) {
 		subscribe(smokeDetector, "smoke.detected", smokeDetectedHandler)
 	}
+    if (carbonMonoxideDetector) {
+		subscribe(carbonMonoxideDetector, "carbonMonoxide.detected", carbonMonoxideDetectedHandler)
+	}
 	if (waterSensor) {
 		subscribe(waterSensor, "water", waterHandler)
 	}
 	if (lock) {
 		subscribe(lock, "lock", lockHandler)
+	}
+    if (button) {
+		subscribe(button, "button", buttonHandler)
 	}
 }
 
@@ -128,7 +136,8 @@ def switchHandler(evt) {
 	log.debug "switch $evt.value"
 	if (evt.value == "on") {
 		startflashLights()
-	} else if (evt.value == "off") {
+	}
+    else if (evt.value == "off") {
 		stopflashLights()
 	}
 }
@@ -147,6 +156,11 @@ def smokeDetectedHandler(evt) {
 	statflashLights()
 }
 
+def carbonMonoxideDetectedHandler(evt) {
+	log.debug "carbonMonoxide.detected $evt.value"
+	statflashLights()
+}
+
 def waterHandler(evt) {
 	log.debug "water $evt.value"
 	if (evt.value == "wet") {
@@ -161,6 +175,15 @@ def lockHandler(evt) {
 	if (evt.value == "locked") {
 		startflashLights()
 	} else if (evt.value == "unlocked") {
+		stopflashLights()
+	}
+}
+
+def buttonHandler(evt) {
+	log.debug "button $evt.value"
+	if (evt.value == "pushed") {
+		startflashLights()
+	} else if (evt.value == "held") {
 		stopflashLights()
 	}
 }
