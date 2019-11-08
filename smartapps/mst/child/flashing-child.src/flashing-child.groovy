@@ -28,6 +28,20 @@ preferences {
 		section("These devices flashing"){
 			input "switches", "capability.switch", title: "The select switchs are", required: true, multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/light-switch.png"
 		}
+        section("Only when") {
+      		input "conditions", "enum", title: "When?", options: ["always":"Always", "sunrise":"Sunrise and Sunset", "sunset":"Sunset and Sunrise", "custom":"Specify time (view last page)"], defaultValue: "always", image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/24_hours.png", submitOnChange: true
+
+      		switch(conditions) {
+        		case "always":
+          		break
+        		case "sunrise":
+          		break
+        		case "sunset":
+                break
+                case "custom":
+				break
+      		}
+    	}
         section([title:"Name of child app", mobileOnly:true]) {
 			label title:"Assign a name for child app", required:true
 		}
@@ -51,7 +65,7 @@ preferences {
             input "button", "capability.button", title: "Select Button", required: false, multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/button.png"
 		}
 	}
-	page(name: "pageThree", title: "", install: true, uninstall: true) {
+	page(name: "pageThree", title: "", nextPage: "custom") {
 		section("START event"){
 			input "numStartFlashes", "number", title: "This number of times (default 1)", required: false
 			input "onStart", "number", title: "On for (default 1000ms)", required: false
@@ -63,6 +77,12 @@ preferences {
 			input "offStop", "number", title: "Off for (default 1000ms)", required: false
 		}
 	}
+    page(name: "custom",title: "", install: true, uninstall: true) {
+    	section("If you have chosen >> Specify the time << enter the time below"){
+    		input "from", "time", title: "From", required: false
+			input "until", "time", title: "Until", required: false
+    	}
+    }
 }
 
 def installed() {
@@ -134,6 +154,11 @@ def contactHandler(evt) {
 
 def switchHandler(evt) {
 	log.debug "switch $evt.value"
+    
+    if (!checkConditions()) {
+    	log.debug("Conditions not met, skipping")
+    	return
+  	}
 	if (evt.value == "on") {
 		startflashLights()
 	}
@@ -186,6 +211,21 @@ def buttonHandler(evt) {
 	} else if (evt.value == "held") {
 		stopflashLights()
 	}
+}
+
+private def checkConditions() {
+  switch(conditions) {
+    case "always":
+      return true
+    case "sunset":
+      def day = getSunriseAndSunset()
+      return timeOfDayIsBetween(day.sunset, day.sunrise, new Date(), location.timeZone)
+    case "sunrise":
+      def night = getSunriseAndSunset()
+      return timeOfDayIsBetween(night.sunrise, night.sunset, new Date(), location.timeZone)
+    case "custom":
+      return timeOfDayIsBetween(from, until, new Date(), location.timeZone)
+  }
 }
 
 private startflashLights() {
