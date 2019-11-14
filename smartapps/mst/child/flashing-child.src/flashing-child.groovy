@@ -12,7 +12,7 @@
  */
 
 definition(
-    name: "Flashing - child",
+    name: "Flashing-child",
     namespace: "mST/child",
     author: "Mihail Stanculescu",
     description: "Flashing light in response to presence/motion, an open/close event, an on/off switch, or lock/unlock door",
@@ -44,11 +44,6 @@ preferences {
     	}
         section([title:"Name of child app", mobileOnly:true]) {
 			label title:"Assign a name for child app", required:true
-		}
-        section("About") {
-			paragraph image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/flashing-light-bulb.png",
-			title: "Flashing light", required: true,
-			"Flashing light in response to motion, an open/close event, an on/off switch, or lock/unlock door\n\nversion 1.0 / 10.2019."
 		}
 	}
 	page(name: "pageTwo", title: "", nextPage: "pageThree") {

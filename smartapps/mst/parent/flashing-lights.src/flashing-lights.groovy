@@ -27,7 +27,7 @@ preferences {
     // The parent app preferences are pretty simple: just use the app input for the child app.
     page(name: "mainPage", title: "Content", install: true, uninstall: true, submitOnChange: true) {
         section {
-            app(name: "Flash", appName: "Flashing - child", namespace: "mST/child", title: "Create a new automation", multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/start-button.png")
+            app(name: "Flash", appName: "Flashing-child", namespace: "mST/child", title: "Create a new automation", multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/start-button.png")
 		}
         
         section([title: "Other Options", mobileOnly: true]) {
@@ -64,5 +64,5 @@ def headerSECTION() {
 }
 
 private def textVersion() {
-    def text = "* This application creates flashing lights automation.\n\nVersion: 1.0\nDate: 15/10/2019"
+    def text = "This application creates flashing lights automation.\nFlashing light in response to motion, an open/close event, an on/off switch, or lock/unlock door\nVersion: 1.0 - Date: 15/10/2019"
 }
