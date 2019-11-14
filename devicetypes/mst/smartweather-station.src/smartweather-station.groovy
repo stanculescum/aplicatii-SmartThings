@@ -13,8 +13,8 @@
 metadata {
     definition (name: "SmartWeather Station", namespace: "mST", author: "Mihail Stanculescu") {
         capability "Illuminance Measurement"
-        capability "Temperature Measurement"
         capability "Relative Humidity Measurement"
+        capability "Temperature Measurement"
         capability "Ultraviolet Index"
         capability "Sensor"
         capability "Refresh"
@@ -220,20 +220,20 @@ def poll() {
 
 def pollUsingZipCode(String zipCode) {
     // Last update time stamp
+    
     def timeZone = location.timeZone ?: timeZone(timeOfDay)
     def timeStamp = new Date().format("yyyy MMM dd EEE h:mm:ss a", location.timeZone)
     sendEvent(name: "lastUpdate", value: timeStamp)
 
     // Current conditions
+    
     def tempUnits = getTemperatureScale()
     def windUnits = tempUnits == "C" ? "KPH" : "MPH"
     def obs = getTwcConditions(zipCode)
     if (obs) {
         // TODO def weatherIcon = obs.icon_url.split("/")[-1].split("\\.")[0]
-
         send(name: "temperature", value: obs.temperature, unit: tempUnits)
         send(name: "feelsLike", value: obs.temperatureFeelsLike, unit: tempUnits)
-
         send(name: "humidity", value: obs.relativeHumidity, unit: "%")
         send(name: "weather", value: obs.wxPhraseShort)
         send(name: "weatherIcon", value: obs.iconCode as String, displayed: false)
@@ -246,28 +246,21 @@ def pollUsingZipCode(String zipCode) {
         if (cityValue != device.currentValue("city")) {
             send(name: "city", value: cityValue, isStateChange: true)
         }
-
         send(name: "ultravioletIndex", value: obs.uvIndex)
         send(name: "uvDescription", value: obs.uvDescription)
-
         def dtf = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
-
         def sunriseDate = dtf.parse(obs.sunriseTimeLocal)
         log.info "'${obs.sunriseTimeLocal}'"
-
         def sunsetDate = dtf.parse(obs.sunsetTimeLocal)
-
         def tf = new java.text.SimpleDateFormat("h:mm a")
         tf.setTimeZone(TimeZone.getTimeZone(loc.ianaTimeZone))
-
         def localSunrise = "${tf.format(sunriseDate)}"
         def localSunset = "${tf.format(sunsetDate)}"
         send(name: "localSunrise", value: localSunrise, descriptionText: "Sunrise today is at $localSunrise")
         send(name: "localSunset", value: localSunset, descriptionText: "Sunset today at is $localSunset")
-
         send(name: "illuminance", value: estimateLux(obs, sunriseDate, sunsetDate))
-
-        // Forecast
+        //send(name: "illuminance", value: obs.cloudCeiling)
+		// Forecast
         def f = getTwcForecast(zipCode)
         if (f) {
             def icon = f.daypart[0].iconCode[0] ?: f.daypart[0].iconCode[1]
@@ -283,7 +276,7 @@ def pollUsingZipCode(String zipCode) {
             log.warn "Forecast not found"
         }
 
-        // Alerts
+		// Alerts
         def alerts = getTwcAlerts("${loc.latitude},${loc.longitude}")
         if (alerts) {
             alerts.each {alert ->
@@ -323,7 +316,6 @@ def pollUsingPwsId(String stationId) {
         def dataScale = obs.imperial ? 'imperial' : 'metric'
         send(name: "temperature", value: convertTemperature(obs[dataScale].temp, dataScale, tempUnits), unit: tempUnits)
         send(name: "feelsLike", value: convertTemperature(obs[dataScale].windChill, dataScale, tempUnits), unit: tempUnits)
-
         send(name: "humidity", value: obs.humidity, unit: "%")
         send(name: "weather", value: "n/a")
         send(name: "weatherIcon", value: null as String, displayed: false)
@@ -333,10 +325,8 @@ def pollUsingPwsId(String stationId) {
         if (cityValue != device.currentValue("city")) {
             send(name: "city", value: cityValue, isStateChange: true)
         }
-
         send(name: "ultravioletIndex", value: obs.uv)
         send(name: "uvDescription", value: "n/a")
-
         send(name: "localSunrise", value: "n/a", descriptionText: "Sunrise is not supported when using PWS")
         send(name: "localSunset", value: "n/a", descriptionText: "Sunset is not supported when using PWS")
         send(name: "illuminance", value: null)
@@ -424,24 +414,7 @@ private estimateLux(obs, sunriseDate, sunsetDate) {
         lux = 10
     }
     else {
-        //day
-        switch(obs.iconCode) {
-            case 4:
-                lux = 200
-                break
-            case 5..26:
-                lux = 1000
-                break
-            case 27..28:
-                lux = 2500
-                break
-            case 29..30:
-                lux = 7500
-                break
-            default:
-                //sunny, clear
-                lux = 10000
-        }
+		lux = obs.cloudCeiling
 
         //adjust for dusk/dawn
         def now = new Date().time
