@@ -18,7 +18,7 @@ metadata {
         capability "Ultraviolet Index"
         capability "Sensor"
         capability "Refresh"
-        
+
 		attribute "city", "string"
         attribute "localSunrise", "string"
         attribute "localSunset", "string"
@@ -259,7 +259,7 @@ def pollUsingZipCode(String zipCode) {
         send(name: "localSunrise", value: localSunrise, descriptionText: "Sunrise today is at $localSunrise")
         send(name: "localSunset", value: localSunset, descriptionText: "Sunset today at is $localSunset")
         send(name: "illuminance", value: estimateLux(obs, sunriseDate, sunsetDate))
-        //send(name: "illuminance", value: obs.cloudCeiling)
+
 		// Forecast
         def f = getTwcForecast(zipCode)
         if (f) {
@@ -414,7 +414,24 @@ private estimateLux(obs, sunriseDate, sunsetDate) {
         lux = 10
     }
     else {
-		lux = obs.cloudCeiling
+        //day
+        switch(obs.iconCode) {
+            case 4:
+                lux = 200
+                break
+            case 5..26:
+                lux = 1000
+                break
+            case 27..28:
+                lux = 2500
+                break
+            case 29..30:
+                lux = 7500
+                break
+            default:
+                //sunny, clear
+                lux = 10000
+        }
 
         //adjust for dusk/dawn
         def now = new Date().time
