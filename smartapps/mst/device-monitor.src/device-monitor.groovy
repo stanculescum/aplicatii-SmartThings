@@ -45,13 +45,15 @@
  *  - Only on certain days of the week.
  *  - Only when mode is . . .
  *
- *  2019-10-15 - Lot's of changes. Layout has been reorganized to make navigation easier. Battery alerts available. You can
+ *  v1.3 / 2019-11-18 - Battery alerts if indication is more than 100%
+ *
+ *  v1.2 / 2019-10-15 - Lot's of changes. Layout has been reorganized to make navigation easier. Battery alerts available. You can
  *               exclude devices from event checks or battery checks. New logo. Internal bug fixes and optimizations. 
  *
- *  2019-04-02 - Changed how the app looks for events. It only looks at "DEVICE" events. These are meant to indicate that
+ *  v1.1 / 2019-04-02 - Changed how the app looks for events. It only looks at "DEVICE" events. These are meant to indicate that
  *               the event came from the device. This should make the app much more accurate.
  *               Also, the ability to get a notification when the device is back online has been added.
- *  2019-03-03 - Initial Release
+ *  v1.0 / 2019-03-03 - Initial Release
  */
 definition(
     name: "Device Monitor",
@@ -145,7 +147,7 @@ def pageConfigure() {
 
     return dynamicPage(pageProperties) {
         
-        section("Devices To Check") {
+        section(hideWhenEmpty: true,"Devices To Check") {
             input inputMotionDevices
             input inputHumidityDevices
             input inputLeakDevices
@@ -284,7 +286,7 @@ def pageExclusions() {
 //***************************
 
 //***************************
-//Start Status page
+//Start Status (Dashboard) page
 //***************************
 def pageStatus(params) {
 
@@ -335,37 +337,37 @@ def pageStatus(params) {
 
         if (atomicState.delaylist) {
             section("Devices that have not reported for $timer hour(s)") {
-                paragraph atomicState.delaylist.trim()
+                paragraph atomicState.delaylist.trim(), image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/attention-icon.png"
             }
         }
 
         if (atomicState.badlist) {
             section("Devices NOT Reporting Events") {
-                paragraph atomicState.badlist.trim()
+                paragraph atomicState.badlist.trim(), image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/attention-icon.png"
             }
         }
 
         if (atomicState.errorlist) {
             section("Devices with Errors") {
-                paragraph atomicState.errorlist.trim()
-            }
-        }
-
-        if (atomicState.goodlist) {
-            section("Latest device reports (... hours ago)") {
-                paragraph atomicState.goodlist.trim()
+                paragraph atomicState.errorlist.trim(), image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/attention-icon.png"
             }
         }
         
         if (atomicState.batterybadlist) {
             section("Devices With Low Battery") {
-                paragraph atomicState.batterybadlist.trim()
+                paragraph atomicState.batterybadlist.trim(), image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/attention-icon.png"
             }
         }
         
         if (atomicState.batteryerrorlist) {
             section("Devices Not Reporting Battery") {
-                paragraph atomicState.batteryerrorlist.trim()
+                paragraph atomicState.batteryerrorlist.trim(), image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/attention-icon.png"
+            }
+        }
+        
+        if (atomicState.goodlist) {
+            section("Latest device reports (... hours ago)") {
+                paragraph atomicState.goodlist.trim()
             }
         }
         
@@ -458,6 +460,14 @@ def doCheck() {
                       ]
                    }
                    if(it.currentValue("battery") != null && it.currentValue("battery").toInteger() < settings.batteryThreshold.toInteger()){
+                      batterybadlistMap += [
+                         [battery: it.currentValue("battery"), name: "$it.displayName"]
+                      ]
+                      batterylistMap += [
+                         [name: "$it.displayName"]
+                      ]
+                   }
+                   if(it.currentValue("battery") != null && it.currentValue("battery").toInteger() > 100){
                       batterybadlistMap += [
                          [battery: it.currentValue("battery"), name: "$it.displayName"]
                       ]
