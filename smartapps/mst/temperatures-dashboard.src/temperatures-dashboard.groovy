@@ -145,5 +145,5 @@ def headerSECTION() {
 }
 
 private def textVersion() {
-    def text = "* This SmartApp helps you see all your temperatures in a single view for the devices you selected capable of reporting temperature readings\n\nVersion: 1.0\nDate: 15/10/2019"
+    def text = "* This SmartApp helps you see all your temperatures in a single view for the devices you selected capable of reporting temperature readings\n\nVersion: 1.0 / 2019-10-15"
 }
