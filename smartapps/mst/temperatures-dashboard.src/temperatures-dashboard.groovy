@@ -16,6 +16,7 @@
  *  ----------------
  *  This SmartApp helps you see all your temperatures in a single view for the devices you selected capable of reporting temperature readings.
  *
+ *  v1.0 / 2019-10-15 - Initial Release
  */
 
 definition(
