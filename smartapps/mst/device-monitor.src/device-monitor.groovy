@@ -219,7 +219,7 @@ def pageSettings() {
         section("Notifications") {
             input("recipients", "contact", title: "Send notifications to") {
                 input "sendPushMessage", "enum", title: "Send a push notification?", metadata: [values: ["Yes", "No"]], required: false, value: "No"
-                input "phoneNumber", "phone", title: "Enter phone number to send text notification.", required: false
+                //input "phoneNumber", "phone", title: "Enter phone number to send text notification.", required: false
             }
             input "deviceOnline", "boolean", title: "Send a notification if a device comes back online?", required: false, submitOnChange: false, value: false
         }
