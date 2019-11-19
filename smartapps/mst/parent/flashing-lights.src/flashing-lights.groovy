@@ -36,7 +36,7 @@ preferences {
         section([title: "Other Options", mobileOnly: true]) {
             label title: "Assign a name for the app (optional)", required: false
         }
-        section() { 
+        section("About") { 
 			headerSECTION()
 		}
     }
