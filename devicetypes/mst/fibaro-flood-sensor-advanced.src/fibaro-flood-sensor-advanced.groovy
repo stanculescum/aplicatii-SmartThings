@@ -1546,7 +1546,7 @@ private getParamsMd() {
          isSigned: true,
          name: "Acoustic and Visual Alarms",
          description : "Disable/enable LED indicator and acoustic alarm for flooding detection.",
-         options: ["0" : "0: Acoustic alarm INACTIVE. Visual alarm INACVTIVE",
+         options: ["0" : "0: Acoustic alarm INACTIVE. Visual alarm INACTIVE",
                    "1" : "1: Acoustic alarm INACTIVE. Visual alarm ACTIVE",
                    "2" : "2: Acoustic alarm ACTIVE. Visual alarm INACTIVE",
                    "3" : "3: Acoustic alarm ACTIVE. Visual alarm ACTIVE"] ],
