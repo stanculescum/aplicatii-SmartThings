@@ -11,6 +11,9 @@
  *  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
+ *
+ *  v1.1 / 2019-11-05 - Adding time conditions (always, day, night and custom)
+ *  v1.0 / 2019-10-15 - Initial Release
  */
 definition(
     name: "Flashing Lights",
@@ -64,5 +67,5 @@ def headerSECTION() {
 }
 
 private def textVersion() {
-    def text = "This application creates flashing lights automation.\nFlashing light in response to motion, an open/close event, an on/off switch, or lock/unlock door\nVersion: 1.0 - Date: 15/10/2019"
+    def text = "This application creates flashing lights automation.\nFlashing light in response to motion, an open/close event, an on/off switch, or lock/unlock door\nVersion: v1.1 / 2019-11-05"
 }

@@ -9,6 +9,9 @@
  *  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
+ *
+ *  v1.1 / 2019-11-05 - Adding time conditions (always, day, night and custom)
+ *  v1.0 / 2019-10-15 - Initial Release
  */
 
 definition(
@@ -28,8 +31,8 @@ preferences {
 		section("These devices flashing"){
 			input "switches", "capability.switch", title: "The select switchs are", required: true, multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/light-switch.png"
 		}
-        section("Only when") {
-      		input "conditions", "enum", title: "When?", options: ["always":"Always", "sunrise":"Sunrise and Sunset", "sunset":"Sunset and Sunrise", "custom":"Specify time (view last page)"], defaultValue: "always", image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/24_hours.png", submitOnChange: true
+        section("Only") {
+      		input "conditions", "enum", title: "When?", options: ["always":"Always", "sunrise":"Sunrise to Sunset", "sunset":"Sunset to Sunrise", "custom":"Specify time (view last page)"], defaultValue: "always", image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/24_hours.png", submitOnChange: true
 
       		switch(conditions) {
         		case "always":
