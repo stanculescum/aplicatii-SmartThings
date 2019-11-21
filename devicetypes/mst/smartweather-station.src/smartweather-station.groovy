@@ -9,6 +9,8 @@
  *  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
+ *
+ *  v1.0 - 2019/11/21 - Initial Release
  */
 metadata {
     definition (name: "SmartWeather Station", namespace: "mST", author: "Mihail Stanculescu") {
@@ -42,8 +44,7 @@ metadata {
     }
 
     preferences {
-        input "zipCode", "text", title: "Zip Code (optional)", required: false
-        input "stationId", "text", title: "Personal Weather Station ID (optional)", required: false
+    
     }
 
     tiles(scale: 2) {
@@ -192,7 +193,7 @@ def parse(String description) {
 
 def installed() {
     poll()
-    runEvery5Minutes(poll)
+    runEvery1Minute(poll)
 }
 
 def updated() {
@@ -206,16 +207,7 @@ def uninstalled() {
 // handle commands
 def poll() {
     log.info "WUSTATION: Executing 'poll', location: ${location.name}"
-    if (stationId) {
-        pollUsingPwsId(stationId.toUpperCase())
-    } else {
-        if (zipCode && zipCode.toUpperCase().startsWith('PWS:')) {
-            log.debug zipCode.substring(4)
-            pollUsingPwsId(zipCode.substring(4).toUpperCase())
-        } else {
-            pollUsingZipCode(zipCode?.toUpperCase())
-        }
-    }
+    pollUsingZipCode(zipCode?.toUpperCase())
 }
 
 def pollUsingZipCode(String zipCode) {
@@ -278,69 +270,6 @@ def pollUsingZipCode(String zipCode) {
 
 		// Alerts
         def alerts = getTwcAlerts("${loc.latitude},${loc.longitude}")
-        if (alerts) {
-            alerts.each {alert ->
-                def msg = alert.headlineText
-                if (alert.effectiveTimeLocal && !msg.contains(" from ")) {
-                    msg += " from ${parseAlertTime(alert.effectiveTimeLocal).format("E hh:mm a", TimeZone.getTimeZone(alert.effectiveTimeLocalTimeZone))}"
-                }
-                if (alert.expireTimeLocal && !msg.contains(" until ")) {
-                    msg += " until ${parseAlertTime(alert.expireTimeLocal).format("E hh:mm a", TimeZone.getTimeZone(alert.expireTimeLocalTimeZone))}"
-                }
-                send(name: "alert", value: msg, descriptionText: msg)
-            }
-        }
-        else {
-            send(name: "alert", value: "No current alerts", descriptionText: msg)
-        }
-    }
-    else {
-        log.warn "No response from TWC API"
-    }
-
-    return null
-}
-
-def pollUsingPwsId(String stationId) {
-    // Last update time stamp
-    def timeZone = location.timeZone ?: timeZone(timeOfDay)
-    def timeStamp = new Date().format("yyyy MMM dd EEE h:mm:ss a", location.timeZone)
-    sendEvent(name: "lastUpdate", value: timeStamp)
-
-    // Current conditions
-    def tempUnits = getTemperatureScale()
-    def windUnits = tempUnits == "C" ? "KPH" : "MPH"
-    def obsWrapper = getTwcPwsConditions(stationId)
-    if (obsWrapper && obsWrapper.observations && obsWrapper.observations.size()) {
-        def obs = obsWrapper.observations[0]
-        def dataScale = obs.imperial ? 'imperial' : 'metric'
-        send(name: "temperature", value: convertTemperature(obs[dataScale].temp, dataScale, tempUnits), unit: tempUnits)
-        send(name: "feelsLike", value: convertTemperature(obs[dataScale].windChill, dataScale, tempUnits), unit: tempUnits)
-        send(name: "humidity", value: obs.humidity, unit: "%")
-        send(name: "weather", value: "n/a")
-        send(name: "weatherIcon", value: null as String, displayed: false)
-        send(name: "wind", value: convertWindSpeed(obs[dataScale].windSpeed, dataScale, tempUnits) as String, unit: windUnits) // as String because of bug in determining state change of 0 numbers
-        send(name: "windVector", value: "${obs.winddir}° ${convertWindSpeed(obs[dataScale].windSpeed, dataScale, tempUnits)} ${windUnits}")
-        def cityValue = obs.neighborhood
-        if (cityValue != device.currentValue("city")) {
-            send(name: "city", value: cityValue, isStateChange: true)
-        }
-        send(name: "ultravioletIndex", value: obs.uv)
-        send(name: "uvDescription", value: "n/a")
-        send(name: "localSunrise", value: "n/a", descriptionText: "Sunrise is not supported when using PWS")
-        send(name: "localSunset", value: "n/a", descriptionText: "Sunset is not supported when using PWS")
-        send(name: "illuminance", value: null)
-
-        // Forecast not supported
-        send(name: "percentPrecip", value: "n/a", unit: "%")
-        send(name: "forecastIcon", value: null, displayed: false)
-        send(name: "forecastToday", value: "n/a")
-        send(name: "forecastTonight", value: "n/a")
-        send(name: "forecastTomorrow", value: "n/a")
-        log.warn "Forecast not supported when using PWS"
-
-        // Alerts
-        def alerts = getTwcAlerts("${obs.lat},${obs.lon}")
         if (alerts) {
             alerts.each {alert ->
                 def msg = alert.headlineText
