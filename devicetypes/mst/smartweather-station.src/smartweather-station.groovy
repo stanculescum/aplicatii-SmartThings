@@ -10,7 +10,8 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  *
- *  v1.0 - 2019/11/21 - Initial Release
+ *  v1.1 - 2019/11/22 - Add atmospheric pressure and tendency 
+ *  v1.0 - 2019/10/21 - Initial Release
  */
 metadata {
     definition (name: "SmartWeather Station", namespace: "mST", author: "Mihail Stanculescu") {
@@ -24,17 +25,19 @@ metadata {
 		attribute "city", "string"
         attribute "localSunrise", "string"
         attribute "localSunset", "string"
+        attribute "sunriseDate", "string"
+        attribute "sunsetDate", "string"
         attribute "timeZoneOffset", "string"
         attribute "weather", "string"
         attribute "feelsLike", "string"
+        attribute "pressure", "string"
+        attribute "pressureTrend", "string"
         attribute "wind", "string"
         attribute "windVector", "string"
         attribute "uvDescription", "string"
         attribute "percentPrecip", "string"
         attribute "weatherIcon", "string"
         attribute "forecastIcon", "string"
-        attribute "sunriseDate", "string"
-        attribute "sunsetDate", "string"
         attribute "alert", "string"
         attribute "alertKeys", "string"
         attribute "forecastToday", "string"
@@ -229,17 +232,21 @@ def pollUsingZipCode(String zipCode) {
         send(name: "humidity", value: obs.relativeHumidity, unit: "%")
         send(name: "weather", value: obs.wxPhraseShort)
         send(name: "weatherIcon", value: obs.iconCode as String, displayed: false)
-        send(name: "wind", value: obs.windSpeed as String, unit: windUnits) // as String because of bug in determining state change of 0 numbers
+        send(name: "pressure", value: "${obs.pressureAltimeter}", unit: "mbar")
+        send(name: "pressureTrend", value: obs.pressureTendencyTrend)
+        send(name: "wind", value: obs.windSpeed as String, unit: windUnits)
         send(name: "windVector", value: "${obs.windDirectionCardinal} ${obs.windSpeed} ${windUnits}")
+        
         log.trace "Getting location info"
         def loc = getTwcLocation(zipCode).location
-        //def cityValue = "${loc.city}, ${loc.adminDistrictCode} ${loc.countryCode}"
-        def cityValue = "${loc.city}, ${loc.country} (${loc.countryCode})"
-        if (cityValue != device.currentValue("city")) {
+        def cityValue = "${loc.city}, ${loc.country}, (cod postal:${loc.postalCode})"
+        	if (cityValue != device.currentValue("city")) {
             send(name: "city", value: cityValue, isStateChange: true)
-        }
+        	}
+            
         send(name: "ultravioletIndex", value: obs.uvIndex)
         send(name: "uvDescription", value: obs.uvDescription)
+        
         def dtf = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
         def sunriseDate = dtf.parse(obs.sunriseTimeLocal)
         log.info "'${obs.sunriseTimeLocal}'"
