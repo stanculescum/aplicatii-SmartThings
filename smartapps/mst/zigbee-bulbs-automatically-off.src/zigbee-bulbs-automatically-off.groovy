@@ -1,4 +1,5 @@
 /**
+ *  ZigBee bulbs automatically off!
  *  Copyright 2019
  *
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
@@ -10,9 +11,9 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  *
- *  ZigBee bulbs automatically off!
- *  ZigBee bulbs are automatically off when the main power supply voltage is restored and no one is home.
- *
+ *  
+ *  About: ZigBee bulbs are automatically off when the main power supply voltage is restored and no one is home.
+ *  Version: v1.0 / 2019-12-12 - Initial Release
  *  Author: Mihail Stanculescu
  */
 definition(
