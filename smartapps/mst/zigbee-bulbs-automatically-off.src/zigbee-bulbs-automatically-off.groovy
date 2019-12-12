@@ -38,8 +38,8 @@ preferences {
     section("When they are not home..."){
 		input "presence1", "capability.presenceSensor", title: " ", multiple: true, required: true
     }
-    section("Turn off after...minute ") {
-		input "lockTime", "number", title: "Auto lock time (minutes)", description: "Number of minutes", required: true, defaultValue: "1"
+    section("Turn off after...minute when the main power supply voltage is restored") {
+		input "lockTime", "number", title: "Auto off time (minutes)", description: "Number of minutes", required: true, defaultValue: "1"
 	}
 }
 
