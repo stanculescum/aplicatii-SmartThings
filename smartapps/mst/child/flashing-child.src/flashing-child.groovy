@@ -65,14 +65,14 @@ preferences {
 	}
 	page(name: "pageThree", title: "", nextPage: "custom") {
 		section("START event"){
-			input "numStartFlashes", "number", title: "This number of times (default 1)", required: false
-			input "onStart", "number", title: "On for (default 1000ms)", required: false
-			input "offStart", "number", title: "Off for (default 1000ms)", required: false
+			input "numStartFlashes", "number", title: "This number of times (default 1)", required: false, defaultValue: "1"
+			input "onStart", "number", title: "On for (default 1s)", required: false, defaultValue: "1"
+			input "offStart", "number", title: "Off for (default 1s)", required: false, defaultValue: "1"
 		}
 		section("STOP event"){
-			input "numStopFlashes", "number", title: "This number of times (default 3)", required: false
-			input "onStop", "number", title: "On for (default 1000ms)", required: false
-			input "offStop", "number", title: "Off for (default 1000ms)", required: false
+			input "numStopFlashes", "number", title: "This number of times (default 3)", required: false, defaultValue: "3"
+			input "onStop", "number", title: "On for (default 1s)", required: false, defaultValue: "1"
+			input "offStop", "number", title: "Off for (default 1s)", required: false, defaultValue: "1"
 		}
 	}
     page(name: "custom",title: "", install: true, uninstall: true) {
@@ -129,7 +129,11 @@ def subscribe() {
 
 def presenceHandler(evt) {
 	log.debug "presence $evt.value"
-	if (evt.value == "present") {
+	if (!checkConditions()) {
+    	log.debug("Conditions not met, skipping")
+    	return
+  	}
+    if (evt.value == "present") {
 		startflashLights()
 	} else if (evt.value == "not present") {
 		stopflashLights()
@@ -138,12 +142,20 @@ def presenceHandler(evt) {
 
 def motionActiveHandler(evt) {
 	log.debug "motion.active $evt.value"
-	startflashLights()
+	if (!checkConditions()) {
+    	log.debug("Conditions not met, skipping")
+    	return
+  	}
+    startflashLights()
 }
 
 def contactHandler(evt) {
 	log.debug "contact $evt.value"
-	if (evt.value == "open") {
+	if (!checkConditions()) {
+    	log.debug("Conditions not met, skipping")
+    	return
+  	}
+    if (evt.value == "open") {
 		startflashLights()
 	} else if (evt.value == "closed") {
 	stopflashLights()
@@ -152,7 +164,6 @@ def contactHandler(evt) {
 
 def switchHandler(evt) {
 	log.debug "switch $evt.value"
-    
     if (!checkConditions()) {
     	log.debug("Conditions not met, skipping")
     	return
@@ -167,7 +178,11 @@ def switchHandler(evt) {
 
 def valveHandler(evt) {
 	log.debug "valve $evt.value"
-	if (evt.value == "open") {
+	if (!checkConditions()) {
+    	log.debug("Conditions not met, skipping")
+    	return
+  	}
+    if (evt.value == "open") {
 		startflashLights()
 	} else if (evt.value == "closed") {
 		stopflashLights()
@@ -176,17 +191,29 @@ def valveHandler(evt) {
 
 def smokeDetectedHandler(evt) {
 	log.debug "smoke.detected $evt.value"
-	statflashLights()
+	if (!checkConditions()) {
+    	log.debug("Conditions not met, skipping")
+    	return
+  	}
+    statflashLights()
 }
 
 def carbonMonoxideDetectedHandler(evt) {
-	log.debug "carbonMonoxide.detected $evt.value"
+	if (!checkConditions()) {
+    	log.debug("Conditions not met, skipping")
+    	return
+  	}
+    log.debug "carbonMonoxide.detected $evt.value"
 	statflashLights()
 }
 
 def waterHandler(evt) {
 	log.debug "water $evt.value"
-	if (evt.value == "wet") {
+	if (!checkConditions()) {
+    	log.debug("Conditions not met, skipping")
+    	return
+  	}
+    if (evt.value == "wet") {
 		startflashLights()
 	} else if (evt.value == "dry") {
 		stopflashLights()
@@ -195,7 +222,11 @@ def waterHandler(evt) {
 
 def lockHandler(evt) {
 	log.debug "lock $evt.value"
-	if (evt.value == "locked") {
+    if (!checkConditions()) {
+    	log.debug("Conditions not met, skipping")
+    	return
+  	}
+    if (evt.value == "locked") {
 		startflashLights()
 	} else if (evt.value == "unlocked") {
 		stopflashLights()
@@ -204,7 +235,11 @@ def lockHandler(evt) {
 
 def buttonHandler(evt) {
 	log.debug "button $evt.value"
-	if (evt.value == "pushed") {
+	if (!checkConditions()) {
+    	log.debug("Conditions not met, skipping")
+    	return
+  	}
+    if (evt.value == "pushed") {
 		startflashLights()
 	} else if (evt.value == "held") {
 		stopflashLights()
@@ -228,8 +263,8 @@ private def checkConditions() {
 
 private startflashLights() {
 	def doStartFlash = true
-	def onStart = onStart ?: 1000
-	def offStart = offStart ?: 1000
+	def onStart = onStart * 1000 ?: 1000
+	def offStart = offStart * 1000 ?: 1000
 	def numStartFlashes = numStartFlashes ?: 1
 
 	log.debug "LAST ACTIVATED IS: ${state.lastActivated}"
@@ -273,8 +308,8 @@ private startflashLights() {
 
 private stopflashLights() {
 	def doStopFlash = true
-	def onStop = onStop ?: 1000
-	def offStop = offStop ?: 1000
+	def onStop = onStop * 1000 ?: 1000
+	def offStop = offStop * 1000 ?: 1000
 	def numStopFlashes = numStopFlashes ?: 3
 
 	log.debug "LAST ACTIVATED IS: ${state.lastActivated}"
