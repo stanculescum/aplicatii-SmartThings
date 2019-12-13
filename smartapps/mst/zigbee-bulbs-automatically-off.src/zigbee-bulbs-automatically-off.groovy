@@ -1,5 +1,5 @@
 /**
- *  ZigBee bulbs automatically off!
+ *  ZigBee Bulbs Automatically Off!
  *  Copyright 2019
  *
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
@@ -12,15 +12,15 @@
  *  for the specific language governing permissions and limitations under the License.
  *
  *  
- *  About: ZigBee bulbs are automatically off when the main power supply voltage is restored and no one is home.
+ *  About: ZigBee bulbs are automatically off when the main power supply voltage is restored and bulbs will be on, but no one is home.
  *  Version: v1.0 / 2019-12-12 - Initial Release
  *  Author: Mihail Stanculescu
  */
 definition(
-    name: "ZigBee bulbs automatically off!",
+    name: "ZigBee Bulbs Automatically Off!",
     namespace: "mST",
     author: "Mihail Stanculescu",
-    description: "ZigBee bulbs are automatically off when the main power supply voltage is restored and no one is home.",
+    description: "ZigBee bulbs are automatically off when the main power supply voltage is restored and bulbs will be on, but no one is home.",
     category: "My Apps",
     iconUrl: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/bulb-zigbee-icon.png",
     iconX2Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/bulb-zigbee-icon@2x.png",
@@ -72,5 +72,5 @@ def headerSECTION() {
 }
 
 private def textVersion() {
-    def text = "ZigBee bulbs are automatically off when the main power supply voltage is restored and no one is home.\nVersion: v1.0 / 2019-12-12"
+    def text = "ZigBee bulbs are automatically off when the main power supply voltage is restored and no one is home.\nVersion: v1.0 / 2019-12-12\n Copyright 2019 Mihail Stanculescu"
 }
