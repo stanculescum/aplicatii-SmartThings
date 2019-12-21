@@ -15,6 +15,7 @@
  */
 metadata {
     definition (name: "SmartWeather Station", namespace: "mST", author: "Mihail Stanculescu") {
+        capability "Atmospheric Pressure Measurement"
         capability "Illuminance Measurement"
         capability "Relative Humidity Measurement"
         capability "Temperature Measurement"
