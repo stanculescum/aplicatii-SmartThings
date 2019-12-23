@@ -67,9 +67,9 @@ def switchHandler(evt) {
         runIn(5, turnOffBulb)
         log.debug "Bulbs reset!"
 	}
-    else if (evt.value == "off") {
+    /**else if (evt.value == "off") {
 		hues*.off()
-	}
+	}*/
 }
 
 def turnOffBulb(){
