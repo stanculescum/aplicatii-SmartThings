@@ -17,24 +17,24 @@ definition(
     name: "ZigBee bulbs reset",
     namespace: "mST",
     author: "Mihail Stănculescu",
-    description: "ZigBee bulbs reset to custom default",
+    description: "ZigBee bulbs reset to custom default value (color and level)",
     category: "My Apps",
-    iconUrl: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/color-bulb.png",
-    iconX2Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/color-bulb@2x.png",
-    iconX3Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/color-bulb@2x.png")
+    iconUrl: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/reset-bulb.png",
+    iconX2Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/reset-bulb@2x.png",
+    iconX3Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/reset-bulb@2x.png")
 
 
 preferences {
-	section("Bulbs") {
+	section("ZigBee Bulbs:") {
         input "hues", "capability.colorControl", required: true, title: " "
     }
     section("Reset bulbs with this switch") {
         input "myswitch", "capability.switch", required: true, title: " "
     }
-    section("to color:") {
+    section("to default color:") {
         input "color", "enum", title: " ", required: true, multiple:false, options: ["Cold White","Warm White","Red","Orange","Yellow","Green","Blue","Purple","Pink"]
     }
-    section("and level:") {
+    section("and default level:") {
         input "blevel", "number", title: " ", required: true
     }
 }
@@ -64,10 +64,17 @@ def switchHandler(evt) {
     
 	if (evt.value == "on") {
 		takeAction()
+        runIn(5, turnOffBulb)
+        log.debug "Bulbs reset!"
 	}
     else if (evt.value == "off") {
 		hues*.off()
 	}
+}
+
+def turnOffBulb(){
+hues*.off()
+myswitch.off()
 }
 
 private takeAction() {
