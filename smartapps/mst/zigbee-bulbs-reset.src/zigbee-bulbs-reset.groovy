@@ -1,5 +1,5 @@
 /**
- *  ZigBee bulbs reset
+ *  ZigBee Bulbs Reset
  *
  *  Copyright 2019 Mihail Stănculescu
  *
@@ -14,10 +14,10 @@
  *
  */
 definition(
-    name: "ZigBee bulbs reset",
+    name: "ZigBee Bulbs Reset",
     namespace: "mST",
     author: "Mihail Stănculescu",
-    description: "ZigBee bulbs reset to custom default value (color and level)",
+    description: "ZigBee Bulbs wiil be reset to custom default value (color and level)",
     category: "My Apps",
     iconUrl: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/reset-bulb.png",
     iconX2Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/reset-bulb@2x.png",
