@@ -82,7 +82,6 @@ private takeAction() {
 	//Cold White
 	def hueColor = 15
     def saturation = 0
-    def level = mylevel
     
 	if(color == "Warm White"){
 		hueColor = 20
@@ -115,5 +114,8 @@ private takeAction() {
 	log.debug "new value = $newValue"
 
 	bulbs*.setColor(newValue)
+    
+    def level = mylevel
+    log.debug "new level = $level"
     bulbs*.setLevel(level)
 }
