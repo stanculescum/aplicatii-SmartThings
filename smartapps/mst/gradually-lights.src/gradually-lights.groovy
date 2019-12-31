@@ -59,7 +59,7 @@ preferences {
             input "levelSec", "number", title: "Seconds between change?", required: true, defaultValue:5
         }
         section("Options...") {
-			input "levelStep", "number", title: "Number of Hue steps per interval?", required: true, defaultValue:1
+			input "levelStep", "number", title: "Number of level steps per interval?", required: true, defaultValue:1
         }
 	}
 }
@@ -122,7 +122,7 @@ def nextLevel() {
 
 private def myRunIn(delay_s, func) {
     if (delay_s > 0) {
-        def tms = now() + (delay_s * 1000)
+        def tms = now() + (delay_s * 100)
         def date = new Date(tms)
         runOnce(date, func)
         log.trace("runOnce() scheduled for ${date}")
