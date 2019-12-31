@@ -103,17 +103,17 @@ def nextLevel() {
 	if (settings.levelStep < 1) { settings.levelStep = 1 }
 	if (settings.levelSec  < 1) { settings.levelSec  = 1 }
 	
-	//Loop through level (0-100)
+	//Loop through level (1-100)
     def previousLevelBulb = state.levelBulb as Integer
-    def levelBulb = 0
+    def levelBulb = 1
     if (previousLevelBulb == null) {
-    	levelBulb = 0
+    	levelBulb = 1
     } else if (previousLevelBulb >= 0 && previousLevelBulb < 100) {
     	levelBulb = (previousLevelBulb as Integer) + (settings.levelStep as Integer)
     } else {
-    	levelBulb = 0
+    	levelBulb = 1
     }
-	if (levelBulb > 100) { levelBulb = 0 }
+	if (levelBulb > 100) { levelBulb = 1 }
 	state.levelBulb = levelBulb
 
 	bulb*.setLevel(levelBulb)
