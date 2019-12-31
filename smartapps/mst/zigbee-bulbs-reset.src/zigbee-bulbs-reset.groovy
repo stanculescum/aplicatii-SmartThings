@@ -17,7 +17,7 @@ definition(
     name: "ZigBee Bulbs Reset",
     namespace: "mST",
     author: "Mihail Stănculescu",
-    description: "ZigBee Bulbs wiil be reset to custom default value (color and level)",
+    description: "ZigBee Bulbs will be reset to custom default value (color and level)",
     category: "My Apps",
     iconUrl: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/reset-bulb.png",
     iconX2Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/reset-bulb@2x.png",
@@ -26,16 +26,16 @@ definition(
 
 preferences {
 	section("ZigBee Bulbs:") {
-        input "hues", "capability.colorControl", required: true, title: " "
+        input "bulbs", "capability.colorControl", required: true, title: " "
     }
     section("Reset bulbs with this switch") {
         input "myswitch", "capability.switch", required: true, title: " "
     }
     section("to default color:") {
-        input "color", "enum", title: " ", required: true, multiple:false, options: ["Cold White","Warm White","Red","Orange","Yellow","Green","Blue","Purple","Pink"]
+        input "mycolor", "enum", title: " ", required: true, multiple:false, options: ["Cold White","Warm White","Red","Orange","Yellow","Green","Blue","Purple","Pink"]
     }
     section("and default level:") {
-        input "blevel", "number", title: " ", required: true
+        input "mylevel", "number", title: " ", required: true, defaultValue:50
     }
 }
 
@@ -64,16 +64,17 @@ def switchHandler(evt) {
     
 	if (evt.value == "on") {
 		takeAction()
+        //auto off in 5sec.
         runIn(5, turnOffBulb)
         log.debug "Bulbs reset!"
 	}
     /**else if (evt.value == "off") {
-		hues*.off()
+		bulbs*.off()
 	}*/
 }
 
 def turnOffBulb(){
-hues*.off()
+bulbs*.off()
 myswitch.off()
 }
 
@@ -81,7 +82,7 @@ private takeAction() {
 	//Cold White
 	def hueColor = 15
     def saturation = 0
-    def level = blevel
+    def level = mylevel
     
 	if(color == "Warm White"){
 		hueColor = 20
@@ -113,6 +114,6 @@ private takeAction() {
 	def newValue = [hue: hueColor, saturation: saturation]
 	log.debug "new value = $newValue"
 
-	hues*.setColor(newValue)
-    hues*.setLevel(level)
+	bulbs*.setColor(newValue)
+    bulbs*.setLevel(level)
 }
