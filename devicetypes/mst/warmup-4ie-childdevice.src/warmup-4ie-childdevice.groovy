@@ -18,9 +18,9 @@
 import groovy.time.TimeCategory 
 
 preferences {
-	input( "nbroom", "number", title: "Number of room \nexample: 0 is the first room declared by you in https://my.warmup.com", description: "room number", required: true )
-	input( "boostInterval", "number", title: "Boost Interval (minutes)", description: "Boost interval amount in minutes", required: false )
-	input( "boostTemp", "decimal", title: "Boost Temperature (5...32°C)", description: "Boost interval amount in Celsius degrees", required: false, range: "5..32" )
+	input( "nbroom", "number", title: "Room number \n#example: 0 is the first room declared by you in https://my.warmup.com", description: "Room number", defaultValue: 0, required: true, range: "0..256" )
+	input( "boostInterval", "number", title: "Boost Interval (minutes)", description: "Boost interval amount in minutes", required: false, defaultValue: 10 )
+	input( "boostTemp", "decimal", title: "Boost Temperature (5...32°C)", description: "Boost interval amount in Celsius degrees", required: false, defaultValue: 22, range: "5..32" )
 	input( "disableDevice", "bool", title: "Disable Warmup Heating Device?", required: false, defaultValue: false )
 }
 
