@@ -17,7 +17,7 @@ definition(
     name: "ZigBee Bulbs Reset",
     namespace: "mST",
     author: "Mihail Stănculescu",
-    description: "ZigBee Bulbs will be reset to custom default value (color and level)",
+    description: "ZigBee Bulbs will be reset to custom value (color and level)",
     category: "My Apps",
     iconUrl: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/reset-bulb.png",
     iconX2Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/reset-bulb@2x.png",
@@ -81,36 +81,36 @@ myswitch.off()
 private takeAction() {
 	//Cold White
 	def hueColor = 15
-    def saturation = 0
+    def saturationColor = 0
     
-	if(color == "Warm White"){
+	if(mycolor == "Warm White"){
 		hueColor = 20
-        saturation = 80}
-	else if(color == "Red"){
+        saturationColor = 80}
+	else if(mycolor == "Red"){
 		hueColor = 0
-        saturation = 100}
-	else if(color == "Orange"){
+        saturationColor = 100}
+	else if(mycolor == "Orange"){
 		hueColor = 15
-        saturation = 100}
-	else if(color == "Yellow"){
+        saturationColor = 100}
+	else if(mycolor == "Yellow"){
 		hueColor = 20
-        saturation = 100}
-	else if(color == "Green"){
+        saturationColor = 100}
+	else if(mycolor == "Green"){
 		hueColor = 35
-        saturation = 100}
-	else if(color == "Blue"){
+        saturationColor = 100}
+	else if(mycolor == "Blue"){
 		hueColor = 70
-        saturation = 100}
-    else if(color == "Purple"){
+        saturationColor = 100}
+    else if(mycolor == "Purple"){
 		hueColor = 80
-        saturation = 100}
-    else if(color == "Pink"){
+        saturationColor = 100}
+    else if(mycolor == "Pink"){
 		hueColor = 90
-        saturation = 100}
+        saturationColor = 100}
 
 	log.debug "current values = $state.previous"
 
-	def newValue = [hue: hueColor, saturation: saturation]
+	def newValue = [hue: hueColor, saturation: saturationColor]
 	log.debug "new value = $newValue"
 
 	bulbs*.setColor(newValue)
