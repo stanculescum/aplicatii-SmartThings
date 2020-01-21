@@ -26,10 +26,10 @@ definition(
 
 preferences {
 	section("ZigBee Bulbs:") {
-        input "bulbs", "capability.colorControl", required: true, title: " "
+        input "bulbs", "capability.colorControl", required: true, title: " ", multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/bulb.png"
     }
     section("Reset bulbs with this switch") {
-        input "myswitch", "capability.switch", required: true, title: " "
+        input "myswitch", "capability.switch", required: true, title: " ", multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/light-switch.png"
     }
     section("to default color:") {
         input "mycolor", "enum", title: " ", required: true, multiple:false, options: ["Cold White","Warm White","Red","Orange","Yellow","Green","Blue","Purple","Pink"]
