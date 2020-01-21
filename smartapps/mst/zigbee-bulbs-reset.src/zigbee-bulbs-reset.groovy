@@ -32,7 +32,7 @@ preferences {
         input "myswitch", "capability.switch", required: true, title: " ", multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/light-switch.png"
     }
     section("to default color:") {
-        input "mycolor", "enum", title: " ", required: true, multiple:false, options: ["Cold White","Warm White","Red","Orange","Yellow","Green","Blue","Purple","Pink"]
+        input "mycolor", "enum", title: " ", required: true, multiple:false, options: ["Cold White","Warm White","Red","Orange","Yellow","Green","Blue","Purple"]
     }
     section("and default level:") {
         input "mylevel", "number", title: " ", required: true, defaultValue:50
@@ -79,32 +79,32 @@ myswitch.off()
 }
 
 private takeAction() {
-	//Cold White
-	def hueColor = 15
-    def saturationColor = 0
+
+	def hueColor
+    def saturationColor
     
-	if(mycolor == "Warm White"){
+    if(mycolor == "Cold White"){
+		hueColor = 15
+        saturationColor = 0}
+	else if(mycolor == "Warm White"){
 		hueColor = 20
         saturationColor = 80}
 	else if(mycolor == "Red"){
 		hueColor = 0
         saturationColor = 100}
 	else if(mycolor == "Orange"){
-		hueColor = 15
+		hueColor = 13
         saturationColor = 100}
 	else if(mycolor == "Yellow"){
-		hueColor = 20
+		hueColor = 16
         saturationColor = 100}
 	else if(mycolor == "Green"){
-		hueColor = 35
+		hueColor = 34
         saturationColor = 100}
 	else if(mycolor == "Blue"){
-		hueColor = 70
+		hueColor = 65
         saturationColor = 100}
     else if(mycolor == "Purple"){
-		hueColor = 80
-        saturationColor = 100}
-    else if(mycolor == "Pink"){
 		hueColor = 90
         saturationColor = 100}
 
