@@ -14,6 +14,8 @@
  *  v1.0 / 2019-10-15 - Initial Release
  */
 
+//Definition - The defintion section of the SmartApp specifies the name of the app along with other information that identifies and describes it.
+
 definition(
     name: "Flashing-child",
     namespace: "mST/child",
@@ -26,13 +28,80 @@ definition(
     iconX3Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/flashing-light-bulb.png"
 )
 
+//Preferences - The preferences section is responsible for defining the screens that appear in the mobile app when a SmartApp is installed or updated.
+/**
 preferences {
-	page(name: "pageOne", title: "", nextPage: "pageTwo", uninstall: true){
-		section("These devices flashing"){
-			input "switches", "capability.switch", title: "The select switchs are", required: true, multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/light-switch.png"
+	section(hideWhenEmpty: true, "When any of the following devices trigger..."){
+		input "accelerationTrigger", "capability.accelerationSensor", title: "Acceleration Sensor?", required: false
+        input "contactTrigger", "capability.contactSensor", title: "Contact Sensor?", required: false
+        input "motionTrigger", "capability.motionSensor", title: "Motion Sensor?", required: false
+		input "presenceTrigger", "capability.presenceSensor", title: "Presence Sensor?", required: false
+		input "switchTrigger", "capability.switch", title: "Switch?", required: false
+		
+	}
+	section(hideWhenEmpty: true, "Then flash..."){
+		input "switches", "capability.switch", title: "These lights", multiple: true
+	}
+	section("Settings..."){
+		input "numFlashes", "number", title: "This number of times (default 3)", required: false
+        input "onFor", "number", title: "On for (default 1s)", required: false
+		input "offFor", "number", title: "Off for (default 1s)", required: false
+	}
+}
+*/
+
+preferences {
+	page(name: "triggerpage")
+	page(name: "actuatorpage")
+	page(name: "settingspage")
+	page(name: "timepage")
+}
+
+def triggerpage() {
+	dynamicPage(name: "triggerpage", title: "Page 1", nextPage: "actuatorpage", uninstall: true){
+    	section([title:"Name of child app", mobileOnly:true]) {
+			label title:"Assign a name for child app", required:true
 		}
-        section("Only") {
-      		input "conditions", "enum", title: "When?", options: ["always":"Always", "sunrise":"Sunrise to Sunset", "sunset":"Sunset to Sunrise", "custom":"Specify time (view last page)"], defaultValue: "always", image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/24_hours.png", submitOnChange: true
+        section(hideWhenEmpty: true, "When any of the following devices trigger..."){
+			input "accelerationTrigger", "capability.accelerationSensor", title: "Acceleration Sensor?", required: false
+        	input "contactTrigger", "capability.contactSensor", title: "Contact Sensor?", required: false
+        	input "motionTrigger", "capability.motionSensor", title: "Motion Sensor?", required: false
+			input "presenceTrigger", "capability.presenceSensor", title: "Presence Sensor?", required: false
+			input "switchTrigger", "capability.switch", title: "Switch?", required: false
+		}
+    }
+}
+
+def actuatorpage() {
+	dynamicPage(name: "actuatorpage", title: "Page 2", nextPage: "settingspage"){
+    	section(hideWhenEmpty: true, "These device flashing..."){
+			input "switches", "capability.switchLevel", title: " ", required: false, multiple: true, submitOnChange: true
+		}
+        if (switches) {
+            // Do something here like update a message on the screen, or introduce more inputs. "submitOnChange" will refresh the page and allow the user to see the changes immediately.
+
+            section("") {
+            	input "mycolor", "enum", title: "Choose color", required: false, multiple:false, options: ["None","Cold White","Warm White","Red","Orange","Yellow","Green","Blue","Purple","Pink"], defaultValue: "None", description: "None"
+            	input "mylevel", "number", title: "Choose level (1%...100%)", required: false, multiple:false, range: "1..100", defaultValue: "50"
+            }
+        }
+    }
+}
+
+def settingspage() {
+	dynamicPage(name: "settingspage", title: "Page 2", nextPage: "timepage"){
+    	section("Settings..."){
+			input "numFlashes", "number", title: "This number of times (default 3)", required: false
+        	input "onFor", "number", title: "On for (default 1s)", required: false
+			input "offFor", "number", title: "Off for (default 1s)", required: false
+		}
+    }
+}
+
+def timepage() {
+	dynamicPage(name: "timepage", title: "Page 4", install: true, uninstall: true){
+    	section("Only") {
+      		input "conditions", "enum", title: "When?", options: ["always":"Always", "sunrise":"Sunrise to Sunset", "sunset":"Sunset to Sunrise", "custom":"Custom time"], defaultValue: "always", image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/24_hours.png", submitOnChange: true
 
       		switch(conditions) {
         		case "always":
@@ -45,49 +114,25 @@ preferences {
 				break
       		}
     	}
-        section([title:"Name of child app", mobileOnly:true]) {
-			label title:"Assign a name for child app", required:true
-		}
-	}
-	page(name: "pageTwo", title: "", nextPage: "pageThree") {
-		section(hideWhenEmpty: true, "When any of the following devices trigger..."){
-			input "presence", "capability.presenceSensor", title: "Select Presence Sensors", required: false, multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/presence-sensor.png"
-			input "motion", "capability.motionSensor", title: "Select Motion Sensors", required: false, multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/motion-sensor.png"
-			input "contact", "capability.contactSensor", title: "Select Contact Sensors", required: false, multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/contact-sensor.png"
-			input "myswitch", "capability.switch", title: "SelectSwitchs", required: false, multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/light-switch.png"
-			input "valves", "capability.valve", title: "Select Valves", required: false, multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/valve.png"
-			input "smokeDetector", "capability.smokeDetector", title: "Select Smoke Detector", required: false, multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/smoke-detector.png"
-            input "carbonMonoxideDetector", "capability.carbonMonoxideDetector", title: "Select Carbon Monoxide Detector", required: false, multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/carbon-monoxide-sensor.png"
-			input "waterSensor", "capability.waterSensor", title: "Select Water Sensor", required: false, multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/water-sensor.png"
-			input "lock", "capability.lock", title: "Select Lock", required: false, multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/door-lock.png"
-            input "button", "capability.button", title: "Select Button", required: false, multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/button.png"
-		}
-	}
-	page(name: "pageThree", title: "", nextPage: "custom") {
-		section("START event"){
-			input "numStartFlashes", "number", title: "This number of times (default 1)", required: false, defaultValue: "1"
-			input "onStart", "number", title: "On for (default 1s)", required: false, defaultValue: "1"
-			input "offStart", "number", title: "Off for (default 1s)", required: false, defaultValue: "1"
-		}
-		section("STOP event"){
-			input "numStopFlashes", "number", title: "This number of times (default 3)", required: false, defaultValue: "3"
-			input "onStop", "number", title: "On for (default 1s)", required: false, defaultValue: "1"
-			input "offStop", "number", title: "Off for (default 1s)", required: false, defaultValue: "1"
-		}
-	}
-    page(name: "custom",title: "", install: true, uninstall: true) {
-    	section("If you have chosen >> Specify the time << enter the time below"){
-    		input "from", "time", title: "From", required: false
-			input "until", "time", title: "Until", required: false
+        if (conditions) {
+            switch(conditions) {
+        	case "custom":
+            	section("OPTION: only for Custom time"){
+    				input "from", "time", title: "From", required: false
+					input "until", "time", title: "Until", required: false
+        		}
+            }
     	}
     }
 }
 
+//Pre-defined callbacks - The following methods, if present, are automatically called at various times during the lifecycle of a SmartApp:
+//Called when a SmartApp is first installed.
 def installed() {
 	log.debug "Installed with settings: ${settings}"
 	subscribe()
 }
-
+//Called when the preferences of an installed smart app are updated.
 def updated() {
 	log.debug "Updated with settings: ${settings}"
 	unsubscribe()
@@ -95,71 +140,48 @@ def updated() {
 }
 
 def subscribe() {
-	if (presence) {
-		subscribe(presence, "presence", presenceHandler)
+	if (accelerationTrigger) {
+		subscribe(accelerationTrigger, "acceleration.active", accelerationActiveHandler)
 	}
-	if (motion) {
-		subscribe(motion, "motion.active", motionActiveHandler)
+	if (contactTrigger) {
+		subscribe(contactTrigger, "contact.open", contactOpenHandler)
 	}
-	if (contact) {
-		subscribe(contact, "contact", contactHandler)
+	if (motionTrigger) {
+		subscribe(motionTrigger, "motion.active", motionActiveHandler)
 	}
-	if (myswitch) {
-		subscribe(myswitch, "switch", switchHandler)
+	if (presenceTrigger) {
+		subscribe(presenceTrigger, "presence", presenceHandler)
 	}
-	if (valves) {
-		subscribe(valves, "valve", valveHandler)
+    if (switchTrigger) {
+		subscribe(switchTrigger, "switch", switchHandler)
 	}
-	if (smokeDetector) {
-		subscribe(smokeDetector, "smoke.detected", smokeDetectedHandler)
-	}
-    if (carbonMonoxideDetector) {
-		subscribe(carbonMonoxideDetector, "carbonMonoxide.detected", carbonMonoxideDetectedHandler)
-	}
-	if (waterSensor) {
-		subscribe(waterSensor, "water", waterHandler)
-	}
-	if (lock) {
-		subscribe(lock, "lock", lockHandler)
-	}
-    if (button) {
-		subscribe(button, "button", buttonHandler)
-	}
+	
+}
+
+//Event Handlers
+
+def accelerationActiveHandler(evt) {
+	log.debug "acceleration $evt.value"
+	flashLights()
+}
+
+def contactOpenHandler(evt) {
+	log.debug "contact $evt.value"
+	flashLights()
+}
+
+def motionActiveHandler(evt) {
+	log.debug "motion $evt.value"
+	flashLights()
 }
 
 def presenceHandler(evt) {
 	log.debug "presence $evt.value"
-	if (!checkConditions()) {
-    	log.debug("Conditions not met, skipping")
-    	return
-  	}
-    if (evt.value == "present") {
-		startflashLights()
+	if (evt.value == "present") {
+		flashLights()
 	} else if (evt.value == "not present") {
-		stopflashLights()
+		flashLights()
 	}
-}
-
-def motionActiveHandler(evt) {
-	log.debug "motion.active $evt.value"
-	if (!checkConditions()) {
-    	log.debug("Conditions not met, skipping")
-    	return
-  	}
-    startflashLights()
-}
-
-def contactHandler(evt) {
-	log.debug "contact $evt.value"
-	if (!checkConditions()) {
-    	log.debug("Conditions not met, skipping")
-    	return
-  	}
-    if (evt.value == "open") {
-		startflashLights()
-	} else if (evt.value == "closed") {
-	stopflashLights()
-    }
 }
 
 def switchHandler(evt) {
@@ -169,82 +191,14 @@ def switchHandler(evt) {
     	return
   	}
 	if (evt.value == "on") {
-		startflashLights()
+		flashLights()
 	}
     else if (evt.value == "off") {
-		stopflashLights()
+		flashLights()
 	}
 }
 
-def valveHandler(evt) {
-	log.debug "valve $evt.value"
-	if (!checkConditions()) {
-    	log.debug("Conditions not met, skipping")
-    	return
-  	}
-    if (evt.value == "open") {
-		startflashLights()
-	} else if (evt.value == "closed") {
-		stopflashLights()
-	}
-}
-
-def smokeDetectedHandler(evt) {
-	log.debug "smoke.detected $evt.value"
-	if (!checkConditions()) {
-    	log.debug("Conditions not met, skipping")
-    	return
-  	}
-    statflashLights()
-}
-
-def carbonMonoxideDetectedHandler(evt) {
-	if (!checkConditions()) {
-    	log.debug("Conditions not met, skipping")
-    	return
-  	}
-    log.debug "carbonMonoxide.detected $evt.value"
-	statflashLights()
-}
-
-def waterHandler(evt) {
-	log.debug "water $evt.value"
-	if (!checkConditions()) {
-    	log.debug("Conditions not met, skipping")
-    	return
-  	}
-    if (evt.value == "wet") {
-		startflashLights()
-	} else if (evt.value == "dry") {
-		stopflashLights()
-	}
-}
-
-def lockHandler(evt) {
-	log.debug "lock $evt.value"
-    if (!checkConditions()) {
-    	log.debug("Conditions not met, skipping")
-    	return
-  	}
-    if (evt.value == "locked") {
-		startflashLights()
-	} else if (evt.value == "unlocked") {
-		stopflashLights()
-	}
-}
-
-def buttonHandler(evt) {
-	log.debug "button $evt.value"
-	if (!checkConditions()) {
-    	log.debug("Conditions not met, skipping")
-    	return
-  	}
-    if (evt.value == "pushed") {
-		startflashLights()
-	} else if (evt.value == "held") {
-		stopflashLights()
-	}
-}
+//==========
 
 private def checkConditions() {
   switch(conditions) {
@@ -261,27 +215,70 @@ private def checkConditions() {
   }
 }
 
-private startflashLights() {
-	def doStartFlash = true
-	def onStart = onStart * 1000 ?: 1000
-	def offStart = offStart * 1000 ?: 1000
-	def numStartFlashes = numStartFlashes ?: 1
+private flashLights() {
+	
+    def hueColor = ""
+    def saturationColor = ""
+    
+    if(mycolor == "Cold White"){
+		hueColor = 15
+        saturationColor = 0}
+	else if(mycolor == "Warm White"){
+		hueColor = 20
+        saturationColor = 80}
+	else if(mycolor == "Red"){
+		hueColor = 0
+        saturationColor = 100}
+	else if(mycolor == "Orange"){
+		hueColor = 15
+        saturationColor = 100}
+	else if(mycolor == "Yellow"){
+		hueColor = 20
+        saturationColor = 100}
+	else if(mycolor == "Green"){
+		hueColor = 35
+        saturationColor = 100}
+	else if(mycolor == "Blue"){
+		hueColor = 65
+        saturationColor = 100}
+    else if(mycolor == "Purple"){
+		hueColor = 80
+        saturationColor = 100}
+    else if(mycolor == "Pink"){
+		hueColor = 90
+        saturationColor = 100}
+
+	log.debug "current values = $state.previous"
+
+	def newValue = [hue: hueColor, saturation: saturationColor]
+	log.debug "new value = $newValue"
+
+	switches*.setColor(newValue)
+    
+    def level = mylevel
+    log.debug "new level = $level"
+    switches*.setLevel(level)
+    
+    def doFlash = true
+	def onFor = onFor * 1000 ?: 1000
+	def offFor = offFor * 1000 ?: 1000
+	def numFlashes = numFlashes ?: 3
 
 	log.debug "LAST ACTIVATED IS: ${state.lastActivated}"
 	if (state.lastActivated) {
 		def elapsed = now() - state.lastActivated
-		def sequenceTime = (numStartFlashes + 1) * (onStart + offStart)
-		doStartFlash = elapsed > sequenceTime
-		log.debug "DO FLASH: $doStartFlash, ELAPSED: $elapsed, LAST ACTIVATED: ${state.lastActivated}"
+		def sequenceTime = (numFlashes + 1) * (onFor + offFor)
+		doFlash = elapsed > sequenceTime
+		log.debug "DO FLASH: $doFlash, ELAPSED: $elapsed, LAST ACTIVATED: ${state.lastActivated}"
 	}
 
-	if (doStartFlash) {
-		log.debug "FLASHING $numStartFlashes times"
+	if (doFlash) {
+		log.debug "FLASHING $numFlashes times"
 		state.lastActivated = now()
 		log.debug "LAST ACTIVATED SET TO: ${state.lastActivated}"
 		def initialActionOn = switches.collect{it.currentSwitch != "on"}
 		def delay = 0L
-		numStartFlashes.times {
+		numFlashes.times {
 			log.trace "Switch on after  $delay msec"
 			switches.eachWithIndex {s, i ->
 				if (initialActionOn[i]) {
@@ -291,7 +288,7 @@ private startflashLights() {
 					s.off(delay:delay)
 				}
 			}
-			delay += onStart
+			delay += onFor
 			log.trace "Switch off after $delay msec"
 			switches.eachWithIndex {s, i ->
 				if (initialActionOn[i]) {
@@ -301,52 +298,7 @@ private startflashLights() {
 					s.on(delay:delay)
 				}
 			}
-			delay += offStart
-		}
-	}
-}
-
-private stopflashLights() {
-	def doStopFlash = true
-	def onStop = onStop * 1000 ?: 1000
-	def offStop = offStop * 1000 ?: 1000
-	def numStopFlashes = numStopFlashes ?: 3
-
-	log.debug "LAST ACTIVATED IS: ${state.lastActivated}"
-	if (state.lastActivated) {
-		def elapsed = now() - state.lastActivated
-		def sequenceTime = (numStopFlashes + 1) * (onStop + offStop)
-		doStopFlash = elapsed > sequenceTime
-		log.debug "DO FLASH: $doStopFlash, ELAPSED: $elapsed, LAST ACTIVATED: ${state.lastActivated}"
-	}
-
-	if (doStopFlash) {
-		log.debug "FLASHING $numStopFlashes times"
-		state.lastActivated = now()
-		log.debug "LAST ACTIVATED SET TO: ${state.lastActivated}"
-		def initialActionOn = switches.collect{it.currentSwitch != "on"}
-		def delay = 0L
-		numStopFlashes.times {
-			log.trace "Switch on after  $delay msec"
-			switches.eachWithIndex {s, i ->
-				if (initialActionOn[i]) {
-					s.on(delay: delay)
-				}
-				else {
-					s.off(delay:delay)
-				}
-			}
-			delay += onStop
-			log.trace "Switch off after $delay msec"
-			switches.eachWithIndex {s, i ->
-				if (initialActionOn[i]) {
-					s.off(delay: delay)
-				}
-				else {
-					s.on(delay:delay)
-				}
-			}
-			delay += offStop
+			delay += offFor
 		}
 	}
 }
