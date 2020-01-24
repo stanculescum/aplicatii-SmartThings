@@ -29,26 +29,6 @@ definition(
 )
 
 //Preferences - The preferences section is responsible for defining the screens that appear in the mobile app when a SmartApp is installed or updated.
-/**
-preferences {
-	section(hideWhenEmpty: true, "When any of the following devices trigger..."){
-		input "accelerationTrigger", "capability.accelerationSensor", title: "Acceleration Sensor?", required: false
-        input "contactTrigger", "capability.contactSensor", title: "Contact Sensor?", required: false
-        input "motionTrigger", "capability.motionSensor", title: "Motion Sensor?", required: false
-		input "presenceTrigger", "capability.presenceSensor", title: "Presence Sensor?", required: false
-		input "switchTrigger", "capability.switch", title: "Switch?", required: false
-		
-	}
-	section(hideWhenEmpty: true, "Then flash..."){
-		input "switches", "capability.switch", title: "These lights", multiple: true
-	}
-	section("Settings..."){
-		input "numFlashes", "number", title: "This number of times (default 3)", required: false
-        input "onFor", "number", title: "On for (default 1s)", required: false
-		input "offFor", "number", title: "Off for (default 1s)", required: false
-	}
-}
-*/
 
 preferences {
 	page(name: "triggerpage")
@@ -63,11 +43,11 @@ def triggerpage() {
 			label title:"Assign a name for child app", required:true
 		}
         section(hideWhenEmpty: true, "When any of the following devices trigger..."){
-			input "accelerationTrigger", "capability.accelerationSensor", title: "Acceleration Sensor?", required: false
-        	input "contactTrigger", "capability.contactSensor", title: "Contact Sensor?", required: false
-        	input "motionTrigger", "capability.motionSensor", title: "Motion Sensor?", required: false
-			input "presenceTrigger", "capability.presenceSensor", title: "Presence Sensor?", required: false
-			input "switchTrigger", "capability.switch", title: "Switch?", required: false
+			input "accelerationTrigger", "capability.accelerationSensor", title: "Acceleration Sensor?", required: false, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/attention-icon.png"
+        	input "contactTrigger", "capability.contactSensor", title: "Contact Sensor?", required: false, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/contact-sensor.png"
+        	input "motionTrigger", "capability.motionSensor", title: "Motion Sensor?", required: false, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/motion-sensor.png"
+			input "presenceTrigger", "capability.presenceSensor", title: "Presence Sensor?", required: false, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/presence-sensor.png"
+			input "switchTrigger", "capability.switch", title: "Switch?", required: false, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/light-switch.png"
 		}
     }
 }
@@ -75,7 +55,7 @@ def triggerpage() {
 def actuatorpage() {
 	dynamicPage(name: "actuatorpage", title: "Page 2", nextPage: "settingspage"){
     	section(hideWhenEmpty: true, "These device flashing..."){
-			input "switches", "capability.switchLevel", title: " ", required: false, multiple: true, submitOnChange: true
+			input "switches", "capability.switchLevel", title: " ", required: false, multiple: true, submitOnChange: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/color-bulb.png"
 		}
         if (switches) {
             // Do something here like update a message on the screen, or introduce more inputs. "submitOnChange" will refresh the page and allow the user to see the changes immediately.
