@@ -12,7 +12,6 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  *
- *  v1.1 / 2019-11-05 - Adding time conditions (always, day, night and custom)
  *  v1.0 / 2019-10-15 - Initial Release
  */
 definition(
@@ -29,15 +28,11 @@ definition(
 preferences {
     // The parent app preferences are pretty simple: just use the app input for the child app.
     page(name: "mainPage", title: "Content", install: true, uninstall: true, submitOnChange: true) {
-        section {
-            app(name: "Flash", appName: "Flashing-child", namespace: "mST/child", title: "Create a new automation", multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/start-button.png")
-		}
-        
-        section([title: "Other Options", mobileOnly: true]) {
-            label title: "Assign a name for the app (optional)", required: false
-        }
         section("About") { 
 			headerSECTION()
+		}
+        section {
+            app(name: "Flash", appName: "Flashing-child", namespace: "mST/child", title: "Create a new automation", multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/start-button.png")
 		}
     }
 }
