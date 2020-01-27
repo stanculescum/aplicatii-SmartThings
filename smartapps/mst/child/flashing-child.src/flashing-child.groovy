@@ -10,6 +10,7 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  *
+ *  v1.3 / 2020-01-27 - Adding presence condition (Home, Away)
  *  v1.2 / 2020-01-20 - Dynamic preferences
  *  v1.1 / 2019-11-05 - Adding time conditions (always, day, night and custom)
  *  v1.0 / 2019-10-15 - Initial Release
@@ -43,13 +44,40 @@ def triggerpage() {
     	section([title:"Name of child app", mobileOnly:true]) {
 			label title:"Assign a name for child app", required:true
 		}
-        section(hideWhenEmpty: true, "When any of the following devices trigger..."){
-			input "accelerationTrigger", "capability.accelerationSensor", title: "Acceleration Sensor?", required: false, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/accelerate-icon.png"
-        	input "contactTrigger", "capability.contactSensor", title: "Contact Sensor?", required: false, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/contact-sensor.png"
-        	input "motionTrigger", "capability.motionSensor", title: "Motion Sensor?", required: false, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/motion-sensor.png"
-			input "presenceTrigger", "capability.presenceSensor", title: "Presence Sensor?", required: false, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/presence-sensor.png"
-			input "switchTrigger", "capability.switch", title: "Switch?", required: false, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/light-switch.png"
+        section("When any of the following devices trigger...") {
+    	}
+        section(hideWhenEmpty: true, " "){
+			input "accelerationTrigger", "capability.accelerationSensor", title: "Acceleration Sensor?", required: false, multiple: true, submitOnChange: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/accelerate-icon.png"
 		}
+        if (accelerationTrigger) {
+            section("") {
+            	input "accelerationValue", "enum", title: " ", required: true, multiple:false, options: ["active","inactive"], defaultValue: "active"
+            }
+        }
+        section(hideWhenEmpty: true, " "){
+        	input "contactTrigger", "capability.contactSensor", title: "Contact Sensor?", required: false, multiple: true, submitOnChange: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/contact-sensor.png"
+		}
+        if (contactTrigger) {
+            section("") {
+            	input "contactValue", "enum", title: " ", required: true, multiple:false, options: ["open","closed"], defaultValue: "open"
+            }
+        }
+        section(hideWhenEmpty: true, " "){
+        	input "motionTrigger", "capability.motionSensor", title: "Motion Sensor?", required: false, multiple: true, submitOnChange: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/motion-sensor.png"
+		}
+        if (motionTrigger) {
+            section("") {
+            	input "motionValue", "enum", title: " ", required: true, multiple:false, options: ["active","inactive"], defaultValue: "active"
+            }
+        }
+        section(hideWhenEmpty: true, " "){
+			input "switchTrigger", "capability.switch", title: "Switch Sensor?", required: false, multiple: true, submitOnChange: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/light-switch.png"
+		}
+        if (switchTrigger) {
+            section("") {
+            	input "switchValue", "enum", title: " ", required: true, multiple:false, options: ["on","off"], defaultValue: "on"
+            }
+        }
     }
 }
 
@@ -91,7 +119,7 @@ def settingspage() {
 def timepage() {
 	dynamicPage(name: "timepage", title: " ", install: true, uninstall: true){
     	section("Only") {
-      		input "conditions", "enum", title: "When?", options: ["always":"Always", "sunrise":"Sunrise to Sunset", "sunset":"Sunset to Sunrise", "custom":"Custom time"], defaultValue: "always", image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/24_hours.png", submitOnChange: true
+      		input "conditions", "enum", title: "When?", options: ["always":"Always", "sunrise":"Sunrise to Sunset", "sunset":"Sunset to Sunrise", "custom":"Custom time", "presence": "Presence"], defaultValue: "always", image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/24_hours.png", submitOnChange: true
       		switch(conditions) {
         		case "always":
           		break
@@ -101,6 +129,8 @@ def timepage() {
                 break
                 case "custom":
 				break
+                case "presence":
+				break
       		}
     	}
         if (conditions) {
@@ -109,6 +139,19 @@ def timepage() {
             	section("OPTION: only for Custom time"){
     				input "from", "time", title: "From", required: false
 					input "until", "time", title: "Until", required: false
+        		}
+            }
+    	}
+        if (conditions) {
+            switch(conditions) {
+        	case "presence":
+            	section("Presence"){
+    				input "presence", "capability.presenceSensor", title: "Presence Sensor", required: false, multiple: true, submitOnChange: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/presence-sensor.png"
+				}
+        		if (presence) {
+            		section("") {
+            			input "presenceValue", "enum", title: " ", required: true, multiple:false, options: ["present":"Home","not present":"Away"], defaultValue: "present"
+            		}
         		}
             }
     	}
@@ -138,9 +181,6 @@ def subscribe() {
 	if (motionTrigger) {
 		subscribe(motionTrigger, "motion.active", motionActiveHandler)
 	}
-	if (presenceTrigger) {
-		subscribe(presenceTrigger, "presence", presenceHandler)
-	}
     if (switchTrigger) {
 		subscribe(switchTrigger, "switch", switchHandler)
 	}
@@ -151,24 +191,33 @@ def subscribe() {
 
 def accelerationActiveHandler(evt) {
 	log.debug "acceleration $evt.value"
-	flashLights()
+	if (!checkConditions()) {
+    	log.debug("Conditions not met, skipping")
+    	return
+  	}
+	if (evt.value == accelerationValue) {
+		flashLights()
+	}
 }
 
 def contactOpenHandler(evt) {
 	log.debug "contact $evt.value"
-	flashLights()
+	if (!checkConditions()) {
+    	log.debug("Conditions not met, skipping")
+    	return
+  	}
+	if (evt.value == contactValue) {
+		flashLights()
+	}
 }
 
 def motionActiveHandler(evt) {
 	log.debug "motion $evt.value"
-	flashLights()
-}
-
-def presenceHandler(evt) {
-	log.debug "presence $evt.value"
-	if (evt.value == "present") {
-		flashLights()
-	} else if (evt.value == "not present") {
+	if (!checkConditions()) {
+    	log.debug("Conditions not met, skipping")
+    	return
+  	}
+	if (evt.value == motionValue) {
 		flashLights()
 	}
 }
@@ -179,10 +228,9 @@ def switchHandler(evt) {
     	log.debug("Conditions not met, skipping")
     	return
   	}
-	if (evt.value == "on") {
-		flashLights()
-	}
-    else if (evt.value == "off") {
+    def mypresenceValue = presence.find{it.currentPresence == presenceValue}
+    log.debug mypresenceValue
+	if (evt.value == switchValue && mypresenceValue) {
 		flashLights()
 	}
 }
@@ -191,16 +239,18 @@ def switchHandler(evt) {
 
 private def checkConditions() {
   switch(conditions) {
-    case "always":
-      return true
-    case "sunset":
-      def day = getSunriseAndSunset()
-      return timeOfDayIsBetween(day.sunset, day.sunrise, new Date(), location.timeZone)
+	case "always":
+    	return true
+	case "sunset":
+    	def day = getSunriseAndSunset()
+      	return timeOfDayIsBetween(day.sunset, day.sunrise, new Date(), location.timeZone)
     case "sunrise":
-      def night = getSunriseAndSunset()
-      return timeOfDayIsBetween(night.sunrise, night.sunset, new Date(), location.timeZone)
+      	def night = getSunriseAndSunset()
+      	return timeOfDayIsBetween(night.sunrise, night.sunset, new Date(), location.timeZone)
     case "custom":
-      return timeOfDayIsBetween(from, until, new Date(), location.timeZone)
+      	return timeOfDayIsBetween(from, until, new Date(), location.timeZone)
+    case "presence":
+    	return true
   }
 }
 
