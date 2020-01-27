@@ -72,5 +72,5 @@ def headerSECTION() {
 }
 
 private def textVersion() {
-    def text = "ZigBee bulbs are automatically off when the main power supply voltage is restored and bulbs will be on, but no one is home.\nVersion: v1.0 / 2019-12-12\n Copyright 2019 Mihail Stanculescu"
+    def text = "ZigBee bulbs are auto power off when the main power supply voltage is restored and bulbs will be on, but no one is home.\nVersion: v1.0 / 2019-12-12\n Copyright 2019 Mihail Stanculescu"
 }
