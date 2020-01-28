@@ -55,6 +55,14 @@ def triggerpage() {
             }
         }
         section(hideWhenEmpty: true, " "){
+			input "buttonTrigger", "capability.button", title: "Button?", required: false, multiple: true, submitOnChange: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/button.png"
+		}
+        if (buttonTrigger) {
+            section("") {
+            	input "buttonValue", "enum", title: " ", required: true, multiple:false, options: ["pushed","held"], defaultValue: "pushed"
+            }
+        }
+        section(hideWhenEmpty: true, " "){
         	input "contactTrigger", "capability.contactSensor", title: "Contact Sensor?", required: false, multiple: true, submitOnChange: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/contact-sensor.png"
 		}
         if (contactTrigger) {
@@ -71,11 +79,19 @@ def triggerpage() {
             }
         }
         section(hideWhenEmpty: true, " "){
-			input "switchTrigger", "capability.switch", title: "Switch Sensor?", required: false, multiple: true, submitOnChange: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/light-switch.png"
+			input "switchTrigger", "capability.switch", title: "Switch?", required: false, multiple: true, submitOnChange: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/light-switch.png"
 		}
         if (switchTrigger) {
             section("") {
             	input "switchValue", "enum", title: " ", required: true, multiple:false, options: ["on","off"], defaultValue: "on"
+            }
+        }
+        section(hideWhenEmpty: true, " "){
+			input "windowShadeTrigger", "capability.windowShade", title: "Window Shade?", required: false, multiple: true, submitOnChange: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/window-shade.png"
+		}
+        if (windowShadeTrigger) {
+            section("") {
+            	input "windowShadeValue", "enum", title: " ", required: true, multiple:false, options: ["open","closed"], defaultValue: "open"
             }
         }
     }
@@ -175,6 +191,9 @@ def subscribe() {
 	if (accelerationTrigger) {
 		subscribe(accelerationTrigger, "acceleration", accelerationHandler)
 	}
+    if (buttonTrigger) {
+		subscribe(buttonTrigger, "button", buttonHandler)
+	}
 	if (contactTrigger) {
 		subscribe(contactTrigger, "contact", contactHandler)
 	}
@@ -184,7 +203,9 @@ def subscribe() {
     if (switchTrigger) {
 		subscribe(switchTrigger, "switch", switchHandler)
 	}
-	
+    if (windowShadeTrigger) {
+		subscribe(windowShadeTrigger, "windowShade", windowShadeHandler)
+	}
 }
 
 //Event Handlers
@@ -198,6 +219,19 @@ def accelerationHandler(evt) {
     def mypresenceValue = presence.find{it.currentPresence == presenceValue}
     log.debug mypresenceValue
 	if (evt.value == accelerationValue && mypresenceValue) {
+		flashLights()
+	}
+}
+
+def buttonHandler(evt) {
+	log.debug "button $evt.value"
+	if (!checkConditions()) {
+    	log.debug("Conditions not met, skipping")
+    	return
+  	}
+    def mypresenceValue = presence.find{it.currentPresence == presenceValue}
+    log.debug mypresenceValue
+	if (evt.value == buttonValue && mypresenceValue) {
 		flashLights()
 	}
 }
@@ -237,6 +271,19 @@ def switchHandler(evt) {
     def mypresenceValue = presence.find{it.currentPresence == presenceValue}
     log.debug mypresenceValue
 	if (evt.value == switchValue && mypresenceValue) {
+		flashLights()
+	}
+}
+
+def windowShadeHandler(evt) {
+	log.debug "windowShade $evt.value"
+    if (!checkConditions()) {
+    	log.debug("Conditions not met, skipping")
+    	return
+  	}
+    def mypresenceValue = presence.find{it.currentPresence == presenceValue}
+    log.debug mypresenceValue
+	if (evt.value == windowShadeValue && mypresenceValue) {
 		flashLights()
 	}
 }
