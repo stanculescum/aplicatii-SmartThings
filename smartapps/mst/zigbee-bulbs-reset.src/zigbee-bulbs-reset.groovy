@@ -12,6 +12,7 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  *
+ *  v1.0 - ZigBee Bulbs will be reset to custom value (color and level)
  */
 definition(
     name: "ZigBee Bulbs Reset",
@@ -87,8 +88,8 @@ private takeAction() {
 		hueColor = 15
         saturationColor = 0}
 	else if(mycolor == "Warm White"){
-		hueColor = 20
-        saturationColor = 80}
+		hueColor = 14
+        saturationColor = 53}
 	else if(mycolor == "Red"){
 		hueColor = 0
         saturationColor = 100}
