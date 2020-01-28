@@ -164,7 +164,7 @@ def timepage() {
             	section("Presence"){
     				input "userpresence", "capability.presenceSensor", title: "Presence Sensor", required: false, multiple: true, submitOnChange: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/presence-sensor.png"
 				}
-        		if (presence) {
+        		if (userpresence) {
             		section("") {
             			input "userpresenceValue", "enum", title: " ", required: true, multiple:false, options: ["present":"Home","not present":"Away"], defaultValue: "present"
             		}
