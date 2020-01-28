@@ -173,13 +173,13 @@ def updated() {
 
 def subscribe() {
 	if (accelerationTrigger) {
-		subscribe(accelerationTrigger, "acceleration.active", accelerationActiveHandler)
+		subscribe(accelerationTrigger, "acceleration", accelerationHandler)
 	}
 	if (contactTrigger) {
-		subscribe(contactTrigger, "contact.open", contactOpenHandler)
+		subscribe(contactTrigger, "contact", contactHandler)
 	}
 	if (motionTrigger) {
-		subscribe(motionTrigger, "motion.active", motionActiveHandler)
+		subscribe(motionTrigger, "motion", motionHandler)
 	}
     if (switchTrigger) {
 		subscribe(switchTrigger, "switch", switchHandler)
@@ -189,35 +189,41 @@ def subscribe() {
 
 //Event Handlers
 
-def accelerationActiveHandler(evt) {
+def accelerationHandler(evt) {
 	log.debug "acceleration $evt.value"
 	if (!checkConditions()) {
     	log.debug("Conditions not met, skipping")
     	return
   	}
-	if (evt.value == accelerationValue) {
+    def mypresenceValue = presence.find{it.currentPresence == presenceValue}
+    log.debug mypresenceValue
+	if (evt.value == accelerationValue && mypresenceValue) {
 		flashLights()
 	}
 }
 
-def contactOpenHandler(evt) {
+def contactHandler(evt) {
 	log.debug "contact $evt.value"
 	if (!checkConditions()) {
     	log.debug("Conditions not met, skipping")
     	return
   	}
-	if (evt.value == contactValue) {
+    def mypresenceValue = presence.find{it.currentPresence == presenceValue}
+    log.debug mypresenceValue
+	if (evt.value == contactValue && mypresenceValue) {
 		flashLights()
 	}
 }
 
-def motionActiveHandler(evt) {
+def motionHandler(evt) {
 	log.debug "motion $evt.value"
 	if (!checkConditions()) {
     	log.debug("Conditions not met, skipping")
     	return
   	}
-	if (evt.value == motionValue) {
+    def mypresenceValue = presence.find{it.currentPresence == presenceValue}
+    log.debug mypresenceValue
+	if (evt.value == motionValue && mypresenceValue) {
 		flashLights()
 	}
 }
