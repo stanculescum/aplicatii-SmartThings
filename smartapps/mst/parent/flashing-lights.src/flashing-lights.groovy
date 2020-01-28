@@ -62,5 +62,5 @@ def headerSECTION() {
 }
 
 private def textVersion() {
-    def text = "This application creates flashing lights automation.\nFlashing light in response to motion, an open/close event, an on/off switch, or lock/unlock door\nVersion: v1.1 / 2019-11-05"
+    def text = "This application creates flashing lights.\nThe flashing light is in response to an event\nVersion: v1.1 / 2019-11-05"
 }
