@@ -162,11 +162,11 @@ def timepage() {
             switch(conditions) {
         	case "presence":
             	section("Presence"){
-    				input "presence", "capability.presenceSensor", title: "Presence Sensor", required: false, multiple: true, submitOnChange: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/presence-sensor.png"
+    				input "userpresence", "capability.presenceSensor", title: "Presence Sensor", required: false, multiple: true, submitOnChange: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/presence-sensor.png"
 				}
         		if (presence) {
             		section("") {
-            			input "presenceValue", "enum", title: " ", required: true, multiple:false, options: ["present":"Home","not present":"Away"], defaultValue: "present"
+            			input "userpresenceValue", "enum", title: " ", required: true, multiple:false, options: ["present":"Home","not present":"Away"], defaultValue: "present"
             		}
         		}
             }
@@ -213,7 +213,7 @@ def subscribe() {
 def accelerationHandler(evt) {
 	log.debug "acceleration $evt.value"
 	if (!checkConditions()) {
-    	log.debug("Conditions not met, skipping")
+    	log.debug("Conditions met")
     	return
   	}
 	if (evt.value == accelerationValue) {
@@ -224,7 +224,7 @@ def accelerationHandler(evt) {
 def buttonHandler(evt) {
 	log.debug "button $evt.value"
 	if (!checkConditions()) {
-    	log.debug("Conditions not met, skipping")
+    	log.debug("Conditions met")
     	return
   	}
 	if (evt.value == buttonValue) {
@@ -235,7 +235,7 @@ def buttonHandler(evt) {
 def contactHandler(evt) {
 	log.debug "contact $evt.value"
 	if (!checkConditions()) {
-    	log.debug("Conditions not met, skipping")
+    	log.debug("Conditions met")
     	return
   	}
 	if (evt.value == contactValue) {
@@ -246,7 +246,7 @@ def contactHandler(evt) {
 def motionHandler(evt) {
 	log.debug "motion $evt.value"
 	if (!checkConditions()) {
-    	log.debug("Conditions not met, skipping")
+    	log.debug("Conditions met")
     	return
   	}
 	if (evt.value == motionValue) {
@@ -257,7 +257,7 @@ def motionHandler(evt) {
 def switchHandler(evt) {
 	log.debug "switch $evt.value"
     if (!checkConditions()) {
-    	log.debug("Conditions not met, skipping")
+    	log.debug("Conditions met")
     	return
   	}
 	if (evt.value == switchValue) {
@@ -268,7 +268,7 @@ def switchHandler(evt) {
 def windowShadeHandler(evt) {
 	log.debug "windowShade $evt.value"
     if (!checkConditions()) {
-    	log.debug("Conditions not met, skipping")
+    	log.debug("Conditions met")
     	return
   	}
 	if (evt.value == windowShadeValue) {
@@ -291,7 +291,7 @@ private def checkConditions() {
     case "custom":
       	return timeOfDayIsBetween(from, until, new Date(), location.timeZone)
     case "presence":
-    	if (presence.find{it.currentPresence == presenceValue}){
+    	if (userpresence.find{it.currentPresence == userpresenceValue}){
     	return true
         }
   }
@@ -309,7 +309,7 @@ private flashLights() {
 		hueColor = 14
         saturationColor = 53}
 	else if(bulbcolor == "Red"){
-		hueColor = 0
+		hueColor = 1
         saturationColor = 100}
 	else if(bulbcolor == "Orange"){
 		hueColor = 15
