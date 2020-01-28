@@ -269,8 +269,8 @@ private flashLights() {
 		hueColor = 15
         saturationColor = 0}
 	else if(bulbcolor == "Warm White"){
-		hueColor = 20
-        saturationColor = 80}
+		hueColor = 14
+        saturationColor = 53}
 	else if(bulbcolor == "Red"){
 		hueColor = 0
         saturationColor = 100}
