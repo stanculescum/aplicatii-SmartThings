@@ -216,9 +216,7 @@ def accelerationHandler(evt) {
     	log.debug("Conditions not met, skipping")
     	return
   	}
-    def mypresenceValue = presence.find{it.currentPresence == presenceValue}
-    log.debug mypresenceValue
-	if (evt.value == accelerationValue && mypresenceValue) {
+	if (evt.value == accelerationValue) {
 		flashLights()
 	}
 }
@@ -229,9 +227,7 @@ def buttonHandler(evt) {
     	log.debug("Conditions not met, skipping")
     	return
   	}
-    def mypresenceValue = presence.find{it.currentPresence == presenceValue}
-    log.debug mypresenceValue
-	if (evt.value == buttonValue && mypresenceValue) {
+	if (evt.value == buttonValue) {
 		flashLights()
 	}
 }
@@ -242,9 +238,7 @@ def contactHandler(evt) {
     	log.debug("Conditions not met, skipping")
     	return
   	}
-    def mypresenceValue = presence.find{it.currentPresence == presenceValue}
-    log.debug mypresenceValue
-	if (evt.value == contactValue && mypresenceValue) {
+	if (evt.value == contactValue) {
 		flashLights()
 	}
 }
@@ -255,9 +249,7 @@ def motionHandler(evt) {
     	log.debug("Conditions not met, skipping")
     	return
   	}
-    def mypresenceValue = presence.find{it.currentPresence == presenceValue}
-    log.debug mypresenceValue
-	if (evt.value == motionValue && mypresenceValue) {
+	if (evt.value == motionValue) {
 		flashLights()
 	}
 }
@@ -268,9 +260,7 @@ def switchHandler(evt) {
     	log.debug("Conditions not met, skipping")
     	return
   	}
-    def mypresenceValue = presence.find{it.currentPresence == presenceValue}
-    log.debug mypresenceValue
-	if (evt.value == switchValue && mypresenceValue) {
+	if (evt.value == switchValue) {
 		flashLights()
 	}
 }
@@ -281,9 +271,7 @@ def windowShadeHandler(evt) {
     	log.debug("Conditions not met, skipping")
     	return
   	}
-    def mypresenceValue = presence.find{it.currentPresence == presenceValue}
-    log.debug mypresenceValue
-	if (evt.value == windowShadeValue && mypresenceValue) {
+	if (evt.value == windowShadeValue) {
 		flashLights()
 	}
 }
@@ -303,7 +291,9 @@ private def checkConditions() {
     case "custom":
       	return timeOfDayIsBetween(from, until, new Date(), location.timeZone)
     case "presence":
+    	if (presence.find{it.currentPresence == presenceValue}){
     	return true
+        }
   }
 }
 
