@@ -132,7 +132,7 @@ private takeAction() {
 
 	state.previous = [:]
 
-	bulbs.each {
+	bulbs*.each {
 		state.previous[it.id] = [
 			"switch": it.currentValue("switch"),
 			"level" : it.currentValue("level"),
