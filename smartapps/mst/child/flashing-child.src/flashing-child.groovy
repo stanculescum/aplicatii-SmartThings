@@ -188,7 +188,9 @@ def installed() {
 //Called when the preferences of an installed smart app are updated.
 def updated() {
 	log.debug "Updated with settings: ${settings}"
+    
 	unsubscribe()
+    unschedule()
 	subscribe()
 }
 
