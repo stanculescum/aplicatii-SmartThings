@@ -56,6 +56,7 @@ def updated() {
 	log.debug "Updated with settings: ${settings}"
 
 	unsubscribe()
+    unschedule()
 	initialize()
 }
 
