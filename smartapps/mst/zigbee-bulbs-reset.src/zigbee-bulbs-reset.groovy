@@ -32,11 +32,17 @@ preferences {
     section("Reset bulbs with this switch") {
         input "myswitch", "capability.switch", required: true, title: " ", multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/light-switch.png"
     }
-    section("to default color:") {
-        input "mycolor", "enum", title: " ", required: true, multiple:false, options: ["Cold White","Warm White","Red","Orange","Yellow","Green","Blue","Purple"]
+    section("to color:") {
+        input "mycolor", "enum", title: " ", required: true, multiple:false, options: [
+					["Soft White":"Soft White - Default"],
+					["White":"White - Concentrate"],
+					["Daylight":"Daylight - Energize"],
+					["Warm White":"Warm White - Relax"],
+					"Red","Green","Blue","Yellow","Orange","Purple"],
+                    defaultValue: "Soft White"
     }
-    section("and default level:") {
-        input "mylevel", "number", title: " ", required: true, defaultValue:50
+    section("and level:") {
+        input "mylevel", "number", title: " ", required: true, description: "1...100", range: "1..100", defaultValue: "50"
     }
 }
 
@@ -69,9 +75,6 @@ def switchHandler(evt) {
         runIn(5, turnOffBulb)
         log.debug "Bulbs reset!"
 	}
-    /**else if (evt.value == "off") {
-		bulbs*.off()
-	}*/
 }
 
 def turnOffBulb(){
@@ -81,37 +84,66 @@ myswitch.off()
 
 private takeAction() {
 
-	def hueColor
-    def saturationColor
+	def hueColor = 15
+	def saturation = 0
     
-    if(mycolor == "Cold White"){
-		hueColor = 15
-        saturationColor = 0}
-	else if(mycolor == "Warm White"){
-		hueColor = 14
-        saturationColor = 53}
-	else if(mycolor == "Red"){
-		hueColor = 0
-        saturationColor = 100}
-	else if(mycolor == "Orange"){
-		hueColor = 13
-        saturationColor = 100}
-	else if(mycolor == "Yellow"){
-		hueColor = 16
-        saturationColor = 100}
-	else if(mycolor == "Green"){
-		hueColor = 34
-        saturationColor = 100}
-	else if(mycolor == "Blue"){
-		hueColor = 65
-        saturationColor = 100}
-    else if(mycolor == "Purple"){
-		hueColor = 90
-        saturationColor = 100}
+    switch(mycolor) {
+		case "White":
+			hueColor = 15
+			saturation = 0
+			break;
+		case "Daylight":
+			hueColor = 50
+			saturation = 85
+			break;
+		case "Soft White":
+			hueColor = 20
+			saturation = 30
+			break;
+		case "Warm White":
+			hueColor = 20
+			saturation = 80
+			break;
+		case "Blue":
+			hueColor = 65
+            saturation = 100
+			break;
+		case "Green":
+			hueColor = 35
+            saturation = 100
+			break;
+		case "Yellow":
+			hueColor = 17
+            saturation = 100
+			break;
+		case "Orange":
+			hueColor = 6
+            saturation = 100
+			break;
+		case "Purple":
+			hueColor = 83
+            saturation = 100
+			break;
+		case "Red":
+			hueColor = 2
+            saturation = 100
+			break;
+	}
+
+	state.previous = [:]
+
+	bulbs.each {
+		state.previous[it.id] = [
+			"switch": it.currentValue("switch"),
+			"level" : it.currentValue("level"),
+			"hue": it.currentValue("hue"),
+			"saturation": it.currentValue("saturation")
+		]
+	}
 
 	log.debug "current values = $state.previous"
 
-	def newValue = [hue: hueColor, saturation: saturationColor]
+	def newValue = [hue: hueColor, saturation: saturation]
 	log.debug "new value = $newValue"
 
 	bulbs*.setColor(newValue)
