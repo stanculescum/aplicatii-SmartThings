@@ -126,7 +126,7 @@ private takeAction() {
             saturation = 100
 			break;
 		case "Red":
-			hueColor = 2
+			hueColor = 1
             saturation = 100
 			break;
 	}
