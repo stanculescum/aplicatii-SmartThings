@@ -38,7 +38,7 @@ preferences {
 					["White":"White - Concentrate"],
 					["Daylight":"Daylight - Energize"],
 					["Warm White":"Warm White - Relax"],
-					"Red","Green","Blue","Yellow","Orange","Purple"],
+					"Red","Orange","Yellow","Green","Cyan","Blue","Purple"],
                     defaultValue: "Soft White"
     }
     section("and level:") {
@@ -123,6 +123,10 @@ private takeAction() {
 			break;
 		case "Purple":
 			hueColor = 83
+            saturation = 100
+			break;
+        case "Cyan":
+			hueColor = 50
             saturation = 100
 			break;
 		case "Red":
