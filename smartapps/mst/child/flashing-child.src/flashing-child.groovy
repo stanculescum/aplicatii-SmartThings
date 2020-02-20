@@ -10,6 +10,7 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  *
+ *	v1.4 / 2020-02-20 - Adding Presence Sensor
  *  v1.3 / 2020-01-27 - Adding presence condition (Home, Away)
  *  v1.2 / 2020-01-20 - Dynamic preferences
  *  v1.1 / 2019-11-05 - Adding time conditions (always, day, night and custom)
@@ -76,6 +77,14 @@ def triggerpage() {
         if (motionTrigger) {
             section("") {
             	input "motionValue", "enum", title: " ", required: true, multiple:false, options: ["active","inactive"], defaultValue: "active"
+            }
+        }
+        section(hideWhenEmpty: true, " "){
+        	input "presenceTrigger", "capability.presenceSensor", title: "Presence Sensor?", required: false, multiple: true, submitOnChange: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/presence-sensor.png"
+		}
+        if (presenceTrigger) {
+            section("") {
+            	input "presenceValue", "enum", title: " ", required: true, multiple:false, options: ["present","not present"], defaultValue: "present"
             }
         }
         section(hideWhenEmpty: true, " "){
@@ -207,6 +216,9 @@ def subscribe() {
 	if (motionTrigger) {
 		subscribe(motionTrigger, "motion", motionHandler)
 	}
+    if (presenceTrigger) {
+		subscribe(presenceTrigger, "presence", presenceHandler)
+	}
     if (switchTrigger) {
 		subscribe(switchTrigger, "switch", switchHandler)
 	}
@@ -257,6 +269,17 @@ def motionHandler(evt) {
     	return
   	}
 	if (evt.value == motionValue) {
+		flashLights()
+	}
+}
+
+def presenceHandler(evt) {
+	log.debug "presence $evt.value"
+	if (!checkConditions()) {
+    	log.debug("Conditions met")
+    	return
+  	}
+	if (evt.value == presenceValue) {
 		flashLights()
 	}
 }
