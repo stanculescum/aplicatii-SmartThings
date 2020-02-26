@@ -348,6 +348,7 @@ private send(map) {
 private estimateLux(obs, sunriseDate, sunsetDate) {
     def lux = 0
     if (obs.dayOrNight == 'N') {
+        //night
         lux = 10
     }
     else {
@@ -362,12 +363,15 @@ private estimateLux(obs, sunriseDate, sunsetDate) {
             case 27..28:
                 lux = 2500
                 break
-            case 29..30:
+            case 29:
                 lux = 7500
+                break
+            case 30:
+                lux = 10000
                 break
             default:
                 //sunny, clear
-                lux = 10000
+                lux = 100000
         }
 
         //adjust for dusk/dawn
