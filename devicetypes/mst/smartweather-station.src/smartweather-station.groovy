@@ -10,6 +10,7 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  *
+ *	v1.2 - 2019/11/22 - Add visibility and cloud cover phrase
  *  v1.1 - 2019/11/22 - Add atmospheric pressure and tendency 
  *  v1.0 - 2019/10/21 - Initial Release
  */
@@ -37,6 +38,9 @@ metadata {
         attribute "windVector", "string"
         attribute "uvDescription", "string"
         attribute "percentPrecip", "string"
+        attribute "visibility", "string"
+        attribute "cloudCoverPhrase", "string"
+        attribute "iconCode", "string"
         attribute "weatherIcon", "string"
         attribute "forecastIcon", "string"
         attribute "alert", "string"
@@ -259,7 +263,10 @@ def pollUsingZipCode(String zipCode) {
         send(name: "localSunrise", value: localSunrise, descriptionText: "Sunrise today is at $localSunrise")
         send(name: "localSunset", value: localSunset, descriptionText: "Sunset today at is $localSunset")
         send(name: "illuminance", value: estimateLux(obs, sunriseDate, sunsetDate))
-
+        send(name: "visibility", value: obs.visibility)
+		send(name: "iconCode", value: obs.iconCode)
+        send(name: "cloudCoverPhrase", value: obs.cloudCoverPhrase)
+		
 		// Forecast
         def f = getTwcForecast(zipCode)
         if (f) {
@@ -354,7 +361,7 @@ private estimateLux(obs, sunriseDate, sunsetDate) {
     else {
         //day
         switch(obs.iconCode) {
-            case 4:
+            case 3..4:
                 lux = 200
                 break
             case 5..26:
@@ -363,15 +370,16 @@ private estimateLux(obs, sunriseDate, sunsetDate) {
             case 27..28:
                 lux = 2500
                 break
-            case 29:
+            case 29..30:
                 lux = 7500
                 break
-            case 30:
+            case 34:
                 lux = 10000
                 break
-            default:
+            case 32:
                 //sunny, clear
                 lux = 100000
+                break
         }
 
         //adjust for dusk/dawn
