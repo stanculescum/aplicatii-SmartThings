@@ -10,7 +10,7 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  *
- *	v1.2 - 2019/11/22 - Add visibility and cloud cover phrase
+ *	v1.2 - 2020/02/26 - Add visibility and cloud cover phrase
  *  v1.1 - 2019/11/22 - Add atmospheric pressure and tendency 
  *  v1.0 - 2019/10/21 - Initial Release
  */
