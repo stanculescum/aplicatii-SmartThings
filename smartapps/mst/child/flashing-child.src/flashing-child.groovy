@@ -10,6 +10,7 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  *
+ *  v1.5 / 2020-05-03 - Adding Water Sensor
  *	v1.4 / 2020-02-20 - Adding Presence Sensor
  *  v1.3 / 2020-01-27 - Adding presence condition (Home, Away)
  *  v1.2 / 2020-01-20 - Dynamic preferences
@@ -101,6 +102,14 @@ def triggerpage() {
         if (windowShadeTrigger) {
             section("") {
             	input "windowShadeValue", "enum", title: " ", required: true, multiple:false, options: ["open","closed"], defaultValue: "open"
+            }
+        }
+        section(hideWhenEmpty: true, " "){
+			input "waterSensorTrigger", "capability.waterSensor", title: "Water Sensor?", required: false, multiple: true, submitOnChange: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/water-sensor.png"
+		}
+        if (waterSensorTrigger) {
+            section("") {
+            	input "waterSensorValue", "enum", title: " ", required: true, multiple:false, options: ["dry","wet"], defaultValue: "dry"
             }
         }
     }
@@ -225,6 +234,9 @@ def subscribe() {
     if (windowShadeTrigger) {
 		subscribe(windowShadeTrigger, "windowShade", windowShadeHandler)
 	}
+    if (waterSensorTrigger) {
+		subscribe(waterSensorTrigger, "waterSensor", waterSensorHandler)
+	}
 }
 
 //Event Handlers
@@ -302,6 +314,17 @@ def windowShadeHandler(evt) {
     	return
   	}
 	if (evt.value == windowShadeValue) {
+		flashLights()
+	}
+}
+
+def waterSensorHandler(evt) {
+	log.debug "waterSensor $evt.value"
+    if (!checkConditions()) {
+    	log.debug("Conditions met")
+    	return
+  	}
+	if (evt.value == waterSensorValue) {
 		flashLights()
 	}
 }
