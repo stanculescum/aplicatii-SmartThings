@@ -28,11 +28,11 @@ definition(
 preferences {
     // The parent app preferences are pretty simple: just use the app input for the child app.
     page(name: "mainPage", title: "Content", install: true, uninstall: true, submitOnChange: true) {
-        section("About") { 
-			headerSECTION()
-		}
         section {
             app(name: "Flash", appName: "Flashing-child", namespace: "mST/child", title: "Create a new automation", multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/start-button.png")
+		}
+        section("About") { 
+			headerSECTION()
 		}
     }
 }
