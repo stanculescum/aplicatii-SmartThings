@@ -104,11 +104,11 @@ def pageMain() {
         }*/
 
     	section("Content") {
-            href "pageStatus", title: "Dashboard", description: "Tap to see the status of devices", params: [refresh: true], image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/device-monitor-icon.png"
-            href "pageConfigure", title: "Configure Devices", description: "Tap to manage your list of devices", image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/configuration.png"
-            href "pageSettings", title: "Settings", description: "Tap to manage app settings", image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/settings-icon.png"
-            href "pageExclusions", title: "Exclusions Devices", description: "Tap to manage device exclusions", image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/exclusion-icon.png"
-            href "pageStatus", title: "Reset", description: "Tap to reset the stored device info in this app. Useful if a \"ghost\" device is being tracked.", params: [refresh: true, reset: true], image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/reset-icon.png"
+            href "pageStatus", title: "Dashboard", description: "Tap to see the status of devices", params: [refresh: true]
+            href "pageConfigure", title: "Configure Devices", description: "Tap to manage your list of devices"
+            href "pageSettings", title: "Settings", description: "Tap to manage app settings"
+            href "pageExclusions", title: "Exclusions Devices", description: "Tap to manage device exclusions"
+            href "pageStatus", title: "Reset", description: "Tap to reset the stored device info in this app. Useful if a \"ghost\" device is being tracked.", params: [refresh: true, reset: true]
     	}
         section("About") { 
 			headerSECTION()
