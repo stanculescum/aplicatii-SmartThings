@@ -65,7 +65,7 @@ def triggerpage() {
             }
         }
         section(hideWhenEmpty: true, " "){
-        	input "contactTrigger", "capability.contactSensor", title: "Contact Sensor?", required: false, multiple: true, submitOnChange: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/contact-sensor.png"
+        	input "contactTrigger", "capability.contactSensor", title: "Contact Sensor", required: false, multiple: true, submitOnChange: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/contact-sensor.png"
 		}
         if (contactTrigger) {
             section("") {
@@ -73,7 +73,7 @@ def triggerpage() {
             }
         }
         section(hideWhenEmpty: true, " "){
-        	input "motionTrigger", "capability.motionSensor", title: "Motion Sensor?", required: false, multiple: true, submitOnChange: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/motion-sensor.png"
+        	input "motionTrigger", "capability.motionSensor", title: "Motion Sensor", required: false, multiple: true, submitOnChange: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/motion-sensor.png"
 		}
         if (motionTrigger) {
             section("") {
@@ -81,7 +81,7 @@ def triggerpage() {
             }
         }
         section(hideWhenEmpty: true, " "){
-        	input "presenceTrigger", "capability.presenceSensor", title: "Presence Sensor?", required: false, multiple: true, submitOnChange: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/presence-sensor.png"
+        	input "presenceTrigger", "capability.presenceSensor", title: "Presence Sensor", required: false, multiple: true, submitOnChange: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/presence-sensor.png"
 		}
         if (presenceTrigger) {
             section("") {
@@ -89,7 +89,7 @@ def triggerpage() {
             }
         }
         section(hideWhenEmpty: true, " "){
-			input "switchTrigger", "capability.switch", title: "Switch?", required: false, multiple: true, submitOnChange: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/light-switch.png"
+			input "switchTrigger", "capability.switch", title: "Switch", required: false, multiple: true, submitOnChange: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/light-switch.png"
 		}
         if (switchTrigger) {
             section("") {
@@ -97,7 +97,7 @@ def triggerpage() {
             }
         }
         section(hideWhenEmpty: true, " "){
-			input "windowShadeTrigger", "capability.windowShade", title: "Window Shade?", required: false, multiple: true, submitOnChange: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/window-shade.png"
+			input "windowShadeTrigger", "capability.windowShade", title: "Window Shade", required: false, multiple: true, submitOnChange: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/window-shade.png"
 		}
         if (windowShadeTrigger) {
             section("") {
@@ -105,7 +105,7 @@ def triggerpage() {
             }
         }
         section(hideWhenEmpty: true, " "){
-			input "waterSensorTrigger", "capability.waterSensor", title: "Water Sensor?", required: false, multiple: true, submitOnChange: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/water-sensor.png"
+			input "waterSensorTrigger", "capability.waterSensor", title: "Water Sensor", required: false, multiple: true, submitOnChange: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/water-sensor.png"
 		}
         if (waterSensorTrigger) {
             section("") {
@@ -235,7 +235,7 @@ def subscribe() {
 		subscribe(windowShadeTrigger, "windowShade", windowShadeHandler)
 	}
     if (waterSensorTrigger) {
-		subscribe(waterSensorTrigger, "waterSensor", waterSensorHandler)
+		subscribe(waterSensorTrigger, "water", waterSensorHandler)
 	}
 }
 
@@ -319,7 +319,7 @@ def windowShadeHandler(evt) {
 }
 
 def waterSensorHandler(evt) {
-	log.debug "waterSensor $evt.value"
+	log.debug "water $evt.value"
     if (!checkConditions()) {
     	log.debug("Conditions met")
     	return
