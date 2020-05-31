@@ -736,7 +736,7 @@ Default setting: 18 (18C)
     </Value>
     <Value type="byte" index="87" label="Maximum temperature resulting in red LED illumination" min="0" max="255" value="28">
 <Help>
-This parameter is relevant only when parameter 80 has beenproperly configured.
+This parameter is relevant only when parameter 80 has been properly configured.
 Available settings: parameter 86 value to 255 (degrees Celsius)
 Default setting: 28 (28C)
 </Help>
