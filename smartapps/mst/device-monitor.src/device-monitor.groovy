@@ -61,9 +61,9 @@ definition(
     author: "Mihail Stanculescu",
     description: "SmartApp that monitors selected devices; notification if one has stopped reporting",
     category: "My Apps",
-    iconUrl: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/monitor-icon.png",
-    iconX2Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/monitor-icon-2x.png",
-    iconX3Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/monitor-icon-3x.png")
+    iconUrl: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/device-monitor-icon.png",
+    iconX2Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/device-monitor-icon@2x.png",
+    iconX3Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/device-monitor-icon@2x.png")
 
 
 preferences {
