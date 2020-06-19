@@ -10,11 +10,12 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  *
- *  v1.5 / 2020-05-03 - Adding Water Sensor
- *	v1.4 / 2020-02-20 - Adding Presence Sensor
- *  v1.3 / 2020-01-27 - Adding presence condition (Home, Away)
+ *  v1.6 / 2020-06-19 - Added switch actuator
+ *  v1.5 / 2020-05-03 - Added Water Sensor
+ *	v1.4 / 2020-02-20 - Added Presence Sensor
+ *  v1.3 / 2020-01-27 - Added presence condition (Home, Away)
  *  v1.2 / 2020-01-20 - Dynamic preferences
- *  v1.1 / 2019-11-05 - Adding time conditions (always, day, night and custom)
+ *  v1.1 / 2019-11-05 - Added time conditions (always, day, night and custom)
  *  v1.0 / 2019-10-15 - Initial Release
  */
 
@@ -117,7 +118,10 @@ def triggerpage() {
 
 def actuatorpage() {
 	dynamicPage(name: "actuatorpage", title: " ", nextPage: "settingspage"){
-    	section(hideWhenEmpty: true, "These dimmers flashing..."){
+    	section(hideWhenEmpty: true, "These switches flashing..."){
+            input "switches", "capability.switch", title: " ", required: false, multiple: true, submitOnChange: false, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/light-switch.png"
+        }
+        section(hideWhenEmpty: true, "These dimmers flashing..."){
             input "dimmers", "capability.switchLevel", title: " ", required: false, multiple: true, submitOnChange: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/dimmer-icon.png"
         }
         if (dimmers) {
@@ -148,9 +152,9 @@ def actuatorpage() {
 def settingspage() {
 	dynamicPage(name: "settingspage", title: " ", nextPage: "timepage"){
     	section("Settings..."){
-			input "numFlashes", "number", title: "This number of times (default 3)", required: false
-        	input "onFor", "number", title: "On for (default 1s)", required: false
-			input "offFor", "number", title: "Off for (default 1s)", required: false
+			input "numFlashes", "number", title: "This number of times (default 3)", defaultValue: "3", required: false
+        	input "onFor", "number", title: "On for (default 3s)", defaultValue: "3", required: false
+			input "offFor", "number", title: "Off for (default 3s)", defaultValue: "3", required: false
 		}
     }
 }
@@ -417,20 +421,19 @@ private flashLights() {
 
 	def newValue = [hue: hueColor, saturation: saturation]
 	log.debug "new value = $newValue"
-
 	bulbs*.setColor(newValue)
     
     def blevel = bulblevel
-    log.debug "new level = $level"
+    log.debug "new level = $blevel"
     bulbs*.setLevel(blevel)
     
     def dlevel = dimmerlevel
-    log.debug "new level = $level"
+    log.debug "new level = $dlevel"
     dimmers*.setLevel(dlevel)
     
     def doFlash = true
-	def onFor = onFor * 1000 ?: 1000
-	def offFor = offFor * 1000 ?: 1000
+	def onFor = onFor * 1000 ?: 3000
+	def offFor = offFor * 1000 ?: 3000
 	def numFlashes = numFlashes ?: 3
 
 	log.debug "LAST ACTIVATED IS: ${state.lastActivated}"
@@ -461,6 +464,37 @@ private flashLights() {
 			delay += onFor
 			log.trace "Switch off after $delay msec"
 			dflash.eachWithIndex {s, i ->
+				if (initialActionOn[i]) {
+					s.off(delay: delay)
+				}
+				else {
+					s.on(delay:delay)
+				}
+			}
+			delay += offFor
+		}
+	}
+    
+    def sflash = switches
+	if (doFlash) {
+		log.debug "FLASHING $numFlashes times"
+		state.lastActivated = now()
+		log.debug "LAST ACTIVATED SET TO: ${state.lastActivated}"
+		def initialActionOn = sflash.collect{it.currentSwitch != "on"}
+		def delay = 0L
+		numFlashes.times {
+			log.trace "Switch on after  $delay msec"
+			sflash.eachWithIndex {s, i ->
+				if (initialActionOn[i]) {
+					s.on(delay: delay)
+				}
+				else {
+					s.off(delay:delay)
+				}
+			}
+			delay += onFor
+			log.trace "Switch off after $delay msec"
+			sflash.eachWithIndex {s, i ->
 				if (initialActionOn[i]) {
 					s.off(delay: delay)
 				}
