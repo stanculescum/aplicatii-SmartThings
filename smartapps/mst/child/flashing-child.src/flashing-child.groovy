@@ -138,7 +138,7 @@ def actuatorpage() {
 					["Daylight":"Daylight - Energize"],
 					["Warm White":"Warm White - Relax"],
 					"Red","Orange","Yellow","Green","Cyan","Blue","Purple"],
-                    defaultValue: "Soft White", image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/color-icon.PNG"
+                    defaultValue: "Soft White", image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/color-icon.png"
                 input "bulblevel", "number", title: "Level", description: "1...100", required: false, multiple:false, range: "1..100", defaultValue: "50", image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/level-icon.png"
             }
         }
