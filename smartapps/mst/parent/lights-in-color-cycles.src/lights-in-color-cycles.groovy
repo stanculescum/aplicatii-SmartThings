@@ -30,7 +30,7 @@ preferences {
     // The parent app preferences are pretty simple: just use the app input for the child app.
     page(name: "mainPage", title: "Content", install: true, uninstall: true, submitOnChange: true) {
         section {
-            app(name: "Lights in color cycles", appName: "Lights in color cycles-child", namespace: "mST/child", title: "Create a new automation", multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/start-button.png")
+            app(name: "Lights color cycles", appName: "Lights in color cycles-child", namespace: "mST/child", title: "Create a new automation", multiple: true, image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/start-button.png")
 		}
         section("About") { 
 			headerSECTION()
