@@ -150,7 +150,6 @@ private takeAction() {
 
 	def newValue = [hue: hueColor, saturation: saturation]
 	log.debug "new value = $newValue"
-
 	bulbs*.setColor(newValue)
     
     def level = mylevel
