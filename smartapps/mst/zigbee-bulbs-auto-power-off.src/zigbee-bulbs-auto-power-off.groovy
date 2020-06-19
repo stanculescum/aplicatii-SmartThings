@@ -33,7 +33,7 @@ preferences {
 			headerSECTION()
 	}
     section("The following ZigBee bulbs...") {
-		input "bulb1", "capability.switch", title: " ", multiple: true, required: true
+		input "bulb1", "capability.colorControl", title: " ", multiple: true, required: true
 	}
     section("When they are not home..."){
 		input "presence1", "capability.presenceSensor", title: " ", multiple: true, required: true
