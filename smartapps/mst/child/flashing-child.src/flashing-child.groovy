@@ -377,7 +377,7 @@ private flashLights() {
 			saturation = 80
 			break;
 		case "Blue":
-			hueColor = 66
+			hueColor = 67
             saturation = 100
 			break;
 		case "Green":
