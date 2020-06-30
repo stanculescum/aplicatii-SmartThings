@@ -170,16 +170,16 @@ metadata {
 def installed() {
 	log.debug "Executing 'installed'"
 	state.desiredHeatSetpoint = 7
-	// execute handlerMethod every 1 minute.
-	runEvery1Minute(poll)
+	// execute handlerMethod every 5 minutes.
+	runEvery5Minutes(poll)
 	sendEvent(name: "checkInterval", value: 20 * 60 + 2 * 60, data: [protocol: "cloud"], displayed: false)
 }
 
 def updated() {
 	log.debug "Executing 'updated'"
-	// execute handlerMethod every 1 minute.
+	// execute handlerMethod every 5 minutes.
 	unschedule()
-	runEvery1Minute(poll)
+	runEvery5Minutes(poll)
 	sendEvent(name: "checkInterval", value: 20 * 60 + 2 * 60, data: [protocol: "cloud"], displayed: false)
 }
 
