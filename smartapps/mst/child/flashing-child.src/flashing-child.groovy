@@ -1,5 +1,5 @@
 /**
- *  Flashing Child SmartApp for SmartThings
+ *  Flashing-child SmartApp for SmartThings
  *
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  *  in compliance with the License. You may obtain a copy of the License at:
@@ -27,7 +27,7 @@ definition(
     author: "Mihail Stanculescu",
     description: "Flashing light in response to presence/motion, an open/close event, an on/off switch, or lock/unlock door",
     category: "My Apps",
-    parent: "mST/parent:Flashing Lights",
+    parent: "mST/parent:Flashing",
     iconUrl: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/flashing-light-bulb.png",
     iconX2Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/flashing-light-bulb.png",
     iconX3Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/flashing-light-bulb.png"
