@@ -41,6 +41,24 @@ def triggerpage() {
         section("Monitor access") {
 			input "contactdevices", "capability.contactSensor", title: "Open/close contact sensors", multiple: true, required: false
 		}
+        section("Monitor movement") {
+			input "motiondevices", "capability.motionSensor", title: "Motion sensors", multiple: true, required: false
+		}
+//==========================================
+        section("Monitor temperature") {
+			input "tempdevices", "capability.temperatureMeasurement", title: "Temperature sensors", multiple: true, required: false, submitOnChange: true
+		}
+    	if (tempdevices) {
+            section("Max. temperature") {
+            	input "temperatureValue", "number", title: " ", description: "1...100", required: false, multiple:false, range: "1..100", defaultValue: "45"
+            }
+        }
+        section("Monitor smoked") {
+			input "smokedevices", "capability.smokeDetector", title: "Smoke/CO2 detectors", multiple: true, required: false
+		}
+    	section("Monitor leaks") {
+			input "leakdevices", "capability.waterSensor", title: "Leak sensors", multiple: true, required: false
+		}
 //==========================================        
         section("Switch connected to IFTTT") {
 			input "switchIFTTT", "capability.switch", title: " ", description: " ", required: true
@@ -106,6 +124,10 @@ def updated() {
 
 def subscribe() {
 	subscribe(contactdevices, "contact", contactHandler)
+    subscribe(motiondevices, "motion", motionHandler)
+    subscribe(smokedevices, "smoke", smokeHandler)
+    subscribe(leakdevices, "water", waterHandler)
+    subscribe(tempdevices, "temperature", temperatureHandler)
 }
 
 //=====================
@@ -118,8 +140,77 @@ def contactHandler(evt) {
   	}
 	if (evt.value == "open") {
     	switchIFTTT.on()
+        if (evt.value == "open") {
+        runIn(30, turnOffSwitch)
+        }
     	log.debug "alarm sensor!"
     }
+}
+
+def motionHandler(evt) {
+	log.debug "motion $evt.value"
+    if (!checkConditions()) {
+    	log.debug("Conditions met")
+    	return
+  	}
+	if (evt.value == "active") {
+    	switchIFTTT.on()
+        if (evt.value == "active") {
+        runIn(30, turnOffSwitch)
+        }
+    	log.debug "alarm sensor!"
+    }
+}
+
+def smokeHandler(evt) {
+	log.debug "smoke $evt.value"
+    if (!checkConditions()) {
+    	log.debug("Conditions met")
+    	return
+  	}
+	if (evt.value == "detected") {
+    	switchIFTTT.on()
+        if (evt.value == "detected") {
+        runIn(30, turnOffSwitch)
+        }
+    	log.debug "alarm sensor!"
+    }
+}
+
+def waterHandler(evt) {
+	log.debug "water $evt.value"
+    if (!checkConditions()) {
+    	log.debug("Conditions met")
+    	return
+  	}
+	if (evt.value == "wet") {
+    	switchIFTTT.on()
+        if (evt.value == "wet") {
+        runIn(30, turnOffSwitch)
+        }
+    	log.debug "alarm sensor!"
+    }
+}
+
+def temperatureHandler(evt) {
+	log.debug "temperature $evt.value"
+    if (!checkConditions()) {
+    	log.debug("Conditions met")
+    	return
+  	}
+	if (evt.value > "temperatureValue") {
+    	switchIFTTT.on()
+        if (evt.value > "temperatureValue") {
+        runIn(30, turnOffSwitch)
+        }
+    	log.debug "alarm sensor!"
+    }
+}
+
+//==================
+
+def turnOffSwitch () {
+	switchIFTTT.off()
 }
 
 //===========================
