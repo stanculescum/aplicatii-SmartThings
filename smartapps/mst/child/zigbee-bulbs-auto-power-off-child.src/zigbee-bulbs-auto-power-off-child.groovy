@@ -29,10 +29,6 @@ definition(
 )
 
 preferences {
-	
-    section("About") { 
-			headerSECTION()
-	}
     section("The following ZigBee bulbs...") {
 		input "bulb1", "capability.colorControl", title: " ", multiple: true, required: true
 	}
@@ -66,12 +62,4 @@ def bulbHandler(evt) {
 
 def turnOffSwitch() {
 	bulb1.off()
-}
-
-def headerSECTION() {
-	return paragraph (image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/bulb-zigbee-icon.png", "${textVersion()}")
-}
-
-private def textVersion() {
-    def text = "ZigBee bulbs are auto power off when the main power supply voltage is restored and bulbs will be on, but no one is home.\nVersion: v1.0 / 2019-12-12\n Copyright 2019 Mihail Stanculescu"
 }
