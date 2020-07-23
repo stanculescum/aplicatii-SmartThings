@@ -13,12 +13,15 @@
  *  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
+ *
+ *  v1.0 - initial version
+ *  v1.1 - add room number 
  */
 
 import groovy.time.TimeCategory 
 
 preferences {
-	input( "nbroom", "number", title: "Room number \n#example: 0 is the first room declared by you in https://my.warmup.com", description: "Room number", defaultValue: 0, required: true, range: "0..256" )
+	input( "nbroom", "number", title: "Room number \n#example: 1 is the first room declared by you in https://my.warmup.com", description: "Room number", required: true )
 	input( "boostInterval", "number", title: "Boost Interval (minutes)", description: "Boost interval amount in minutes", required: false, defaultValue: 10 )
 	input( "boostTemp", "decimal", title: "Boost Temperature (5...32°C)", description: "Boost interval amount in Celsius degrees", required: false, defaultValue: 22, range: "5..32" )
 	input( "disableDevice", "bool", title: "Disable Warmup Heating Device?", required: false, defaultValue: false )
@@ -170,16 +173,16 @@ metadata {
 def installed() {
 	log.debug "Executing 'installed'"
 	state.desiredHeatSetpoint = 7
-	// execute handlerMethod every 5 minutes.
-	runEvery5Minutes(poll)
+	// execute handlerMethod every 10 minutes.
+	runEvery10Minutes(poll)
 	sendEvent(name: "checkInterval", value: 20 * 60 + 2 * 60, data: [protocol: "cloud"], displayed: false)
 }
 
 def updated() {
 	log.debug "Executing 'updated'"
-	// execute handlerMethod every 5 minutes.
+	// execute handlerMethod every 10 minutes.
 	unschedule()
-	runEvery5Minutes(poll)
+	runEvery10Minutes(poll)
 	sendEvent(name: "checkInterval", value: 20 * 60 + 2 * 60, data: [protocol: "cloud"], displayed: false)
 }
 
@@ -292,12 +295,12 @@ def setThermostatMode(mode) {
 		def args
 		if (mode == 'off') {
 			//Sets whole location to off instead of individual thermostat. Awaiting Warmup API update.
-			/*args = [
+			args = [
 				method: "setRunModeByRoomIdArray", roomIdArray: [device.deviceNetworkId as Integer], values: [runMode: "frost"]
 			]
 			parent.apiPOSTByChild(args)
-			*/
-			parent.setLocationToFrost()
+			
+			//parent.setLocationToFrost()
 		}
 		else if (mode == 'heat') {
 			args = [
@@ -407,7 +410,7 @@ def poll() {
 	log.debug room
 	def modeMsg = ""
 	def airTempMsg = ""
-	def nbroom = settings.nbroom
+	def nbroom = settings.nbroom - 1
 	def mode = room.runMode[nbroom]
 	if (mode == "fixed") mode = "heat"
 	else if (mode == "off" || mode == "frost") mode = "off"
@@ -426,12 +429,12 @@ def poll() {
 	//If Warmup heating device is set to disabled, then force off if not already off.
 	if (settings.disableDevice != null && settings.disableDevice == true && activeHeatCoolMode != "OFF") {
 		//Sets whole location to off instead of individual thermostat. Awaiting Warmup API update.
-		/*args = [
+		args = [
 			method: "setRunModeByRoomIdArray", roomIdArray: [device.deviceNetworkId as Integer], values: [runMode: "frost"]
 		]
 	parent.apiPOSTByChild(args)
-	*/
-	parent.setLocationToFrost()
+	
+	//parent.setLocationToFrost()
 	mode = 'off'
 	}
 	else if (mode == "emergency heat") {       
