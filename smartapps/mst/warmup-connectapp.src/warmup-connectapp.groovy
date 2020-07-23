@@ -30,7 +30,7 @@ definition(
 singleInstance: true
 
 preferences {
-	page(name:"firstPage", title:"Aplication for connection your \n 4iE Smart WiFi Thermostat", content:"firstPage", install: true)
+	page(name:"firstPage", title:"Connections your 4iE Smart WiFi Thermostats", content:"firstPage", install: true)
 	page(name:"loginPAGE")
 	page(name:"selectDevicePAGE")
 }
@@ -456,7 +456,7 @@ def logErrors(options = [errorReturn: null, logObject: log], Closure c) {
 }
 
 private def textVersion() {
-    def text = "Warmup (ConnectApp)\nVersion: 1.0\nDate: 15/10/2019"
+    def text = "Warmup (ConnectApp)\nVersion: 1.0 - Date: 15/10/2019"
 }
 
 private def textCopyright() {
