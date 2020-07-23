@@ -214,15 +214,15 @@ def updateDevices() {
 	devices.each { device ->
 		log.debug "Identified: device ${device.roomId}: ${device.roomName}: ${device.targetTemp}: ${device.currentTemp}: ${device.energy}"
 		selectors.add("${device.roomId}")
-		def value = "Thermostat ${device.roomName}"
+		def value = "Termostat ${device.roomName}"
 		def key = device.roomId
 		state.warmup4IEDevices["${key}"] = value
 		//Update names of devices with MiHome
 		def childDevice = getChildDevice("${device.roomId}")
 		if (childDevice) {
 			//Update name of device if different.
-			if(childDevice.name != "Thermostat " + device.roomName) {
-				childDevice.name = "Thermostat " + device.roomName
+			if(childDevice.name != "Termostat " + device.roomName) {
+				childDevice.name = "Termostat " + device.roomName
 				log.debug "Device's name has changed."
 			}
 		}
@@ -423,10 +423,10 @@ Map apiRequestHeaders() {
 		"APP-Token": "M=;He<Xtg\"\$}4N%5k{\$:PD+WA\"]D<;#PriteY|VTuA>_iyhs+vA\"4lic{6-LqNM:",
 		"Connection": "keep-alive",
 		"User-Agent" : "WARMUP_APP",
-		"Accept-Language": "en-gb",
+		"Accept-Language": "ro-ro",
 		"Accept-Encoding": "gzip, deflate",
 		"Accept": "*/*",
-		"APP-Version": "1.4.2",
+		"APP-Version": "1.4.1",
 	]
 }
 
