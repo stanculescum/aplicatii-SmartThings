@@ -13,13 +13,15 @@
  *  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
+ *
+ *  Version: 1.0
  */
 
 definition(
     name: "Warmup (ConnectApp)",
     namespace: "mST",
     author: "Mihail Stanculescu",
-    description: "Aplication for connection your Warmup4IE devices to SmartThings",
+    description: "Aplication for connection your Warmup 4iE Smart WiFi Thermostat devices to SmartThings",
     category: "My Apps",
     iconUrl: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/warmup-icon.png",
     iconX2Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/warmup-icon.png",
@@ -28,7 +30,7 @@ definition(
 singleInstance: true
 
 preferences {
-	page(name:"firstPage", title:"Aplication for connection your \n *** 4iE Smart WiFi Thermostat ***", content:"firstPage", install: true)
+	page(name:"firstPage", title:"Aplication for connection your \n 4iE Smart WiFi Thermostat", content:"firstPage", install: true)
 	page(name:"loginPAGE")
 	page(name:"selectDevicePAGE")
 }
@@ -454,7 +456,7 @@ def logErrors(options = [errorReturn: null, logObject: log], Closure c) {
 }
 
 private def textVersion() {
-    def text = "Warmup (ConnectApp)\nVersion: 1.1\nDate: 15/10/2019"
+    def text = "Warmup (ConnectApp)\nVersion: 1.0\nDate: 15/10/2019"
 }
 
 private def textCopyright() {
