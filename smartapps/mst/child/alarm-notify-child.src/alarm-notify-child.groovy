@@ -49,7 +49,7 @@ def triggerpage() {
 			input "tempdevices", "capability.temperatureMeasurement", title: "Temperature sensors", multiple: true, required: false, submitOnChange: true
 		}
     	if (tempdevices) {
-            section("Max. temperature") {
+            section("The temperature is higher than") {
             	input "temperatureValue", "number", title: " ", description: "1...100", required: false, multiple:false, range: "1..100", defaultValue: "45"
             }
         }
