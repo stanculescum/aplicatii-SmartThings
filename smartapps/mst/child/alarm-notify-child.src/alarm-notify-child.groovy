@@ -14,6 +14,7 @@
  *  About: Alarm notification on the mobile phone using the Telegram App or another application via IFTTT. A simulated switch is required designed in Smartthings App.
  *
  *  Version: v1.0 / 2020-07-14 - Initial Release
+ *  Version: v1.1 / 2020-08-10 - add locks
  *  Author: Mihail Stanculescu
  */
 definition(
@@ -43,6 +44,9 @@ def triggerpage() {
 		}
         section("Monitor movement") {
 			input "motiondevices", "capability.motionSensor", title: "Motion sensors", multiple: true, required: false
+		}
+        section("Monitor movement") {
+			input "lockdevices", "capability.lock", title: "Locks", multiple: true, required: false
 		}
 //==========================================
         section("Monitor temperature") {
@@ -125,6 +129,7 @@ def updated() {
 def subscribe() {
 	subscribe(contactdevices, "contact", contactHandler)
     subscribe(motiondevices, "motion", motionHandler)
+    subscribe(lockdevices, "lock", lockHandler)
     subscribe(smokedevices, "smoke", smokeHandler)
     subscribe(leakdevices, "water", waterHandler)
     subscribe(tempdevices, "temperature", temperatureHandler)
@@ -156,6 +161,21 @@ def motionHandler(evt) {
 	if (evt.value == "active") {
     	switchIFTTT.on()
         if (evt.value == "active") {
+        runIn(30, turnOffSwitch)
+        }
+    	log.debug "alarm sensor!"
+    }
+}
+
+def lockHandler(evt) {
+	log.debug "lock $evt.value"
+    if (!checkConditions()) {
+    	log.debug("Conditions met")
+    	return
+  	}
+	if (evt.value == "unlocked") {
+    	switchIFTTT.on()
+        if (evt.value == "unlocked") {
         runIn(30, turnOffSwitch)
         }
     	log.debug "alarm sensor!"
