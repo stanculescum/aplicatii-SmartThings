@@ -39,6 +39,9 @@ def triggerpage() {
         section([title:"Name of child app", mobileOnly:true]) {
 			label title:"Assign a name for child app", required:true
 		}
+//==========================================
+//Security
+//==========================================
         section("Monitor access") {
 			input "contactdevices", "capability.contactSensor", title: "Open/close contact sensors", multiple: true, required: false
 		}
@@ -48,6 +51,8 @@ def triggerpage() {
         section("Monitor movement") {
 			input "lockdevices", "capability.lock", title: "Locks", multiple: true, required: false
 		}
+//==========================================
+//Fire
 //==========================================
         section("Monitor temperature") {
 			input "tempdevices", "capability.temperatureMeasurement", title: "Temperature sensors", multiple: true, required: false, submitOnChange: true
@@ -60,6 +65,9 @@ def triggerpage() {
         section("Monitor smoked") {
 			input "smokedevices", "capability.smokeDetector", title: "Smoke/CO2 detectors", multiple: true, required: false
 		}
+//==========================================
+//Leaks
+//==========================================
     	section("Monitor leaks") {
 			input "leakdevices", "capability.waterSensor", title: "Leak sensors", multiple: true, required: false
 		}
