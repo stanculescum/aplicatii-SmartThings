@@ -303,7 +303,7 @@ def sunsetHandler() {
     state.levels.clear()
     state.nextEvent = 'sunrise'
 	
-	def output = "Smart Front Light is now active"
+	def output = "Lights with dimmable switch or bulb is now active"
 
 	if (brightnessLevelDefault != null && brightnessLevelDefault > 0) {
 
@@ -346,9 +346,9 @@ def sunriseHandler() {
 	defaultOff()
 	
 	if (timeDefaultEnd == null) {
-		helloHome("It's sunrise. Smart Front Light has turned off your light" + plural(switches.size())[0] + " and is now inactive.")
+		helloHome("It's sunrise. Lights with dimmable switch or bulb has turned off your light" + plural(switches.size())[0] + " and is now inactive.")
 	} else {
-		helloHome("It's sunrise. Smart Front Light is now inactive.")
+		helloHome("It's sunrise. Lights with dimmable switch or bulb is now inactive.")
 	}	
 
 	scheduleNextEvent()
@@ -379,7 +379,7 @@ def defaultOffHandler() {
 	
 	defaultOff()
 	
-	helloHome("Smart Front Light has turned off your light" + plural(switches.size())[0] + " as scheduled.")	
+	helloHome("Lights with dimmable switch or bulb has turned off your light" + plural(switches.size())[0] + " as scheduled.")	
     
 	verifySchedule()
 }
@@ -410,7 +410,7 @@ def presenceHandler(evt) {
 	
 		scheduleAutoOff()
 		
-		helloHome(evt.displayName + " arrived. Smart Front Light has turned your light" + plural(switches.size())[0] + " on to " + brightnessLevelPresence + "%.")
+		helloHome(evt.displayName + " arrived. Lights with dimmable switch or bulb has turned your light" + plural(switches.size())[0] + " on to " + brightnessLevelPresence + "%.")
 	}
 
 	verifySchedule()
@@ -422,7 +422,7 @@ def motionHandler(evt) {
 	
 		scheduleAutoOff()
 		
-		helloHome(evt.displayName + " detected motion. Smart Front Light has turned your light" + plural(switches.size())[0] + " on to " + brightnessLevelMotion + "%.")
+		helloHome(evt.displayName + " detected motion. Lights with dimmable switch or bulb has turned your light" + plural(switches.size())[0] + " on to " + brightnessLevelMotion + "%.")
 	} 
 	verifySchedule()
 }
@@ -434,7 +434,7 @@ def contactHandler(evt) {
 		lightOnEvent(reset)
 		scheduleAutoOff()
 		
-		helloHome(evt.displayName + " opened.  Smart Front Light has turned your light" + plural(switches.size())[0] + " on to " + brightnessLevelContact + "%.")
+		helloHome(evt.displayName + " opened.  Lights with dimmable switch or bulb has turned your light" + plural(switches.size())[0] + " on to " + brightnessLevelContact + "%.")
 	}
 	verifySchedule()
 }
@@ -446,7 +446,7 @@ def accelerationHandler(evt) {
 		lightOnEvent(reset)
 		scheduleAutoOff()
 		
-		helloHome("Someone knocked on " + evt.displayName + ".  Smart Front Light has turned your light" + plural(switches.size())[0] + " on to " + brightnessLevelAcceleration + "%.")
+		helloHome("Someone knocked on " + evt.displayName + ".  Lights with dimmable switch or bulb has turned your light" + plural(switches.size())[0] + " on to " + brightnessLevelAcceleration + "%.")
 	}
 	verifySchedule()
 }
@@ -502,7 +502,7 @@ def startVerificationSchedule() {
  
 def restartVerifictionSchedule() {
 	//We're here because a schedule failed
-	helloHome("SCHEDULE FAILED - RESTARTING SMART FRONT LIGHT")
+	helloHome("SCHEDULE FAILED - RESTARTING Lights with dimmable switch or bulb")
 	updated() //Restart the app to reset the schedules
 	
 	
