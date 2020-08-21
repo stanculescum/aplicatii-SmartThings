@@ -20,7 +20,7 @@ definition(
     name: "ZigBee Bulbs Auto Power Off!-child",
     namespace: "mST/child",
     author: "Mihail Stanculescu",
-    description: "ZigBee bulbs are auto power off when the main power supply voltage is restored and bulbs will on, but no one is home.",
+    description: "ZigBee bulbs are auto power off",
     category: "My Apps",
     parent: "mST/parent:ZigBee Bulbs Auto Power Off!",
     iconUrl: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/bulb-zigbee-icon.png",
