@@ -21,7 +21,7 @@ definition(
     name: "Alarm notify!-child",
     namespace: "mST/child",
     author: "Mihail Stanculescu",
-    description: "Alarm notification on the mobile phone using the Telegram App or another application via IFTTT. A simulated switch is required designed in Smartthings App.",
+    description: "Alarm notification on the mobile phone",
     category: "My Apps",
     parent: "mST/parent:Alarm notify!",
     iconUrl: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/bellnotification-icon.png",
