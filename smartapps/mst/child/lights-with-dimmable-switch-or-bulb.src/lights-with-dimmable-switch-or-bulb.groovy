@@ -22,7 +22,7 @@ definition(
 	name: "Lights with dimmable switch or bulb",
 	namespace: "mST/child",
 	author: "Mihail Stanculescu",
-	description: "Turn on your dimmable bulb or switch, dimmed to a level you set at sunset and increase to full brightness when someone arrives or some other action is triggered. After a number of minutes the light will dim back to its original level. Optionally, set the light to turn off at a specified time while still turning on when someone arrives. This app runs from sunset to sunrise.\n\nAdditional triggers include motion detection, door knock, door open and app button.",
+	description: "Turn on your dimmable bulb or switch",
 	category: "My Apps",
     parent: "mST/parent:Lights with dimmable switch or bulb",
 	iconUrl: "https://raw.githubusercontent.com/stanculescum/aplicatii-SmartThings/master/pictures/frontlight.png",
