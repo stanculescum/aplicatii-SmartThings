@@ -18,7 +18,7 @@ definition(
     name: "Flashing",
     namespace: "mST/parent",
     author: "Mihail Stanculescu",
-    description: "A parent SmartApp for flashing lights.",
+    description: "Flashing light in response to presence/motion, an open/close event, an on/off switch, or lock/unlock door.",
     category: "My Apps",
     iconUrl: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/flashing-light-bulb.png",
     iconX2Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/flashing-light-bulb.png",
