@@ -200,12 +200,12 @@ def mainSettingsPage() {
 			)
 		}
 		
-		//Specify a display name for this app (optional)
+		//Specify a display name for this app
 		section("Assign a Name") {
 			label(
 				name:		"appName",
-				title:		"App Name (optional)",
-				required:	false,
+				title:		"App Name",
+				required:	true,
 				multiple: 	false
 			)
 		}
