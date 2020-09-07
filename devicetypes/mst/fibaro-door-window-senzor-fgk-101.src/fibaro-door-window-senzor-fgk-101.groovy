@@ -127,31 +127,7 @@ metadata {
                		[value: 44, color: "#ff3300"]		// 45< °C      : red  			// 45<=°C		: red
 			]
 		}
-  /*      
-        valueTile("temperatureF", "device.temperature", inactiveLabel: false, width: 2, height: 2, canChangeIcon: true, canChangeBackground: true) {
-        	// label:'${name}', label:'${currentValue}', unit:"XXX" work, but NOT label:'${device.name}', label:'${displayName}', unit:'${unit}', ...
-			state "temperature", label:'${currentValue}°\n', unit:"F", icon: "st.alarm.temperature.normal",
-			// redondant lines added to avoid color interpolation on Dashboard (a feature or a bug ?!)
-            backgroundColors:[							// ***on IDE Simulator***		// ***on iPad App***
-				[value: 57, color: "#0033ff"],			//     °C <=14 : dark blue		//     °C <=14	: dark blue 
-				    //[value: 14.1, color: "#00ccff"],	<- decimal value IGNORED by the Tile !!!
-					//[value: 14.5],					// 15< °C <=19 : light blue		// 14< °C <15	: interpolated dark blue<-> light blue
-                    [value: 59, color: "#00ccff"],		// 16< °C <=19 : light blue		// 15<=°C <=19	: light blue
-                [value: 63, color: "#00ccff"],			// 16< °C <=19 : light blue		// 15<=°C <=19	: light blue
-					//[value: 17.5],					// 15< °C <=19 : light blue		// 14< °C <15	: interpolated light blue<->blue-green
-                	[value: 64, color: "#ccffcc"],		// 15< °C <=19 : light blue		// 18<=°C <=19	: blue-green
-				[value: 66, color: "#ccffcc"],			// 15< °C <=19 : light blue		// 19°C			: blue-green
-                    //[value: 19.5],					// 19< °C <=21 : blue-green		// 19< °C <20	: interpolated blue-green<->green
-                	[value: 68, color: "#ccff00"],		// 19< °C <=21 : blue-green		// 20<=°C <=21	: green
-				[value: 72, color: "#ccff00"],			// 21< °C <=23 : green			// 22°C			: green
-					//[value: 22.5],					// 23< °C <=45 : orange			// 22< °C <23	: interpolated green<-> orange
-					[value: 73, color: "#ffcc33"],		// 23< °C <=45 : orange  		// 23<=°C <=44	: orange
-				[value: 109, color: "#ffcc33"],			// 23< °C <=45 : orange  		// 44°C			: orange
-					//[value: 43.5],					// 45< °C      : red			// 44< °C <45	: interpolated orange <-> red
-               		[value: 111, color: "#ff3300"]		// 45< °C      : red  			// 45<=°C		: red
-			]
-		}
-*/        
+
         standardTile("contact", "device.contact") {
 			state "open", label: 'open'/* in English :'${name}' */, icon: "st.contact.contact.open", backgroundColor: "#ffa81e"
 			state "closed", label: 'closed'/* in English :'${linkText}' */, icon: "st.contact.contact.closed", backgroundColor: "#79b821"
@@ -188,12 +164,6 @@ def parse(String description) {
         }
         return result
 }
-/* Duncan's original fix
-def zwaveEvent(physicalgraph.zwave.commands.crc16encapv1.Crc16Encap cmd) {
-	def version = [0x20:1, 0x30: 2, 0x31: 2, 0x60: 3, 0x70: 2, 0x72: 2, 0x84: 1, 0x9C: 1][cmd.commandClass as Integer] ?: 1
-	zwaveEvent(zwave.commandClass(cmd.commandClass, version)?.command(cmd.command)?.parse(cmd.data))
-}
-*/
 
 //SmartThings v2 Hub forces CRC16-encoded replies from FGK-101 Device (v1 Hub did not)
 def zwaveEvent(physicalgraph.zwave.commands.crc16encapv1.Crc16Encap cmd) {
@@ -282,19 +252,7 @@ def wakeUpResponse(cmdBlock) {
     }
 
     //next 2 lines redondant too : SensorBinaryReport(EndPoint: 1) == BasicReport
-    //cmdBlock << zwave.multiChannelV3.multiChannelCmdEncap(sourceEndPoint: 1, destinationEndPoint: 1, commandClass:0x30 /*Sensor Binary*/, command:2).format()
-    //cmdBlock << "delay 1200"
-    //cmdBlock << zwave.sensorAlarmV1.sensorAlarmGet().format()
-    //cmdBlock << "delay 1200"
-    //cmdBlock << zwave.multiChannelV3.multiChannelEndPointGet().format()				// MultiChannelEndPointReport  -> dynamic: false, endPoints: 2
-    //cmdBlock << "delay 1200"
-    //cmdBlock << zwave.multiChannelV3.multiChannelCapabilityGet(endPoint:1).format()	// MultiChannelCapabilityReport -> commandClass: [48], dynamic: false, endPoint: 1, genericDeviceClass: 32, specificDeviceClass: 1
-    //cmdBlock << "delay 1200"
-    //cmdBlock << zwave.multiChannelV3.multiChannelCapabilityGet(endPoint:2).format()	// MultiChannelCapabilityReport -> commandClass: [49], dynamic: false, endPoint: 2, genericDeviceClass: 33, specificDeviceClass: 1
-    //cmdBlock << "delay 1200"
-    //next Command should normally be needed only once, at configuration time, but because of a random SmartThings platform bug, the wakeUp period may be reset to 1mn !
-    //cmdBlock << zwave.wakeUpV2.wakeUpIntervalSet(seconds:60*60, nodeid:zwaveHubNodeId).format() // NB : may have to wait 30mn for that value to be refreshed !
-    //cmdBlock << "delay 1200"
+
     cmdBlock << zwave.wakeUpV2.wakeUpIntervalGet().format() // NB : may have to wait 60mn for that value to be refreshed !
     cmdBlock << "delay 1200"
     cmdBlock << zwave.multiChannelV3.multiChannelCmdEncap(sourceEndPoint: 2, destinationEndPoint: 2, commandClass:0x31/*Sensor Multilevel*/, command:4/*Get*/).format()
@@ -331,12 +289,7 @@ def zwaveEvent(physicalgraph.zwave.commands.sensormultilevelv2.SensorMultilevelR
         sendEvent(name: "battery", displayed: true, isStateChange:true, unit: "%", value: 1, descriptionText: "${device.displayName} has a low battery")
 	    state.lastReportBattery = nowTime
 	}
-			//  Dirty temporary recovery fix for remote Devices which lost wakeUp capability but still get asynchromous SensorMultilevelReports
-			//  Forcing with the magnet a close/open transition after replacing the battery should (in most cases...) restore wakeUps
-                //def cmdBlock = []
-        		//cmdBlock=wakeUpResponse(cmdBlock)
-        		//return [response(cmdBlock)]
-        		//configure()
+
         def float scaledSensorValue = cmd.scaledSensorValue
         // Adjust measured temperature based on previous manual calibration; FGK-101 is natively °C
         switch (device.name) {
