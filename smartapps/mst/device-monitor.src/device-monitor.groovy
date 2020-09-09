@@ -803,7 +803,7 @@ def subscribeDevices() {
 }
 
 def headerSECTION() {
-	return paragraph (image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/monitor-icon.png", "${textVersion()}")
+	return paragraph (image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/device-monitor-icon.png", "${textVersion()}")
 }
 
 private send(message) {
