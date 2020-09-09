@@ -337,19 +337,19 @@ def pageStatus(params) {
 
         if (atomicState.delaylist) {
             section("Devices that have not reported for $timer hour(s)") {
-                paragraph atomicState.delaylist.trim(), image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/attention-icon.png"
+                paragraph atomicState.delaylist.trim(), image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/delayed-icon.png"
             }
         }
 
         if (atomicState.badlist) {
             section("Devices NOT Reporting Events") {
-                paragraph atomicState.badlist.trim(), image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/attention-icon.png"
+                paragraph atomicState.badlist.trim(), image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/delayed-icon.png"
             }
         }
 
         if (atomicState.errorlist) {
             section("Devices with Errors") {
-                paragraph atomicState.errorlist.trim(), image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/attention-icon.png"
+                paragraph atomicState.errorlist.trim(), image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/delayed-icon.png"
             }
         }
         
