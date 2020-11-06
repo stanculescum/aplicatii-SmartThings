@@ -336,7 +336,7 @@ def pageStatus(params) {
         if (params.refresh) doCheck()
 
         if (atomicState.delaylist) {
-            section("Devices that have not reported for $timer hour(s)") {
+            section("Devices that have not reported events for $timer hour(s)") {
                 paragraph atomicState.delaylist.trim(), image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/delayed-icon.png"
             }
         }
@@ -366,7 +366,7 @@ def pageStatus(params) {
         }
         
         if (atomicState.goodlist) {
-            section("Latest device reports (... hours ago)") {
+            section("Last event report ... hour(s) ago") {
                 paragraph atomicState.goodlist.trim()
             }
         }
