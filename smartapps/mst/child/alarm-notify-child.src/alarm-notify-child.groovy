@@ -15,6 +15,7 @@
  *
  *  Version: v1.0 / 2020-07-14 - Initial Release
  *  Version: v1.1 / 2020-08-10 - add locks
+ *	Version: v1.2 / 2020-11-12 - add Home and Away conditions
  *  Author: Mihail Stanculescu
  */
 definition(
@@ -81,7 +82,7 @@ def triggerpage() {
 def timepage() {
 	dynamicPage(name: "timepage", title: " ", install: true, uninstall: true){
     	section("Only") {
-      		input "conditions", "enum", title: "When?", options: ["always":"Always", "sunrise":"Sunrise to Sunset", "sunset":"Sunset to Sunrise", "custom":"Custom time", "presence": "Presence"], defaultValue: "always", image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/24_hours.png", submitOnChange: true
+      		input "conditions", "enum", title: "When?", options: ["always":"Always", "sunrise":"Sunrise to Sunset", "sunset":"Sunset to Sunrise", "custom":"Custom time", "presence": "Presence", "home": "Home", "away": "Away"], defaultValue: "always", image: "https://raw.githubusercontent.com/stanculescum/aplicatii-smarthome/master/pictures/24_hours.png", submitOnChange: true
       		switch(conditions) {
         		case "always":
           		break
@@ -92,6 +93,10 @@ def timepage() {
                 case "custom":
 				break
                 case "presence":
+				break
+                case "home":
+				break
+                case "away":
 				break
       		}
     	}
@@ -257,6 +262,14 @@ private def checkConditions() {
       	return timeOfDayIsBetween(from, until, new Date(), location.timeZone)
     case "presence":
     	if (userpresence.find{it.currentPresence == userpresenceValue}){
+    	return true
+        }
+    case "home":
+        if(location.currentMode == "Home"){
+    	return true
+        }
+    case "away":
+        if(location.currentMode == "Away"){
     	return true
         }
   }
