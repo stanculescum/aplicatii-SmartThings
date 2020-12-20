@@ -31,6 +31,7 @@ definition(
 preferences {
     section("The following ZigBee bulbs...") {
 		input "bulb1", "capability.colorControl", title: " ", multiple: true, required: true
+        input "bulb2", "capability.light", title: " ", multiple: true, required: true
 	}
 /**    section("When they are not home..."){
 		input "presence1", "capability.presenceSensor", title: " ", multiple: false, required: false
@@ -42,11 +43,13 @@ preferences {
 
 def installed() {
 	subscribe(bulb1, "switch", bulbHandler)
+    subscribe(bulb2, "switch", bulbHandler)
 }
 
 def updated() {
 	unsubscribe()
 	subscribe(bulb1, "switch", bulbHandler)
+    subscribe(bulb2, "switch", bulbHandler)
 }
 
 def bulbHandler(evt) {
@@ -62,4 +65,5 @@ def bulbHandler(evt) {
 
 def turnOffSwitch() {
 	bulb1.off()
+    bulb2.off()
 }
