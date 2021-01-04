@@ -25,9 +25,9 @@ definition(
 	description: "Turn on your dimmable bulb or switch",
 	category: "My Apps",
     parent: "mST/parent:Lights with dimmable switch or bulb",
-	iconUrl: "https://raw.githubusercontent.com/stanculescum/aplicatii-SmartThings/master/pictures/frontlight.png",
-	iconX2Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-SmartThings/master/pictures/frontlight@2x.png",
-	iconX3Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-SmartThings/master/pictures/frontlight@2x.png"
+	iconUrl: "https://raw.githubusercontent.com/stanculescum/aplicatii-SmartThings/master/pictures/lamp.png",
+	iconX2Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-SmartThings/master/pictures/lamp@2x.png",
+	iconX3Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-SmartThings/master/pictures/lamp@2x.png"
 )
 
 preferences {

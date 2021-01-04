@@ -20,9 +20,9 @@ definition(
     author: "Mihail Stanculescu",
     description: "Turn on your dimmable bulb or switch, dimmed to a level you set at sunset and increase to full brightness when someone arrives or some other action is triggered. After a number of minutes the light will dim back to its original level. Optionally, set the light to turn off at a specified time while still turning on when someone arrives. This app runs from sunset to sunrise.\n\nAdditional triggers include motion detection, door knock, door open and app button.",
     category: "My Apps",
-    iconUrl: "https://raw.githubusercontent.com/stanculescum/aplicatii-SmartThings/master/pictures/frontlight.png",
-	iconX2Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-SmartThings/master/pictures/frontlight@2x.png",
-	iconX3Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-SmartThings/master/pictures/frontlight@2x.png"
+    iconUrl: "https://raw.githubusercontent.com/stanculescum/aplicatii-SmartThings/master/pictures/lamp.png",
+	iconX2Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-SmartThings/master/pictures/lamp@2x.png",
+	iconX3Url: "https://raw.githubusercontent.com/stanculescum/aplicatii-SmartThings/master/pictures/lamp@2x.png"
 )
 
 preferences {
@@ -58,7 +58,7 @@ def initialize() {
 }
 
 def headerSECTION() {
-	return paragraph (image: "https://raw.githubusercontent.com/stanculescum/aplicatii-SmartThings/master/pictures/frontlight.png", "${textVersion()}")
+	return paragraph (image: "https://raw.githubusercontent.com/stanculescum/aplicatii-SmartThings/master/pictures/lamp.png", "${textVersion()}")
 }
 
 private def textVersion() {
