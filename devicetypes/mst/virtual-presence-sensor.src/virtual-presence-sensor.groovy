@@ -1,7 +1,7 @@
 /**
  *  Virtual Presence Sensor
  *
- *  Copyright 2020
+ *  Copyright 2021
  *
  *  This handler was designed to have the ability to set presence on a virtual presence sensor in the new app
  *
