@@ -14,7 +14,7 @@
  *
  *  Author: SmartThings
  *
- *  Date: 2013-04-30
+ *  v1.0 - Date: 2013-04-30
  */
 metadata {
     definition (name: "SmartWeather Station Tile", namespace: "smartthings", author: "SmartThings") {
@@ -22,7 +22,7 @@ metadata {
         capability "Temperature Measurement"
         capability "Relative Humidity Measurement"
         capability "Ultraviolet Index"
-        //capability "Wind Speed" // Not in production yet
+        capability "Wind Speed" // Not in production yet
         capability "stsmartweather.windSpeed" // "Wind Speed" only supports m/s unit, however we want to create both events
         capability "stsmartweather.windDirection"
         capability "stsmartweather.apparentTemperature"
