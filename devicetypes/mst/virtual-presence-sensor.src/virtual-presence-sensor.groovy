@@ -1,9 +1,7 @@
 /**
- *  Virtual Presence Sensor
+ *  State changes must be triggered by Automations or commands through webCoRE.
  *
  *  Copyright 2021
- *
- *  This handler was designed to have the ability to set presence on a virtual presence sensor in the new app
  *
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  *  in compliance with the License. You may obtain a copy of the License at:
@@ -14,78 +12,60 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  *
- *  v1.0 (19/01/2021) - Initial Release
- *
+ *  v1.0 (20/01/2021) - initial version
  */
-
+ 
 metadata {
-    // Automatically generated. Make future change here.
-    definition (name: "Virtual Presence Sensor", namespace: "mST", author: "Mihail Stanculescu") {
+    definition (
+        name: "Virtual Presence Sensor",
+        namespace: "mST",
+        author: "Mihail Stanculescu",
+        vid: "fd9d406a-96d7-3d48-abc3-2f687dc63cfa",
+        mnmn: "SmartThingsCommunity"
+    )
+    {
         capability "Presence Sensor"
-        capability "Sensor"
-        capability "Health Check"
         capability "Switch"
 
         command "arrived"
         command "departed"
+        command "toggle"
     }
 
-    simulator {
-        status "present": "presence: present"
-        status "not present": "presence: not present"
-    }
-
-}
-
-def parse(String description) {
-    def pair = description.split(":")
-    createEvent(name: pair[0].trim(), value: pair[1].trim())
+    tiles {}
 }
 
 def installed() {
-    initialize()
-}
-
-def updated() {
-    initialize()
-}
-
-def initialize() {
-    sendEvent(name: "DeviceWatch-DeviceStatus", value: "online")
-    sendEvent(name: "healthStatus", value: "online")
-    sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
-}
-
-// handle commands
-def arrived() {
-    
-    on()
-    
-}
-
-
-def departed() {
-    
-    off()
-    
+    log.trace "Executing 'installed()'"
+    sendEvent(name: "presence", value: "present")
 }
 
 def on() {
-
-log.debug "${device.displayName} - Turning Switch On and Setting Presence to Present"
-
-sendEvent(name: "presence", value: "present", isStateChange: true, display: true, displayed: true)
-
-sendEvent(name: "switch", value: "on", isStateChange: true, display: true, displayed: true)
-
+    sendEvent(name: "switch", value: "on")
+    arrived()
 }
 
 def off() {
+    sendEvent(name: "switch", value: "off")
+    departed()
+}
 
-log.debug "${device.displayName} - Turning Switch Off and Setting Presence to Not Present"
+def arrived() {
+    log.trace "Executing 'arrived()'"
+    sendEvent(name: "presence", value: "present")
+    sendEvent(name: "switch", value: "on")
+}
 
-sendEvent(name: "presence", value: "not present", isStateChange: true, display: true, displayed: true)
+def departed() {
+    log.trace "Executing 'departed()'"
+    sendEvent(name: "presence", value: "not present")
+    sendEvent(name: "switch", value: "off")
+}
 
-sendEvent(name: "switch", value: "off", isStateChange: true, display: true, displayed: true)
-
+def toggle() {
+    if (device.currentValue('presence') == 'not present') {
+        arrived()
+    } else {
+        departed()
+    }
 }
