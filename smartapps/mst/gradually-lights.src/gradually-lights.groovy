@@ -47,7 +47,7 @@ preferences {
 			input "mySwitch", "capability.switch", title: "Switch?", required: true, multiple: false
 		}
 		section("Control these bulbs...") {
-			input "bulb", "capability.ColorControl", title: "Which Bulbs?", required:true, multiple:true
+			input "bulb", "capability.switch", title: "Which Bulbs?", required:false, multiple:true
 		}
 		section([mobileOnly:true]) {
 			label title: "Assign a name", required: false
