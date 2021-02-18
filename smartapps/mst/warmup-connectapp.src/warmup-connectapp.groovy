@@ -216,15 +216,15 @@ def updateDevices() {
 	devices.each { device ->
 		log.debug "Identified: device ${device.roomId}: ${device.roomName}: ${device.targetTemp}: ${device.currentTemp}: ${device.energy}"
 		selectors.add("${device.roomId}")
-		def value = "Termostat ${device.roomName}"
+		def value = "Thermostat ${device.roomName}"
 		def key = device.roomId
 		state.warmup4IEDevices["${key}"] = value
 		//Update names of devices with MiHome
 		def childDevice = getChildDevice("${device.roomId}")
 		if (childDevice) {
 			//Update name of device if different.
-			if(childDevice.name != "Termostat " + device.roomName) {
-				childDevice.name = "Termostat " + device.roomName
+			if(childDevice.name != "Thermostat " + device.roomName) {
+				childDevice.name = "Thermostat " + device.roomName
 				log.debug "Device's name has changed."
 			}
 		}
